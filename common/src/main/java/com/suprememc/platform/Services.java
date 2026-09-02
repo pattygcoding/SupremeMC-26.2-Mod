@@ -1,7 +1,7 @@
-package com.example.examplemod.platform;
+package com.suprememc.platform;
 
-import com.example.examplemod.Constants;
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.suprememc.Constants;
+import com.suprememc.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 

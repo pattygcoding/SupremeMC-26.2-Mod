@@ -1,8 +1,8 @@
-package com.example.examplemod;
+package com.suprememc;
 
 import net.fabricmc.api.ModInitializer;
 
-public class ExampleMod implements ModInitializer {
+public class SupremeMC implements ModInitializer {
 
     @Override
     public void onInitialize() {

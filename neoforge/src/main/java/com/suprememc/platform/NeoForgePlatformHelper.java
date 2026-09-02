@@ -1,6 +1,6 @@
-package com.example.examplemod.platform;
+package com.suprememc.platform;
 
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.suprememc.platform.services.IPlatformHelper;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
