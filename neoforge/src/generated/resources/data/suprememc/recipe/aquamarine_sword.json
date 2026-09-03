@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "combat",
+  "category": "equipment",
   "key": {
     "A": "suprememc:aquamarine",
     "S": "minecraft:stick"

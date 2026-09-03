@@ -28,7 +28,9 @@ public final class SupremeMCDataProvider implements DataProvider {
         writeBlockResources(cache, writes, "aquamarine_block");
         writeBlockResources(cache, writes, "wet_farmland");
         writes.add(save(cache, aquamarineBlockRecipe(), dataPath("recipe/aquamarine_block.json")));
+        writeRecipeAdvancement(cache, writes, "aquamarine_block", "building", "aquamarine");
         writes.add(save(cache, decompressedAquamarineRecipe(), dataPath("recipe/aquamarine_from_aquamarine_block.json")));
+        writeRecipeAdvancement(cache, writes, "aquamarine_from_aquamarine_block", "misc", "aquamarine_block");
         writeEquipmentRecipes(cache, writes);
         writeOreCookingRecipes(cache, writes, "aquamarine_ore");
         writeOreCookingRecipes(cache, writes, "deepslate_aquamarine_ore");
@@ -55,6 +57,7 @@ public final class SupremeMCDataProvider implements DataProvider {
             textures.addProperty("layer0", NAMESPACE + ":item/" + itemId);
             model.add("textures", textures);
             writes.add(save(cache, model, resourcePath("models/item/" + itemId + ".json")));
+            writes.add(save(cache, itemModelDefinition(NAMESPACE + ":item/" + itemId), resourcePath("items/" + itemId + ".json")));
         }
 
         JsonObject lang = new JsonObject();
@@ -94,6 +97,7 @@ public final class SupremeMCDataProvider implements DataProvider {
         JsonObject itemModel = new JsonObject();
         itemModel.addProperty("parent", NAMESPACE + ":block/" + blockId);
         writes.add(save(cache, itemModel, resourcePath("models/item/" + blockId + ".json")));
+        writes.add(save(cache, itemModelDefinition(NAMESPACE + ":block/" + blockId), resourcePath("items/" + blockId + ".json")));
 
         if (!blockId.endsWith("_ore")) {
             writes.add(save(cache, selfDropLootTable(blockId), dataPath("loot_table/blocks/" + blockId + ".json")));
@@ -102,6 +106,15 @@ public final class SupremeMCDataProvider implements DataProvider {
 
     private CompletableFuture<?> save(CachedOutput cache, JsonObject json, Path path) {
         return DataProvider.saveStable(cache, json, path);
+    }
+
+    private JsonObject itemModelDefinition(String modelId) {
+        JsonObject definition = new JsonObject();
+        JsonObject model = new JsonObject();
+        model.addProperty("type", "minecraft:model");
+        model.addProperty("model", modelId);
+        definition.add("model", model);
+        return definition;
     }
 
     private Path resourcePath(String relative) {
@@ -154,11 +167,11 @@ public final class SupremeMCDataProvider implements DataProvider {
         writeShapedRecipe(cache, writes, "aquamarine_axe", "equipment", new String[] { "AA ", "AS ", " S " });
         writeShapedRecipe(cache, writes, "aquamarine_shovel", "equipment", new String[] { "A", "S", "S" });
         writeShapedRecipe(cache, writes, "aquamarine_hoe", "equipment", new String[] { "AA ", " S ", " S " });
-        writeShapedRecipe(cache, writes, "aquamarine_sword", "combat", new String[] { "A", "A", "S" });
-        writeShapedRecipe(cache, writes, "aquamarine_helmet", "combat", new String[] { "AAA", "A A" });
-        writeShapedRecipe(cache, writes, "aquamarine_chestplate", "combat", new String[] { "A A", "AAA", "AAA" });
-        writeShapedRecipe(cache, writes, "aquamarine_leggings", "combat", new String[] { "AAA", "A A", "A A" });
-        writeShapedRecipe(cache, writes, "aquamarine_boots", "combat", new String[] { "A A", "A A" });
+        writeShapedRecipe(cache, writes, "aquamarine_sword", "equipment", new String[] { "A", "A", "S" });
+        writeShapedRecipe(cache, writes, "aquamarine_helmet", "equipment", new String[] { "AAA", "A A" });
+        writeShapedRecipe(cache, writes, "aquamarine_chestplate", "equipment", new String[] { "A A", "AAA", "AAA" });
+        writeShapedRecipe(cache, writes, "aquamarine_leggings", "equipment", new String[] { "AAA", "A A", "A A" });
+        writeShapedRecipe(cache, writes, "aquamarine_boots", "equipment", new String[] { "A A", "A A" });
     }
 
     private void writeShapedRecipe(CachedOutput cache, List<CompletableFuture<?>> writes, String resultId, String category, String[] pattern) {
@@ -178,11 +191,64 @@ public final class SupremeMCDataProvider implements DataProvider {
         recipe.add("key", key);
         recipe.add("result", itemResult(resultId, 1));
         writes.add(save(cache, recipe, dataPath("recipe/" + resultId + ".json")));
+        writeRecipeAdvancement(cache, writes, resultId, category, "aquamarine");
     }
 
     private void writeOreCookingRecipes(CachedOutput cache, List<CompletableFuture<?>> writes, String oreId) {
-        writes.add(save(cache, cookingRecipe("minecraft:smelting", oreId), dataPath("recipe/aquamarine_from_smelting_" + oreId + ".json")));
-        writes.add(save(cache, cookingRecipe("minecraft:blasting", oreId), dataPath("recipe/aquamarine_from_blasting_" + oreId + ".json")));
+        String smeltingId = "aquamarine_from_smelting_" + oreId;
+        String blastingId = "aquamarine_from_blasting_" + oreId;
+        writes.add(save(cache, cookingRecipe("minecraft:smelting", oreId), dataPath("recipe/" + smeltingId + ".json")));
+        writeRecipeAdvancement(cache, writes, smeltingId, "misc", oreId);
+        writes.add(save(cache, cookingRecipe("minecraft:blasting", oreId), dataPath("recipe/" + blastingId + ".json")));
+        writeRecipeAdvancement(cache, writes, blastingId, "misc", oreId);
+    }
+
+    private void writeRecipeAdvancement(CachedOutput cache, List<CompletableFuture<?>> writes, String recipeId, String category, String unlockItemId) {
+        writes.add(save(cache, recipeUnlockedAdvancement(recipeId, unlockItemId), dataPath("advancement/recipes/" + category + "/" + recipeId + ".json")));
+    }
+
+    private JsonObject recipeUnlockedAdvancement(String recipeId, String unlockItemId) {
+        JsonObject advancement = new JsonObject();
+        advancement.addProperty("parent", "minecraft:recipes/root");
+
+        JsonObject criteria = new JsonObject();
+
+        JsonObject hasItem = new JsonObject();
+        hasItem.addProperty("trigger", "minecraft:inventory_changed");
+        JsonObject hasItemConditions = new JsonObject();
+        JsonArray items = new JsonArray();
+        JsonObject itemPredicate = new JsonObject();
+        JsonArray itemIds = new JsonArray();
+        itemIds.add(NAMESPACE + ":" + unlockItemId);
+        itemPredicate.add("items", itemIds);
+        items.add(itemPredicate);
+        hasItemConditions.add("items", items);
+        hasItem.add("conditions", hasItemConditions);
+        criteria.add("has_" + unlockItemId, hasItem);
+
+        JsonObject hasRecipe = new JsonObject();
+        hasRecipe.addProperty("trigger", "minecraft:recipe_unlocked");
+        JsonObject hasRecipeConditions = new JsonObject();
+        hasRecipeConditions.addProperty("recipe", NAMESPACE + ":" + recipeId);
+        hasRecipe.add("conditions", hasRecipeConditions);
+        criteria.add("has_the_recipe", hasRecipe);
+
+        advancement.add("criteria", criteria);
+
+        JsonArray requirementGroup = new JsonArray();
+        requirementGroup.add("has_" + unlockItemId);
+        requirementGroup.add("has_the_recipe");
+        JsonArray requirements = new JsonArray();
+        requirements.add(requirementGroup);
+        advancement.add("requirements", requirements);
+
+        JsonObject rewards = new JsonObject();
+        JsonArray recipes = new JsonArray();
+        recipes.add(NAMESPACE + ":" + recipeId);
+        rewards.add("recipes", recipes);
+        advancement.add("rewards", rewards);
+
+        return advancement;
     }
 
     private JsonObject cookingRecipe(String type, String ingredient) {

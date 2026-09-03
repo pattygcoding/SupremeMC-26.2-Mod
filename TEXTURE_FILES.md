@@ -23,6 +23,37 @@ common/src/main/resources/assets/suprememc/textures/
 	├── humanoid/aquamarine.png
 	├── humanoid_baby/aquamarine.png
 	└── humanoid_leggings/aquamarine.png
+
+### Abyssalite
+
+Add these PNGs to the same shared directory for US-003 and US-004:
+
+```text
+common/src/main/resources/assets/suprememc/textures/
+├── block/
+│   ├── abyssalite_block.png
+│   └── atlantis_debris.png
+├── item/
+│   ├── abyssalite_axe.png
+│   ├── abyssalite_boots.png
+│   ├── abyssalite_chestplate.png
+│   ├── abyssalite_helmet.png
+│   ├── abyssalite_hoe.png
+│   ├── abyssalite_ingot.png
+│   ├── abyssalite_leggings.png
+│   ├── abyssalite_pickaxe.png
+│   ├── abyssalite_scrap.png
+│   ├── abyssalite_shovel.png
+│   ├── abyssalite_sword.png
+│   ├── abyssalite_trident.png
+│   └── abyssalite_upgrade_smithing_template.png
+└── entity/equipment/
+    ├── humanoid/abyssalite.png
+    ├── humanoid_baby/abyssalite.png
+    └── humanoid_leggings/abyssalite.png
+```
+
+The block-item models reuse `block/abyssalite_block.png` and `block/atlantis_debris.png`; separate item PNGs for those blocks are not required. The exact `abyssalite_trident.png` filename is the source of truth for the trident item ID.
 ```
 
 Use PNG files with transparent backgrounds where appropriate. A 16x16 pixel base texture is recommended; larger textures must use a multiple of 16 for correct pixel scaling.

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -43,11 +45,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.core.BlockPos;
 
+import java.util.List;
 import java.util.Map;
 
 public final class ModContent {
 
     private static boolean registered = false;
+
+    // Loader-agnostic list, shared by fabric/neoforge to populate the SupremeMC creative tab.
+    public static final List<ItemLike> CREATIVE_TAB_ITEMS = new java.util.ArrayList<>();
+
         private static final ArmorMaterial AQUAMARINE_ARMOR_MATERIAL = new ArmorMaterial(
             33,
             Map.of(
@@ -112,11 +119,15 @@ public final class ModContent {
         AQUAMARINE_LEGGINGS = registerItem("aquamarine_leggings", new AquamarineArmorItem("aquamarine_leggings", ArmorType.LEGGINGS));
         AQUAMARINE_BOOTS = registerItem("aquamarine_boots", new AquamarineArmorItem("aquamarine_boots", ArmorType.BOOTS));
 
+        CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, WET_FARMLAND,
+                AQUAMARINE_PICKAXE, AQUAMARINE_AXE, AQUAMARINE_SHOVEL, AQUAMARINE_HOE, AQUAMARINE_SWORD,
+                AQUAMARINE_HELMET, AQUAMARINE_CHESTPLATE, AQUAMARINE_LEGGINGS, AQUAMARINE_BOOTS));
+
         Constants.LOG.info("Registered Aquamarine progression content");
     }
 
     private static Item registerBlockItem(String id, Block block) {
-        return registerItem(id, new BlockItem(block, itemProperties(id)));
+        return registerItem(id, new BlockItem(block, itemProperties(id).useBlockDescriptionPrefix()));
     }
 
     private static Item.Properties itemProperties(String id) {

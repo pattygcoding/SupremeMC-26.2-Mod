@@ -17,6 +17,8 @@ class ModContentDataTest {
             "assets/suprememc/models/block/aquamarine_ore.json",
             "assets/suprememc/blockstates/aquamarine_ore.json",
             "assets/suprememc/equipment/aquamarine.json",
+            "assets/suprememc/items/aquamarine.json",
+            "assets/suprememc/items/aquamarine_ore.json",
             "data/suprememc/loot_table/blocks/aquamarine_ore.json",
             "data/suprememc/recipe/aquamarine_block.json",
             "data/suprememc/recipe/aquamarine_from_aquamarine_block.json",
@@ -26,6 +28,69 @@ class ModContentDataTest {
             "data/minecraft/tags/block/needs_iron_tool.json",
             "data/minecraft/tags/item/beacon_payment_items.json"
         ).forEach(::assertResourceExists)
+    }
+
+    @Test
+    fun generatesRecipeUnlockAdvancementsForAllRecipes() {
+        val expected = listOf(
+            Triple("aquamarine_block", "building", "aquamarine"),
+            Triple("aquamarine_from_aquamarine_block", "misc", "aquamarine_block"),
+            Triple("aquamarine_pickaxe", "equipment", "aquamarine"),
+            Triple("aquamarine_axe", "equipment", "aquamarine"),
+            Triple("aquamarine_shovel", "equipment", "aquamarine"),
+            Triple("aquamarine_hoe", "equipment", "aquamarine"),
+            Triple("aquamarine_sword", "equipment", "aquamarine"),
+            Triple("aquamarine_helmet", "equipment", "aquamarine"),
+            Triple("aquamarine_chestplate", "equipment", "aquamarine"),
+            Triple("aquamarine_leggings", "equipment", "aquamarine"),
+            Triple("aquamarine_boots", "equipment", "aquamarine"),
+            Triple("aquamarine_from_smelting_aquamarine_ore", "misc", "aquamarine_ore"),
+            Triple("aquamarine_from_blasting_aquamarine_ore", "misc", "aquamarine_ore"),
+            Triple("aquamarine_from_smelting_deepslate_aquamarine_ore", "misc", "deepslate_aquamarine_ore"),
+            Triple("aquamarine_from_blasting_deepslate_aquamarine_ore", "misc", "deepslate_aquamarine_ore")
+        )
+
+        expected.forEach { (recipeId, category, unlockItemId) ->
+            val advancement = readJson("data/suprememc/advancement/recipes/$category/$recipeId.json")
+            assertEquals("minecraft:recipes/root", advancement.get("parent").asString)
+
+            val criteria = advancement.getAsJsonObject("criteria")
+            assertTrue("Missing has_$unlockItemId criterion for $recipeId") { criteria.has("has_$unlockItemId") }
+            val unlockCriterion = criteria.getAsJsonObject("has_$unlockItemId")
+            assertEquals("minecraft:inventory_changed", unlockCriterion.get("trigger").asString)
+            val unlockItems = unlockCriterion.getAsJsonObject("conditions").getAsJsonArray("items")
+                .get(0).asJsonObject.getAsJsonArray("items")
+            assertEquals("suprememc:$unlockItemId", unlockItems.get(0).asString)
+
+            val hasRecipe = criteria.getAsJsonObject("has_the_recipe")
+            assertEquals("minecraft:recipe_unlocked", hasRecipe.get("trigger").asString)
+            assertEquals("suprememc:$recipeId", hasRecipe.getAsJsonObject("conditions").get("recipe").asString)
+
+            val requirements = advancement.getAsJsonArray("requirements")
+            assertTrue("Expected at least one requirement group for $recipeId") { requirements.size() > 0 }
+            val requirementGroup = requirements.get(0).asJsonArray.map { it.asString }
+            assertTrue(requirementGroup.contains("has_$unlockItemId"))
+            assertTrue(requirementGroup.contains("has_the_recipe"))
+
+            val rewardedRecipes = advancement.getAsJsonObject("rewards").getAsJsonArray("recipes")
+            assertEquals("suprememc:$recipeId", rewardedRecipes.get(0).asString)
+        }
+    }
+
+    @Test
+    fun allCraftingRecipesUseAValidCraftingBookCategory() {
+        val validCategories = setOf("building", "redstone", "equipment", "misc")
+        val recipesDir = generatedResources.resolve("data/suprememc/recipe")
+        Files.list(recipesDir).use { paths ->
+            paths.filter { it.toString().endsWith(".json") }.forEach { path ->
+                val recipe = JsonParser.parseString(Files.readString(path)).asJsonObject
+                if (recipe.get("type").asString != "minecraft:crafting_shaped" && recipe.get("type").asString != "minecraft:crafting_shapeless") {
+                    return@forEach
+                }
+                val category = recipe.get("category").asString
+                assertTrue("Recipe ${path.fileName} has invalid crafting category '$category'") { category in validCategories }
+            }
+        }
     }
 
     @Test

@@ -5,10 +5,15 @@ import net.neoforged.fml.common.Mod;
 import com.suprememc.content.ModContent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent.Client;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 @Mod(Constants.MOD_ID)
 public class SupremeMC {
@@ -23,37 +28,24 @@ public class SupremeMC {
         Constants.LOG.info("Hello NeoForge world!");
         eventBus.addListener(SupremeMC::registerContent);
         eventBus.addListener(SupremeMC::gatherData);
-        eventBus.addListener(SupremeMC::addCreativeItems);
 
     }
 
     private static void registerContent(RegisterEvent event) {
         if (event.getRegistryKey() == Registries.BLOCK || event.getRegistryKey() == Registries.ITEM) {
-            com.suprememc.content.ModContent.bootstrap();
+            ModContent.bootstrap();
+        } else if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB) {
+            CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+                    .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
+                    .icon(() -> new ItemStack(ModContent.AQUAMARINE))
+                    .displayItems((params, output) -> ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept))
+                    .build();
+            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+                    ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "main")), tab);
         }
     }
 
     private static void gatherData(Client event) {
         event.addProvider(new SupremeMCDataProvider(event.getGenerator().getPackOutput()));
-    }
-
-    private static void addCreativeItems(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() != CreativeModeTabs.INGREDIENTS) {
-            return;
-        }
-        event.accept(ModContent.AQUAMARINE);
-        event.accept(ModContent.AQUAMARINE_ORE);
-        event.accept(ModContent.DEEPSLATE_AQUAMARINE_ORE);
-        event.accept(ModContent.AQUAMARINE_BLOCK);
-        event.accept(ModContent.WET_FARMLAND);
-        event.accept(ModContent.AQUAMARINE_PICKAXE);
-        event.accept(ModContent.AQUAMARINE_AXE);
-        event.accept(ModContent.AQUAMARINE_SHOVEL);
-        event.accept(ModContent.AQUAMARINE_HOE);
-        event.accept(ModContent.AQUAMARINE_SWORD);
-        event.accept(ModContent.AQUAMARINE_HELMET);
-        event.accept(ModContent.AQUAMARINE_CHESTPLATE);
-        event.accept(ModContent.AQUAMARINE_LEGGINGS);
-        event.accept(ModContent.AQUAMARINE_BOOTS);
     }
 }
