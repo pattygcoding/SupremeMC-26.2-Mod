@@ -58,7 +58,39 @@ class AbyssaliteDataProvider(output: PackOutput) : EcosystemDataProvider(output)
     private fun oreTarget(block: String, value: String, tag: Boolean) = obj { add("state", obj { addProperty("Name", block) }); add("target", obj { addProperty("predicate_type", if (tag) "minecraft:tag_match" else "minecraft:block_match"); addProperty(if (tag) "tag" else "block", value) }) }
     private fun placedFeature() = obj { addProperty("feature", "$namespace:atlantis_debris"); add("placement", JsonArray().also { it.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 2) }); it.add(obj { addProperty("type", "minecraft:in_square") }); it.add(obj { addProperty("type", "minecraft:height_range"); add("height", obj { addProperty("type", "minecraft:uniform"); add("min_inclusive", obj { addProperty("absolute", -64) }); add("max_inclusive", obj { addProperty("absolute", -49) }) }) }); it.add(obj { addProperty("type", "minecraft:biome") }) }) }
     private fun tridentModel() = obj { addProperty("parent", "minecraft:item/generated"); add("textures", obj { addProperty("layer0", "$namespace:item/abyssalite_trident") }) }
-    private fun tridentDefinition() = itemModelDefinition("$namespace:item/abyssalite_trident")
+    private fun floats(vararg values: Float) = JsonArray().also { arr -> values.forEach { arr.add(it) } }
+
+    // Mirrors vanilla items/trident.json: flat model for gui/ground/fixed/on_shelf, the registered
+    // suprememc:abyssalite_trident special model in hand, and the throwing pose while using the item.
+    private fun tridentDefinition() = obj {
+        add("model", obj {
+            addProperty("type", "minecraft:select")
+            add("cases", JsonArray().also {
+                it.add(obj {
+                    add("model", obj { addProperty("type", "minecraft:model"); addProperty("model", "$namespace:item/abyssalite_trident") })
+                    add("when", array("gui", "ground", "fixed", "on_shelf"))
+                })
+            })
+            add("fallback", obj {
+                addProperty("type", "minecraft:condition")
+                addProperty("property", "minecraft:using_item")
+                add("on_false", specialTrident("minecraft:item/trident_in_hand"))
+                add("on_true", specialTrident("minecraft:item/trident_throwing"))
+                add("transformation", obj {
+                    add("left_rotation", floats(0f, 0f, 0f, 1f))
+                    add("right_rotation", floats(0f, 0f, 0f, 1f))
+                    add("scale", floats(1f, -1f, -1f))
+                    add("translation", floats(0f, 0f, 0f))
+                })
+            })
+            addProperty("property", "minecraft:display_context")
+        })
+    }
+    private fun specialTrident(base: String) = obj {
+        addProperty("type", "minecraft:special")
+        addProperty("base", base)
+        add("model", obj { addProperty("type", "$namespace:abyssalite_trident") })
+    }
     private fun equipmentAsset() = obj { add("layers", obj { add("humanoid", layer()); add("humanoid_baby", layer()); add("humanoid_leggings", layer()) }) }
     private fun layer() = JsonArray().also { it.add(obj { addProperty("texture", "$namespace:abyssalite") }) }
 

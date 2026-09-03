@@ -20,7 +20,8 @@ public class AbyssaliteTridentItem extends TridentItem {
     public AbyssaliteTridentItem(Item.Properties properties) {
         super(properties.attributes(ItemAttributeModifiers.builder()
             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssalite_trident_damage"), 10.0, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
-            .add(Attributes.ATTACK_SPEED, new AttributeModifier(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssalite_trident_speed"), -2.9, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
+            // Base player attack speed is 4.0, so -2.8 yields the intended effective 1.2 attack speed.
+            .add(Attributes.ATTACK_SPEED, new AttributeModifier(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssalite_trident_speed"), -2.8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
             .build()));
     }
 
