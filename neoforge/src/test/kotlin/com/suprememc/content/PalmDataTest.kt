@@ -24,13 +24,19 @@ class PalmDataTest : GeneratedDataTestSupport() {
 
     @Test
     fun generatesPalmWoodsetResources() {
-        listOf("assets/suprememc/blockstates/palm_log.json", "assets/suprememc/models/block/palm_log.json", "assets/suprememc/models/block/palm_planks.json", "assets/suprememc/models/block/stripped_palm_log.json", "assets/suprememc/models/item/palm_planks.json", "assets/suprememc/models/item/palm_boat.json", "assets/suprememc/items/palm_planks.json", "assets/suprememc/items/palm_sign.json", "data/suprememc/loot_table/blocks/palm_leaves.json", "data/suprememc/tags/block/minecraft_logs.json", "data/suprememc/tags/item/palm_logs.json").forEach(::assertResourceExists)
+        listOf("assets/suprememc/blockstates/palm_log.json", "assets/suprememc/models/block/palm_log.json", "assets/suprememc/models/block/palm_planks.json", "assets/suprememc/models/block/stripped_palm_log.json", "assets/suprememc/models/item/palm_planks.json", "assets/suprememc/models/item/palm_boat.json", "assets/suprememc/items/palm_planks.json", "assets/suprememc/items/palm_sign.json", "data/suprememc/loot_table/blocks/palm_leaves.json", "data/suprememc/tags/block/minecraft_logs.json", "data/suprememc/tags/item/palm_logs.json", "data/minecraft/tags/item/leaves.json", "data/minecraft/tags/item/saplings.json").forEach(::assertResourceExists)
         recipes.map { "data/suprememc/recipe/$it.json" }.forEach(::assertResourceExists)
         advancementPaths.map { "data/suprememc/advancement/recipes/$it.json" }.forEach(::assertResourceExists)
         assertResourceExists("assets/suprememc/models/block/palm_wood.json")
         assertResourceExists("assets/suprememc/models/block/stripped_palm_wood.json")
         assertTrue(readJson("assets/suprememc/blockstates/palm_log.json").has("variants"))
         assertEquals("suprememc:palm_sign", readJson("data/suprememc/recipe/palm_sign.json").getAsJsonObject("result").get("id").asString)
+    }
+
+    @Test
+    fun palmLeavesAndSaplingsAreCompostable() {
+        assertEquals("suprememc:palm_leaves", readJson("data/minecraft/tags/item/leaves.json").getAsJsonArray("values").single().asString)
+        assertEquals("suprememc:palm_sapling", readJson("data/minecraft/tags/item/saplings.json").getAsJsonArray("values").single().asString)
     }
 
     @Test

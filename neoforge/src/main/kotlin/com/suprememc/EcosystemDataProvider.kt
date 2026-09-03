@@ -17,10 +17,11 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
     protected fun dataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(namespace).resolve(relative)
     protected fun minecraftDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("minecraft").resolve(relative)
 
-    protected fun itemModelDefinition(model: String) = obj {
+    protected fun itemModelDefinition(model: String, tints: JsonArray? = null) = obj {
         add("model", obj {
             addProperty("type", "minecraft:model")
             addProperty("model", model)
+            if (tints != null) add("tints", tints)
         })
     }
 

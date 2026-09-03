@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cocoa_stage1",
+  "textures": {
+    "cocoa": "suprememc:block/coconut_stage1",
+    "particle": "suprememc:block/coconut_stage1"
+  }
+}

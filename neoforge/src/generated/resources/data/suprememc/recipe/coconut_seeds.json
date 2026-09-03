@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:coconut"
+  ],
+  "result": {
+    "count": 4,
+    "id": "suprememc:coconut_seeds"
+  }
+}

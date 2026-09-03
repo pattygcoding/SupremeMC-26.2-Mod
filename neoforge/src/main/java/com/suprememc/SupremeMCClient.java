@@ -3,11 +3,14 @@ package com.suprememc;
 import com.suprememc.client.AbyssaliteTridentRenderer;
 import com.suprememc.client.AbyssaliteTridentSpecialRenderer;
 import com.suprememc.content.ModContent;
+import java.util.List;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 
@@ -28,5 +31,11 @@ public final class SupremeMCClient {
     @SubscribeEvent
     public static void registerSpecialModelRenderers(RegisterSpecialModelRendererEvent event) {
         event.register(AbyssaliteTridentSpecialRenderer.ID, AbyssaliteTridentSpecialRenderer.Unbaked.MAP_CODEC);
+    }
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
+        // Grayscale palm leaves texture relies on foliage tinting, same as vanilla oak leaves.
+        event.register(List.of(BlockTintSources.foliage()), ModContent.PALM_LEAVES);
     }
 }

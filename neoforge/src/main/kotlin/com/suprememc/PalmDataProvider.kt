@@ -19,7 +19,9 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         blocks.forEach { id ->
             writes += save(cache, blockState(id), resourcePath("blockstates/$id.json"))
             writes += save(cache, itemModel(id), resourcePath("models/item/$id.json"))
-            writes += save(cache, itemModelDefinition("$namespace:item/$id"), resourcePath("items/$id.json"))
+            // Grayscale leaves texture needs the item icon tinted too, matching the in-hand oak leaves color.
+            val tints = if (id == "palm_leaves") array(obj { addProperty("type", "minecraft:constant"); addProperty("value", -12012264) }) else null
+            writes += save(cache, itemModelDefinition("$namespace:item/$id", tints), resourcePath("items/$id.json"))
         }
         blockModels().forEach { (name, model) -> writes += save(cache, model, resourcePath("models/block/$name.json")) }
         arrayOf("palm_log", "stripped_palm_log", "palm_wood", "stripped_palm_wood", "palm_planks", "palm_slab", "palm_stairs", "palm_fence", "palm_fence_gate", "palm_door", "palm_trapdoor", "palm_pressure_plate", "palm_button", "palm_sapling").forEach { id ->
@@ -69,7 +71,95 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, leavesLoot(), dataPath("loot_table/blocks/palm_leaves.json"))
         writes += save(cache, valuesTag("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood"), dataPath("tags/block/minecraft_logs.json"))
         writes += save(cache, valuesTag("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood"), dataPath("tags/item/palm_logs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_leaves"), minecraftDataPath("tags/item/leaves.json"))
+        writes += save(cache, valuesTag("$namespace:palm_sapling"), minecraftDataPath("tags/item/saplings.json"))
+        writeWorldgen(cache, writes)
+        writeCoconut(cache, writes)
         return CompletableFuture.allOf(*writes.toTypedArray())
+    }
+
+    private fun writeCoconut(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
+        writes += save(cache, coconutBlockState(), resourcePath("blockstates/coconut.json"))
+        (0..2).forEach { age ->
+            writes += save(cache, model("minecraft:block/cocoa_stage$age", "cocoa" to "$namespace:block/coconut_stage$age", "particle" to "$namespace:block/coconut_stage$age"), resourcePath("models/block/coconut_stage$age.json"))
+        }
+        writes += save(cache, flatItemModel("$namespace:item/coconut"), resourcePath("models/item/coconut.json"))
+        writes += save(cache, itemModelDefinition("$namespace:item/coconut"), resourcePath("items/coconut.json"))
+        writes += save(cache, flatItemModel("$namespace:item/coconut_seeds"), resourcePath("models/item/coconut_seeds.json"))
+        writes += save(cache, itemModelDefinition("$namespace:item/coconut_seeds"), resourcePath("items/coconut_seeds.json"))
+        writes += save(cache, shapelessRecipe("coconut_seeds", 4, "coconut"), dataPath("recipe/coconut_seeds.json"))
+        writes += save(cache, recipeAdvancement("coconut_seeds", "misc", "coconut"), dataPath("advancement/recipes/misc/coconut_seeds.json"))
+    }
+
+    // Mirrors vanilla cocoa's facing/rotation mapping so the pod points away from its supporting log.
+    private fun coconutBlockState() = variants {
+        listOf("north" to 180, "south" to 0, "east" to 270, "west" to 90).forEach { (facing, rotation) ->
+            (0..2).forEach { age ->
+                add("age=$age,facing=$facing", variant("coconut_stage$age", y = rotation))
+            }
+        }
+    }
+
+    private fun writeWorldgen(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
+        writes += save(cache, placedFeature("palm_coconut", warmPlacement()), dataPath("worldgen/placed_feature/palm_trees_warm.json"))
+        writes += save(cache, placedFeature("palm", temperatePlacement()), dataPath("worldgen/placed_feature/palm_trees_temperate.json"))
+        writes += save(cache, addFeaturesBiomeModifier("palm_trees_warm"), dataPath("neoforge/biome_modifier/add_palm_trees_warm.json"))
+        writes += save(cache, addFeaturesBiomeModifier("palm_trees_temperate"), dataPath("neoforge/biome_modifier/add_palm_trees_temperate.json"))
+    }
+
+    private fun placedFeature(feature: String, placement: JsonArray) = obj {
+        addProperty("feature", "$namespace:$feature")
+        add("placement", placement)
+    }
+
+    private fun addFeaturesBiomeModifier(feature: String) = obj {
+        addProperty("type", "neoforge:add_features")
+        addProperty("biomes", "#minecraft:is_beach")
+        addProperty("features", "$namespace:$feature")
+        addProperty("step", "vegetal_decoration")
+    }
+
+    // Warm beaches: every eligible chunk rolls 1-3 palms, coconut-bearing.
+    // Order matters: heightmap must snap to the surface before the temperature/substrate checks sample it.
+    private fun warmPlacement() = JsonArray().also {
+        it.add(obj { addProperty("type", "minecraft:count"); add("count", obj { addProperty("type", "minecraft:uniform"); addProperty("min_inclusive", 1); addProperty("max_inclusive", 3) }) })
+        it.add(obj { addProperty("type", "minecraft:in_square") })
+        it.add(obj { addProperty("type", "minecraft:surface_water_depth_filter"); addProperty("max_water_depth", 0) })
+        it.add(obj { addProperty("type", "minecraft:heightmap"); addProperty("heightmap", "OCEAN_FLOOR") })
+        it.add(obj { addProperty("type", "suprememc:biome_temperature"); addProperty("min_temperature", 0.8f) })
+        it.add(beachSubstrateFilter())
+        it.add(obj { addProperty("type", "minecraft:biome") })
+    }
+
+    // Moderate beaches: half the chunks roll, and only a single sapling-backed palm at a time.
+    private fun temperatePlacement() = JsonArray().also {
+        it.add(obj { addProperty("type", "minecraft:rarity_filter"); addProperty("chance", 2) })
+        it.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 1) })
+        it.add(obj { addProperty("type", "minecraft:in_square") })
+        it.add(obj { addProperty("type", "minecraft:surface_water_depth_filter"); addProperty("max_water_depth", 0) })
+        it.add(obj { addProperty("type", "minecraft:heightmap"); addProperty("heightmap", "OCEAN_FLOOR") })
+        it.add(obj { addProperty("type", "suprememc:biome_temperature"); addProperty("min_temperature", 0.3f); addProperty("max_temperature", 0.8f) })
+        it.add(beachSubstrateFilter())
+        it.add(obj { addProperty("type", "minecraft:biome") })
+    }
+
+    // Palms only take root on sand/red sand where the sapling itself would survive.
+    private fun beachSubstrateFilter() = obj {
+        addProperty("type", "minecraft:block_predicate_filter")
+        add("predicate", obj {
+            addProperty("type", "minecraft:all_of")
+            add("predicates", JsonArray().also { predicates ->
+                predicates.add(obj {
+                    addProperty("type", "minecraft:matching_blocks")
+                    add("blocks", array("minecraft:sand", "minecraft:red_sand"))
+                    add("offset", JsonArray().also { o -> o.add(0); o.add(-1); o.add(0) })
+                })
+                predicates.add(obj {
+                    addProperty("type", "minecraft:would_survive")
+                    add("state", obj { addProperty("Name", "$namespace:palm_sapling") })
+                })
+            })
+        })
     }
 
     private fun blockState(id: String): JsonObject = when (id) {

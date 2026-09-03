@@ -29,6 +29,7 @@
 - Palm trees generate naturally on beaches. Hot/warm-climate beaches (surface biome temperature 0.8+, which includes every vanilla beach) always grow 1-3 palms per chunk, rooted in sand or red sand above the waterline. Moderate-climate beaches (temperature 0.3-0.8) grow a single palm in only half of their chunks, so they stay visibly sparser. Snowy, frozen, and stony coasts (below 0.3) never grow palms.
 - Naturally generated hot-climate palms bear coconuts of random ripeness hanging from the upper trunk, like cocoa pods on jungle trees. Sapling-grown and moderate-climate palms are bare.
 - Palm saplings can also be planted on sand and red sand in addition to the usual dirt-family blocks.
+- Palm leaves and palm saplings are compostable like their oak counterparts.
 - Coconut Seeds plant a hanging coconut crop on the cardinal faces of Palm Logs and Stripped Palm Logs. The coconut grows through three stages (ages 0-2) via random ticks and bonemeal.
 - A fully mature coconut drops one Coconut when broken; immature stages drop nothing. Crafting one Coconut yields four Coconut Seeds.
 - Drinking a Coconut works like Milk: it clears all status effects but is consumed entirely (no bucket returned). Coconuts stack to 64.

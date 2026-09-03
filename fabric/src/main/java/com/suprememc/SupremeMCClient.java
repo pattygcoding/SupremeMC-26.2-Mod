@@ -3,8 +3,11 @@ package com.suprememc;
 import com.suprememc.client.AbyssaliteTridentRenderer;
 import com.suprememc.client.AbyssaliteTridentSpecialRenderer;
 import com.suprememc.content.ModContent;
+import java.util.List;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
@@ -19,5 +22,7 @@ public class SupremeMCClient implements ClientModInitializer {
             context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
         SpecialModelRenderers.ID_MAPPER.put(AbyssaliteTridentSpecialRenderer.ID,
                 AbyssaliteTridentSpecialRenderer.Unbaked.MAP_CODEC);
+        // Grayscale palm leaves texture relies on foliage tinting, same as vanilla oak leaves.
+        BlockColorRegistry.register(List.of(BlockTintSources.foliage()), ModContent.PALM_LEAVES);
     }
 }
