@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "experience": 1.0,
+  "group": "aquamarine",
+  "ingredient": "suprememc:deepslate_aquamarine_ore",
+  "result": {
+    "count": 1,
+    "id": "suprememc:aquamarine"
+  }
+}

@@ -1,11 +1,16 @@
 plugins {
     id 'multiloader-loader'
     id 'net.fabricmc.fabric-loom'
+    id 'org.jetbrains.kotlin.jvm'
 }
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
     implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+    testImplementation(platform('org.junit:junit-bom:5.13.0'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation('org.jetbrains.kotlin:kotlin-test-junit5')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
 }
 
 loom {
@@ -27,6 +32,21 @@ loom {
             runDir('runs/server')
         }
     }
+}
+
+sourceSets.main.resources { srcDir project(':neoforge').file('src/generated/resources') }
+
+tasks.named('processResources') {
+    dependsOn ':neoforge:runData'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    dependsOn 'processResources'
+}
+
+tasks.named('compileTestJava') {
+    options.release = 24
 }
 
 // Implement mcgradleconventions loader attribute

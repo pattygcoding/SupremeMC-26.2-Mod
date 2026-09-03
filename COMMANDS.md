@@ -82,6 +82,23 @@ Data generators allow you to automatically generate recipes, loot tables, blocks
 
 ## 🧪 Testing & Local Publishing
 
+- **Run All Unit Tests (Fabric and NeoForge):**
+  ```powershell
+  .\gradlew :fabric:test :neoforge:test
+  ```
+
+- **Run NeoForge Aquamarine Data Tests Only:**
+  ```powershell
+  .\gradlew :neoforge:test --tests com.suprememc.content.ModContentDataTest
+  ```
+  *This task regenerates NeoForge data before testing the generated JSON and required shared textures.*
+
+- **Run Fabric Resource Packaging Tests Only:**
+  ```powershell
+  .\gradlew :fabric:test --tests com.suprememc.FabricResourcePackagingTest
+  ```
+  *This task generates data and processes Fabric resources before checking the packaged output.*
+
 - **Run All Verification Checks & Tests:**
   ```powershell
   .\gradlew check

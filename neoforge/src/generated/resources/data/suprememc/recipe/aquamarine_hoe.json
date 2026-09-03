@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": "suprememc:aquamarine",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "AA ",
+    " S ",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:aquamarine_hoe"
+  }
+}
