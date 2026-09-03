@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "suprememc:palm_log"
+  ],
+  "result": {
+    "count": 4,
+    "id": "suprememc:palm_planks"
+  }
+}

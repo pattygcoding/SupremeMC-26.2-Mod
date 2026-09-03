@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "suprememc:block/palm_wall_hanging_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "suprememc:block/palm_wall_hanging_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "suprememc:block/palm_wall_hanging_sign"
+    },
+    "facing=west": {
+      "model": "suprememc:block/palm_wall_hanging_sign",
+      "y": 90
+    }
+  }
+}

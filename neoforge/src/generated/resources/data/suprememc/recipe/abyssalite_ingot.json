@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:abyssalite_scrap",
+    "minecraft:prismarine_crystals",
+    "suprememc:abyssalite_scrap",
+    "minecraft:prismarine_crystals",
+    "suprememc:abyssalite_scrap",
+    "minecraft:prismarine_crystals",
+    "suprememc:abyssalite_scrap",
+    "minecraft:prismarine_crystals"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:abyssalite_ingot"
+  }
+}

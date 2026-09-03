@@ -99,7 +99,8 @@ class TextureAndLangCoverageTest {
         allItemIds.forEach { id ->
             val definition = readJson("assets/suprememc/items/$id.json")
             val model = definition.getAsJsonObject("model")
-            assertEquals("minecraft:model", model.get("type").asString)
+            // Composite definitions (e.g. the trident's select/special tree) resolve their own models.
+            if (model.get("type").asString != "minecraft:model") return@forEach
             val modelId = model.get("model").asString
             assertTrue("Item model definition for '$id' references a namespace outside suprememc: $modelId") {
                 modelId.startsWith("suprememc:")

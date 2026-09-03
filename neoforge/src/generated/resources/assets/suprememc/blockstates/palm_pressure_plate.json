@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "suprememc:block/palm_pressure_plate"
+    },
+    "powered=true": {
+      "model": "suprememc:block/palm_pressure_plate_down"
+    }
+  }
+}

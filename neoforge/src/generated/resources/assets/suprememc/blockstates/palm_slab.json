@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "suprememc:block/palm_slab"
+    },
+    "type=double": {
+      "model": "suprememc:block/palm_planks"
+    },
+    "type=top": {
+      "model": "suprememc:block/palm_slab_top"
+    }
+  }
+}

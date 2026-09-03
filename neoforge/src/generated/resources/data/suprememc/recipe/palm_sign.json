@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "suprememc:palm_planks",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "AAA",
+    "A A",
+    " S "
+  ],
+  "result": {
+    "count": 3,
+    "id": "suprememc:palm_sign"
+  }
+}

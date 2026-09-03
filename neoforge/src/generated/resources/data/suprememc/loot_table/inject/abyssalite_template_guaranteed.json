@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:abyssalite_upgrade_smithing_template"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

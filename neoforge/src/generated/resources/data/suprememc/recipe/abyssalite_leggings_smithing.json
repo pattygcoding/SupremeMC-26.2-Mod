@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "suprememc:abyssalite_ingot",
+  "base": "suprememc:aquamarine_leggings",
+  "result": {
+    "count": 1,
+    "id": "suprememc:abyssalite_leggings"
+  },
+  "template": "suprememc:abyssalite_upgrade_smithing_template"
+}

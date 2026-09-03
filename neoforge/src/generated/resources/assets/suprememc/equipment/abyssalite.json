@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "suprememc:abyssalite"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "suprememc:abyssalite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "suprememc:abyssalite"
+      }
+    ]
+  }
+}

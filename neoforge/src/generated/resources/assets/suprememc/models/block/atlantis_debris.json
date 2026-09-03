@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "suprememc:block/atlantis_debris_top",
+    "side": "suprememc:block/atlantis_debris_side",
+    "top": "suprememc:block/atlantis_debris_top"
+  }
+}

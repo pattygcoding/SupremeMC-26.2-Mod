@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "com.suprememc.SupremeMC"
+        ],
+        "client": [
+            "com.suprememc.SupremeMCClient"
         ]
     },
     "mixins": [

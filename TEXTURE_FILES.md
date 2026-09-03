@@ -56,6 +56,21 @@ common/src/main/resources/assets/suprememc/textures/
 The block-item models reuse `block/abyssalite_block.png` and `block/atlantis_debris.png`; separate item PNGs for those blocks are not required. The exact `abyssalite_trident.png` filename is the source of truth for the trident item ID.
 ```
 
+### Palm
+
+The palm wood set needs these on top of the block textures already in the repository:
+
+```text
+common/src/main/resources/assets/suprememc/textures/item/palm_door.png
+common/src/main/resources/assets/minecraft/textures/gui/signs/palm.png
+common/src/main/resources/assets/minecraft/textures/gui/hanging_signs/palm.png
+```
+
+`item/palm_door.png` is the flat inventory icon for the door and currently holds a placeholder copied from
+`block/palm_door_top.png`. The two GUI files back the sign editing screen; Minecraft resolves that texture as
+`minecraft:textures/gui/signs/<wood type name>.png` with a hardcoded namespace, so they must live under the
+`minecraft` namespace rather than `suprememc`. Both are now painted with the finished palm artwork.
+
 Use PNG files with transparent backgrounds where appropriate. A 16x16 pixel base texture is recommended; larger textures must use a multiple of 16 for correct pixel scaling.
 
 The three block textures are used by their generated block models. Wet farmland inherits Minecraft's moist farmland model and texture, so it does not need `wet_farmland.png`. The ore and block inventory items reuse their respective block textures, so they do not need separate item PNGs. The armour inventory icons use the ten item textures above.

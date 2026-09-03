@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": "suprememc:palm_planks"
+  },
+  "pattern": [
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:palm_button"
+  }
+}
