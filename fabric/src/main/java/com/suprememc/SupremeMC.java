@@ -122,10 +122,12 @@ public class SupremeMC implements ModInitializer {
 
         private static void replaceDrownedSpawn(net.fabricmc.fabric.api.biome.v1.BiomeModificationContext context,
                             int weight, int minCount, int maxCount) {
-        context.getMobSpawnSettings().removeSpawnsOfEntityType(EntityType.DROWNED);
+            EntityType<?> drowned = BuiltInRegistries.ENTITY_TYPE.get(
+                Identifier.fromNamespaceAndPath("minecraft", "drowned")).orElseThrow();
+            context.getMobSpawnSettings().removeSpawnsOfEntityType(drowned);
         context.getMobSpawnSettings().addSpawn(
             MobCategory.MONSTER,
-            new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(EntityType.DROWNED, minCount, maxCount),
+                new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(drowned, minCount, maxCount),
             weight);
         }
 
