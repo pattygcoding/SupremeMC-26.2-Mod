@@ -175,6 +175,8 @@ public final class ModContent {
     public static Block AQUAMARINE_ORE;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
     public static Block AQUAMARINE_BLOCK;
+    public static Block AQUAMARINE_STAIRS;
+    public static Block AQUAMARINE_SLAB;
     public static Block IRON_STAIRS;
     public static Block IRON_SLAB;
     public static Block LAPIS_STAIRS;
@@ -247,6 +249,8 @@ public final class ModContent {
     public static Item ABYSSALITE_UPGRADE_SMITHING_TEMPLATE;
     public static Block ATLANTIS_DEBRIS;
     public static Block ABYSSALITE_BLOCK;
+    public static Block ABYSSALITE_STAIRS;
+    public static Block ABYSSALITE_SLAB;
     public static Block ICICLE;
 
     public static Item AQUAMARINE_PICKAXE;
@@ -311,6 +315,10 @@ public final class ModContent {
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("deepslate_aquamarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = registerBlock("aquamarine_block",
                 new Block(blockProperties("aquamarine_block").mapColor(MapColor.COLOR_CYAN).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        AQUAMARINE_STAIRS = registerBlock("aquamarine_stairs", new MaterialStairsBlock(AQUAMARINE_BLOCK.defaultBlockState(),
+            materialProperties("aquamarine_stairs", MapColor.COLOR_CYAN, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        AQUAMARINE_SLAB = registerBlock("aquamarine_slab", new SlabBlock(
+            materialProperties("aquamarine_slab", MapColor.COLOR_CYAN, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
         IRON_STAIRS = registerBlock("iron_stairs", new MaterialStairsBlock(Blocks.IRON_BLOCK.defaultBlockState(),
             blockProperties("iron_stairs").mapColor(MapColor.METAL).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         IRON_SLAB = registerBlock("iron_slab", new SlabBlock(
@@ -334,6 +342,10 @@ public final class ModContent {
             .mapColor(MapColor.COLOR_BLACK).sound(SoundType.METAL).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
         ABYSSALITE_BLOCK = registerBlock("abyssalite_block", new Block(blockProperties("abyssalite_block")
             .mapColor(MapColor.COLOR_BLUE).sound(SoundType.METAL).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        ABYSSALITE_STAIRS = registerBlock("abyssalite_stairs", new MaterialStairsBlock(ABYSSALITE_BLOCK.defaultBlockState(),
+            materialProperties("abyssalite_stairs", MapColor.COLOR_BLUE, SoundType.METAL, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        ABYSSALITE_SLAB = registerBlock("abyssalite_slab", new SlabBlock(
+            materialProperties("abyssalite_slab", MapColor.COLOR_BLUE, SoundType.METAL, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
         ICICLE = registerBlock("icicle", new PointedDripstoneBlock(Blocks.DRIPSTONE_BLOCK.defaultBlockState(), blockProperties("icicle")
             .mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.POINTED_DRIPSTONE).strength(1.5F, 3.0F).noOcclusion()));
 
@@ -429,6 +441,8 @@ public final class ModContent {
         registerBlockItem("aquamarine_ore", AQUAMARINE_ORE);
         registerBlockItem("deepslate_aquamarine_ore", DEEPSLATE_AQUAMARINE_ORE);
         registerBlockItem("aquamarine_block", AQUAMARINE_BLOCK);
+        registerBlockItem("aquamarine_stairs", AQUAMARINE_STAIRS);
+        registerBlockItem("aquamarine_slab", AQUAMARINE_SLAB);
         registerBlockItem("iron_stairs", IRON_STAIRS);
         registerBlockItem("iron_slab", IRON_SLAB);
         registerBlockItem("lapis_stairs", LAPIS_STAIRS);
@@ -448,6 +462,8 @@ public final class ModContent {
         registerBlockItem("wet_farmland", WET_FARMLAND);
         registerBlockItem("atlantis_debris", ATLANTIS_DEBRIS);
         registerBlockItem("abyssalite_block", ABYSSALITE_BLOCK);
+        registerBlockItem("abyssalite_stairs", ABYSSALITE_STAIRS);
+        registerBlockItem("abyssalite_slab", ABYSSALITE_SLAB);
         registerBlockItem("icicle", ICICLE);
         registerBlockItem("palm_log", PALM_LOG);
         registerBlockItem("stripped_palm_log", STRIPPED_PALM_LOG);
@@ -539,7 +555,7 @@ public final class ModContent {
         EMERALD_LEGGINGS = registerItem("emerald_leggings", new EmeraldArmorItem("emerald_leggings", ArmorType.LEGGINGS));
         EMERALD_BOOTS = registerItem("emerald_boots", new EmeraldArmorItem("emerald_boots", ArmorType.BOOTS));
 
-        CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, WET_FARMLAND,
+        CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, AQUAMARINE_STAIRS, AQUAMARINE_SLAB, WET_FARMLAND,
             IRON_STAIRS, IRON_SLAB, LAPIS_STAIRS, LAPIS_SLAB, GOLD_STAIRS, GOLD_SLAB,
             DIAMOND_STAIRS, DIAMOND_SLAB, EMERALD_STAIRS, EMERALD_SLAB, COAL_STAIRS, COAL_SLAB,
             OBSIDIAN_STAIRS, OBSIDIAN_SLAB, NETHERITE_STAIRS, NETHERITE_SLAB,
@@ -556,7 +572,7 @@ public final class ModContent {
         CREATIVE_TAB_ITEMS.addAll(List.of(BEACH_GRASS, TALL_BEACH_GRASS));
         CREATIVE_TAB_ITEMS.addAll(GLOW_BLOCKS.values());
         CREATIVE_TAB_ITEMS.addAll(SLIME_BLOCKS.values());
-        CREATIVE_TAB_ITEMS.addAll(List.of(ATLANTIS_DEBRIS, ABYSSALITE_BLOCK, ABYSSALITE_SCRAP, ABYSSALITE_INGOT,
+        CREATIVE_TAB_ITEMS.addAll(List.of(ATLANTIS_DEBRIS, ABYSSALITE_BLOCK, ABYSSALITE_STAIRS, ABYSSALITE_SLAB, ABYSSALITE_SCRAP, ABYSSALITE_INGOT,
             ICICLE,
                 ABYSSALITE_UPGRADE_SMITHING_TEMPLATE, ABYSSALITE_PICKAXE, ABYSSALITE_AXE, ABYSSALITE_SHOVEL,
                 ABYSSALITE_HOE, ABYSSALITE_SWORD, ABYSSALITE_HELMET, ABYSSALITE_CHESTPLATE, ABYSSALITE_LEGGINGS,
