@@ -1,3 +1,4 @@
+Icicle block textures are supplied under `common/src/main/resources/assets/suprememc/textures/block/`: `icicle_down_base.png`, `icicle_down_frustum.png`, `icicle_down_middle.png`, `icicle_down_tip.png`, `icicle_down_tip_merge.png`, `icicle_up_base.png`, `icicle_up_frustum.png`, `icicle_up_middle.png`, `icicle_up_tip.png`, and `icicle_up_tip_merge.png`.
 # Required Texture Files
 
 Place all texture PNGs in the shared common resources directory. Both Fabric and NeoForge load these files from the same location:
@@ -96,6 +97,20 @@ Supply these shared item textures for the Calamari pipeline:
 ```text
 common/src/main/resources/assets/suprememc/textures/item/calamari.png
 common/src/main/resources/assets/suprememc/textures/item/cooked_calamari.png
+```
+
+## Fruit and Vegetable Food
+
+Supply these shared item textures for the food items:
+
+```text
+common/src/main/resources/assets/suprememc/textures/item/grapes.png
+common/src/main/resources/assets/suprememc/textures/item/tomato.png
+common/src/main/resources/assets/suprememc/textures/item/corn.png
+common/src/main/resources/assets/suprememc/textures/block/corn_stalk.png
+common/src/main/resources/assets/suprememc/textures/block/corn_stalk_plant.png
+common/src/main/resources/assets/suprememc/textures/block/grape_vine.png
+common/src/main/resources/assets/suprememc/textures/block/grape_vine_plant.png
 ```
 
 Aquamarine armour uses a SupremeMC equipment asset when worn. Supply these three PNGs to render its custom appearance: `entity/equipment/humanoid/aquamarine.png`, `entity/equipment/humanoid_baby/aquamarine.png`, and `entity/equipment/humanoid_leggings/aquamarine.png`. The first two use the humanoid armour layer layout; the leggings PNG uses the leggings layer layout.

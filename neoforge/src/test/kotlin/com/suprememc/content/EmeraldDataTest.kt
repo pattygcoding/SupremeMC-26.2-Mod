@@ -21,7 +21,7 @@ class EmeraldDataTest : GeneratedDataTestSupport() {
         val emeraldPickaxe = readJson("data/suprememc/recipe/emerald_pickaxe.json")
         assertEquals("suprememc:emerald_pickaxe", emeraldPickaxe.getAsJsonObject("result").get("id").asString)
         val chestplate = readJson("data/suprememc/recipe/chainmail_chestplate.json")
-        assertEquals("minecraft:chain", chestplate.getAsJsonObject("key").get("A").asString)
+        assertEquals("minecraft:iron_chain", chestplate.getAsJsonObject("key").get("C").asString)
         assertEquals("minecraft:chainmail_chestplate", chestplate.getAsJsonObject("result").get("id").asString)
     }
 

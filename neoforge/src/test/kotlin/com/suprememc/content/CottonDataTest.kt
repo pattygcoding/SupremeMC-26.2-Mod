@@ -30,12 +30,23 @@ class CottonDataTest : GeneratedDataTestSupport() {
     @Test
     fun cottonBushesGenerateOnlyInPlainsVariants() {
         val configured = readJson("data/suprememc/worldgen/configured_feature/cotton_bushes.json")
-        assertEquals("minecraft:random_patch", configured.get("type").asString)
+        assertEquals("minecraft:simple_block", configured.get("type").asString)
         assertEquals(
             "suprememc:cotton_bush",
-            configured.getAsJsonObject("config").getAsJsonObject("feature").getAsJsonObject("config")
-                .getAsJsonObject("to_place").getAsJsonObject("state").get("Name").asString
+            configured.getAsJsonObject("config").getAsJsonObject("to_place")
+                .getAsJsonObject("state").get("Name").asString
         )
+
+        val placed = readJson("data/suprememc/worldgen/placed_feature/cotton_bushes.json")
+        assertEquals("suprememc:cotton_bushes", placed.get("feature").asString)
+        val placements = placed.getAsJsonArray("placement").map { it.asJsonObject }
+        // ~half as common as vanilla plains flower patches (see CottonDataProvider comment).
+        assertTrue(placements.any { it.get("type").asString == "minecraft:rarity_filter" && it.get("chance").asInt == 4 })
+        assertTrue(placements.any { it.get("type").asString == "minecraft:count" && it.get("count").asInt == 32 })
+        assertTrue(placements.any { it.get("type").asString == "minecraft:random_offset" })
+        assertTrue(placements.any {
+            it.get("type").asString == "minecraft:block_predicate_filter" && "minecraft:air" in it.toString()
+        })
 
         val modifier = readJson("data/suprememc/neoforge/biome_modifier/add_cotton_bushes.json")
         assertEquals(listOf("minecraft:plains", "minecraft:sunflower_plains"), modifier.getAsJsonArray("biomes").map { it.asString })

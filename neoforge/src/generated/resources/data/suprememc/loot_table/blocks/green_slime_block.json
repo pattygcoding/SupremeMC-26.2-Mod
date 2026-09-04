@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:green_slime_block"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

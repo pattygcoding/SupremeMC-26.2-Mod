@@ -31,4 +31,10 @@ class AbyssaliteDataTest : GeneratedDataTestSupport() {
         assertEquals("suprememc:aquamarine_helmet", smithing.get("base").asString)
         assertEquals("suprememc:abyssalite_ingot", smithing.get("addition").asString)
     }
+
+    @Test
+    fun generatesDiamondTierAbyssaliteMiningTags() {
+        assertTagContains("data/minecraft/tags/block/needs_diamond_tool.json", "suprememc:atlantis_debris", "suprememc:abyssalite_block")
+        assertTagContains("data/minecraft/tags/block/mineable/pickaxe.json", "suprememc:aquamarine_ore", "suprememc:deepslate_aquamarine_ore", "suprememc:aquamarine_block", "suprememc:atlantis_debris", "suprememc:abyssalite_block")
+    }
 }

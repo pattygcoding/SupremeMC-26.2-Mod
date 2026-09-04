@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "minecraft:jungle_bush",
+    "features": [
+      {
+        "chance": 0.33333334,
+        "feature": "suprememc:palm_coconut_bare"
+      },
+      {
+        "chance": 0.5,
+        "feature": "suprememc:swamp_oak_bare"
+      }
+    ]
+  }
+}

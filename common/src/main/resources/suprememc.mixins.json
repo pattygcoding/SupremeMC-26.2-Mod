@@ -5,12 +5,17 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "MixinItemEntity",
+    "MixinPotionItem",
+    "MixinBoneMealItem",
     "AxeItemAccessor",
     "MixinThrownTrident",
     "MixinTridentItem",
     "ThrownTridentAccessor",
     "MixinPlayer",
-    "MixinLivingEntity"
+    "MixinLivingEntity",
+    "MixinOverworldBiomeBuilder",
+    "MixinNoiseBasedChunkGenerator",
+    "MixinPistonStructureResolver"
   ],
   "client": [
     "MixinMinecraft"

@@ -23,11 +23,17 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.biome.Biome;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class SupremeMC implements ModInitializer {
+
+    private static final ResourceKey<Biome> CAYS =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cays"));
 
     @Override
     public void onInitialize() {
@@ -67,6 +73,17 @@ public class SupremeMC implements ModInitializer {
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS),
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cotton_bushes")));
+        // Beach grass grows on both real beach biomes and the custom Cays biome (mirrors the NeoForge biome modifier).
+        Predicate<BiomeSelectionContext> beachOrCays =
+            BiomeSelectors.tag(BiomeTags.IS_BEACH).or(BiomeSelectors.includeByKey(CAYS));
+        BiomeModifications.addFeature(
+            beachOrCays,
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "beach_grass")));
+        BiomeModifications.addFeature(
+            beachOrCays,
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tall_beach_grass")));
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))

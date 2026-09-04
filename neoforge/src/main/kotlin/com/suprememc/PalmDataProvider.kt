@@ -24,9 +24,11 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             writes += save(cache, itemModelDefinition("$namespace:item/$id", tints), resourcePath("items/$id.json"))
         }
         blockModels().forEach { (name, model) -> writes += save(cache, model, resourcePath("models/block/$name.json")) }
-        arrayOf("palm_log", "stripped_palm_log", "palm_wood", "stripped_palm_wood", "palm_planks", "palm_slab", "palm_stairs", "palm_fence", "palm_fence_gate", "palm_door", "palm_trapdoor", "palm_pressure_plate", "palm_button", "palm_sapling").forEach { id ->
+        arrayOf("palm_log", "stripped_palm_log", "palm_wood", "stripped_palm_wood", "palm_planks", "palm_stairs", "palm_fence", "palm_fence_gate", "palm_door", "palm_trapdoor", "palm_pressure_plate", "palm_button", "palm_sapling").forEach { id ->
             writes += save(cache, selfDropLootTable(id), dataPath("loot_table/blocks/$id.json"))
         }
+        // Slabs drop 2 when the placed block is the double variant, matching vanilla oak_slab.json.
+        writes += save(cache, slabLootTable("palm_slab"), dataPath("loot_table/blocks/palm_slab.json"))
         // Wall variants have no item of their own, so they drop the standing sign like vanilla does.
         writes += save(cache, selfDropLootTable("palm_sign"), dataPath("loot_table/blocks/palm_sign.json"))
         writes += save(cache, selfDropLootTable("palm_sign"), dataPath("loot_table/blocks/palm_wall_sign.json"))
@@ -69,13 +71,38 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, hangingSignRecipe(), dataPath("recipe/palm_hanging_sign.json"))
         writes += save(cache, recipeAdvancement("palm_hanging_sign", "misc", "stripped_palm_log"), dataPath("advancement/recipes/misc/palm_hanging_sign.json"))
         writes += save(cache, leavesLoot(), dataPath("loot_table/blocks/palm_leaves.json"))
-        writes += save(cache, valuesTag("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood"), dataPath("tags/block/minecraft_logs.json"))
-        writes += save(cache, valuesTag("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood"), dataPath("tags/item/palm_logs.json"))
+        writeWoodFamilyTags(cache, writes)
         writes += save(cache, valuesTag("$namespace:palm_leaves"), minecraftDataPath("tags/item/leaves.json"))
         writes += save(cache, valuesTag("$namespace:palm_sapling"), minecraftDataPath("tags/item/saplings.json"))
         writeWorldgen(cache, writes)
         writeCoconut(cache, writes)
         return CompletableFuture.allOf(*writes.toTypedArray())
+    }
+
+    // Registers palm blocks/items into vanilla's wood-family tags (mineable/axe is built from these, not written to directly).
+    private fun writeWoodFamilyTags(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
+        val logs = arrayOf("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood")
+        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/block/logs.json"))
+        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/block/logs_that_burn.json"))
+        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/item/logs.json"))
+        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/item/logs_that_burn.json"))
+        listOf(
+            "planks" to "palm_planks",
+            "wooden_slabs" to "palm_slab",
+            "wooden_stairs" to "palm_stairs",
+            "wooden_fences" to "palm_fence",
+            "fence_gates" to "palm_fence_gate",
+            "wooden_doors" to "palm_door",
+            "wooden_trapdoors" to "palm_trapdoor",
+            "wooden_pressure_plates" to "palm_pressure_plate",
+            "wooden_buttons" to "palm_button"
+        ).forEach { (tag, id) ->
+            writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/block/$tag.json"))
+            writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/item/$tag.json"))
+        }
+        writes += save(cache, valuesTag("$namespace:palm_sign", "$namespace:palm_wall_sign"), minecraftDataPath("tags/block/signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_sign"), minecraftDataPath("tags/item/signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_hanging_sign", "$namespace:palm_wall_hanging_sign"), minecraftDataPath("tags/block/all_hanging_signs.json"))
     }
 
     private fun writeCoconut(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {

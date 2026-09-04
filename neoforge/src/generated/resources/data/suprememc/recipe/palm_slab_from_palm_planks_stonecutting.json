@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:palm_planks",
+  "result": {
+    "count": 2,
+    "id": "suprememc:palm_slab"
+  }
+}

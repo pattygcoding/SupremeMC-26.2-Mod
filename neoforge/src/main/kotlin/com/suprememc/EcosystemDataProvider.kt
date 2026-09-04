@@ -60,6 +60,34 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
         })
     }
 
+    /** Vanilla-style slab loot table: drops 2 when the placed block is a double slab (see e.g. ZReference oak_slab.json). */
+    protected fun slabLootTable(id: String) = obj {
+        addProperty("type", "minecraft:block")
+        add("pools", JsonArray().also { pools ->
+            pools.add(obj {
+                addProperty("rolls", 1)
+                add("entries", JsonArray().also { entries ->
+                    entries.add(itemLootEntry(id).also { entry ->
+                        entry.add("functions", JsonArray().also { functions ->
+                            functions.add(obj {
+                                addProperty("function", "minecraft:set_count")
+                                addProperty("count", 2.0)
+                                add("conditions", JsonArray().also { conditions ->
+                                    conditions.add(obj {
+                                        addProperty("condition", "minecraft:block_state_property")
+                                        addProperty("block", "$namespace:$id")
+                                        add("properties", obj { addProperty("type", "double") })
+                                    })
+                                })
+                            })
+                            functions.add(obj { addProperty("function", "minecraft:explosion_decay") })
+                        })
+                    })
+                })
+            })
+        })
+    }
+
     /** Vanilla-style leaves loot table: shears/silk touch drops the leaves, otherwise a fortune-scaled chance of a sapling plus a separate fortune-scaled stick pool (see e.g. ZReference oak_leaves.json). */
     protected fun leavesLootTable(leafId: String, saplingId: String, saplingChances: List<Double>, stickChances: List<Double>) = obj {
         val shearsOrSilkTouch = obj {
@@ -179,12 +207,15 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
     }
 
     protected fun recipeAdvancement(recipe: String, category: String, unlock: String) = obj {
+        // `unlock` may carry an explicit namespace (e.g. "minecraft:emerald") for vanilla unlock items.
+        val unlockId = if (unlock.contains(':')) unlock else "$namespace:$unlock"
+        val criterion = "has_${unlockId.substringAfter(':')}"
         addProperty("parent", "minecraft:recipes/root")
         add("criteria", obj {
-            add("has_$unlock", obj { addProperty("trigger", "minecraft:inventory_changed"); add("conditions", obj { add("items", JsonArray().also { it.add(obj { add("items", JsonArray().also { ids -> ids.add("$namespace:$unlock") }) }) }) }) })
+            add(criterion, obj { addProperty("trigger", "minecraft:inventory_changed"); add("conditions", obj { add("items", JsonArray().also { it.add(obj { add("items", JsonArray().also { ids -> ids.add(unlockId) }) }) }) }) })
             add("has_the_recipe", obj { addProperty("trigger", "minecraft:recipe_unlocked"); add("conditions", obj { addProperty("recipe", "$namespace:$recipe") }) })
         })
-        add("requirements", JsonArray().also { it.add(JsonArray().also { group -> group.add("has_$unlock"); group.add("has_the_recipe") }) })
+        add("requirements", JsonArray().also { it.add(JsonArray().also { group -> group.add(criterion); group.add("has_the_recipe") }) })
         add("rewards", obj { add("recipes", JsonArray().also { it.add("$namespace:$recipe") }) })
     }
 

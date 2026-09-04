@@ -93,7 +93,10 @@ class TextureAndLangCoverageTest {
         // the item renders as the missing-texture placeholder even though the model/texture files exist.
         val blockIds = idsFromDirectory("assets/suprememc/blockstates")
         val plainItemIds = idsFromDirectory("assets/suprememc/models/item")
-        val allItemIds = blockIds + plainItemIds
+        // Blocks whose item form is registered under a different item id need no same-id items/<id>.json
+        // (vanilla precedent: sweet_berry_bush is planted by the sweet_berries item; cotton_bush by cotton).
+        val blockIdsWithDifferentlyNamedItems = setOf("cotton_bush", "tomato_bush")
+        val allItemIds = (blockIds - blockIdsWithDifferentlyNamedItems) + plainItemIds
         assertTrue("Expected to discover at least one registered item") { allItemIds.isNotEmpty() }
 
         allItemIds.forEach { id ->

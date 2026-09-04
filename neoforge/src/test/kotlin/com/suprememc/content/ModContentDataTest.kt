@@ -139,8 +139,8 @@ class ModContentDataTest {
             "data/suprememc/recipe/palm_sign.json",
             "data/suprememc/recipe/palm_boat.json",
             "data/suprememc/loot_table/blocks/palm_leaves.json",
-            "data/suprememc/tags/block/minecraft_logs.json",
-            "data/suprememc/tags/item/palm_logs.json"
+            "data/minecraft/tags/block/logs.json",
+            "data/minecraft/tags/item/logs.json"
         ).forEach(::assertResourceExists)
 
         val logState = readJson("assets/suprememc/blockstates/palm_log.json")

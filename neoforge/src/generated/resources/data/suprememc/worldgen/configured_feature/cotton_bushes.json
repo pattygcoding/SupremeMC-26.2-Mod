@@ -1,19 +1,11 @@
 {
-  "type": "minecraft:random_patch",
+  "type": "minecraft:simple_block",
   "config": {
-    "feature": {
-      "config": {
-        "to_place": {
-          "type": "minecraft:simple_state_provider",
-          "state": {
-            "Name": "suprememc:cotton_bush"
-          }
-        }
-      },
-      "feature": "minecraft:simple_block"
-    },
-    "tries": 32,
-    "xz_spread": 4,
-    "y_spread": 1
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "suprememc:cotton_bush"
+      }
+    }
   }
 }

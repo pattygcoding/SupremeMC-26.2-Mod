@@ -31,6 +31,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -75,6 +76,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.HangingSignBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -88,6 +90,7 @@ import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
@@ -99,6 +102,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.core.BlockPos;
 
 import java.util.List;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -139,18 +143,31 @@ public final class ModContent {
     public static final TagKey<Item> EMERALD_REPAIR_ITEMS = TagKey.create(Registries.ITEM,
         Identifier.fromNamespaceAndPath(Constants.MOD_ID, "emerald_repair_items"));
     public static final ToolMaterial EMERALD_TOOL_MATERIAL = new ToolMaterial(
-        BlockTags.INCORRECT_FOR_IRON_TOOL, 350, 6.5F, 4.0F, 18, EMERALD_REPAIR_ITEMS);
+        BlockTags.INCORRECT_FOR_IRON_TOOL, 
+        380,        // Durability (Iron: 250, Diamond: 1561)
+        6.5F,       // Mining speed (Iron: 6.0F, Diamond: 8.0F)
+        2.5F,       // Base attack damage bonus (Iron: 2.0F, Diamond: 3.0F, Netherite: 4.0F)
+        18,         // Enchantability (Iron: 14)
+        EMERALD_REPAIR_ITEMS
+    );
+
     public static final ArmorMaterial EMERALD_ARMOR_MATERIAL = new ArmorMaterial(
-        26,
+        18,         // Durability multiplier (Iron: 15, Diamond: 33)
         Map.of(
             ArmorType.BOOTS, 2,
             ArmorType.LEGGINGS, 5,
-            ArmorType.CHESTPLATE, 6,
+            ArmorType.CHESTPLATE, 7,  // Bumped to 7 (Iron: 6, Diamond: 8)
             ArmorType.HELMET, 2,
-            ArmorType.BODY, 10),
-        15, SoundEvents.ARMOR_EQUIP_DIAMOND, 1.5F, 0.0F, EMERALD_REPAIR_ITEMS,
-        ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "emerald")));
-
+            ArmorType.BODY, 6         // For wolf/horse body armor if used
+        ),
+        16,         // Enchantability (Iron: 9, Diamond: 10, Gold: 25)
+        SoundEvents.ARMOR_EQUIP_DIAMOND, 
+        0.0F,       // Armor Toughness (Iron: 0.0F, Diamond: 2.0F)
+        0.0F,       // Knockback Resistance (Netherite: 0.1F)
+        EMERALD_REPAIR_ITEMS,
+        ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "emerald"))
+    );
+    
     public static Item AQUAMARINE;
     public static Block AQUAMARINE_ORE;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
@@ -199,6 +216,9 @@ public final class ModContent {
     public static Item COCONUT_SEEDS;
     public static Block COTTON_BUSH;
     public static Item COTTON;
+    public static Block TOMATO_BUSH;
+    public static Block BEACH_GRASS;
+    public static Block TALL_BEACH_GRASS;
     public static EntityType<Boat> PALM_BOAT_ENTITY;
     public static EntityType<ChestBoat> PALM_CHEST_BOAT_ENTITY;
     public static Item PALM_BOAT;
@@ -208,6 +228,7 @@ public final class ModContent {
     public static Item ABYSSALITE_UPGRADE_SMITHING_TEMPLATE;
     public static Block ATLANTIS_DEBRIS;
     public static Block ABYSSALITE_BLOCK;
+    public static Block ICICLE;
 
     public static Item AQUAMARINE_PICKAXE;
     public static Item AQUAMARINE_AXE;
@@ -241,6 +262,17 @@ public final class ModContent {
     public static Item EMERALD_BOOTS;
     public static Item CALAMARI;
     public static Item COOKED_CALAMARI;
+    public static Item GRAPES;
+    public static Item TOMATO;
+    public static Item CORN;
+    public static Block GRAPE_VINE;
+    public static Block GRAPE_VINE_PLANT;
+    public static Block CORN_STALK;
+    public static Block CORN_STALK_PLANT;
+    // Dyed variants: one glowblock (glowstone parity) and one slime block (see MixinPistonStructureResolver
+    // for the same-color-only sticky behavior) per DyeColor.
+    public static final Map<DyeColor, Block> GLOW_BLOCKS = new EnumMap<>(DyeColor.class);
+    public static final Map<DyeColor, Block> SLIME_BLOCKS = new EnumMap<>(DyeColor.class);
 
     public static void bootstrap() {
         if (registered) {
@@ -261,6 +293,8 @@ public final class ModContent {
             .mapColor(MapColor.COLOR_BLACK).sound(SoundType.METAL).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
         ABYSSALITE_BLOCK = registerBlock("abyssalite_block", new Block(blockProperties("abyssalite_block")
             .mapColor(MapColor.COLOR_BLUE).sound(SoundType.METAL).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        ICICLE = registerBlock("icicle", new PointedDripstoneBlock(Blocks.DRIPSTONE_BLOCK.defaultBlockState(), blockProperties("icicle")
+            .mapColor(MapColor.COLOR_LIGHT_BLUE).sound(SoundType.POINTED_DRIPSTONE).strength(1.5F, 3.0F).noOcclusion()));
 
         PALM_LOG = registerBlock("palm_log", new RotatedPillarBlock(blockProperties("palm_log").mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2.0F, 2.0F)));
         STRIPPED_PALM_LOG = registerBlock("stripped_palm_log", new RotatedPillarBlock(blockProperties("stripped_palm_log").mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2.0F, 2.0F)));
@@ -284,6 +318,29 @@ public final class ModContent {
         POTTED_PALM_SAPLING = registerBlock("potted_palm_sapling", new FlowerPotBlock(PALM_SAPLING, blockProperties("potted_palm_sapling").mapColor(MapColor.COLOR_BLACK).sound(SoundType.STONE).strength(0.0F).noOcclusion()));
         COCONUT = registerBlock("coconut", new CoconutBlock(blockProperties("coconut").mapColor(MapColor.PLANT).sound(SoundType.WOOD).strength(0.2F, 3.0F).randomTicks().noCollision()));
         COTTON_BUSH = registerBlock("cotton_bush", new CottonBushBlock(blockProperties("cotton_bush").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.2F).randomTicks().noCollision()));
+        TOMATO_BUSH = registerBlock("tomato_bush", new TomatoBushBlock(blockProperties("tomato_bush").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.2F).randomTicks().noCollision()));
+        BEACH_GRASS = registerBlock("beach_grass", new BeachGrassBlock(blockProperties("beach_grass").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+        TALL_BEACH_GRASS = registerBlock("tall_beach_grass", new TallBeachGrassBlock(blockProperties("tall_beach_grass").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+        GRAPE_VINE = registerBlock("grape_vine", new GrapeVineBlock(blockProperties("grape_vine").mapColor(MapColor.PLANT).sound(SoundType.WEEPING_VINES).strength(0.2F).noCollision().noOcclusion().randomTicks()));
+        GRAPE_VINE_PLANT = registerBlock("grape_vine_plant", new GrapeVinePlantBlock(blockProperties("grape_vine_plant").mapColor(MapColor.PLANT).sound(SoundType.WEEPING_VINES).strength(0.2F).noCollision().noOcclusion()));
+        CORN_STALK = registerBlock("corn_stalk", new CornStalkBlock(blockProperties("corn_stalk").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion().randomTicks()));
+        CORN_STALK_PLANT = registerBlock("corn_stalk_plant", new CornStalkPlantBlock(blockProperties("corn_stalk_plant").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+
+        for (DyeColor color : DyeColor.values()) {
+            String name = color.getSerializedName();
+            // Same properties as vanilla glowstone (mapColor/instrument/strength/sound/lightLevel/isRedstoneConductor).
+            Block glowBlock = registerBlock(name + "_glowblock", new Block(blockProperties(name + "_glowblock")
+                .mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS)
+                .lightLevel(state -> 15).isRedstoneConductor((state, level, pos) -> false)));
+            GLOW_BLOCKS.put(color, glowBlock);
+            registerBlockItem(name + "_glowblock", glowBlock);
+
+            // Same properties as vanilla slime block; stickiness restricted to same color via MixinPistonStructureResolver.
+            Block slimeBlock = registerBlock(name + "_slime_block", new ColoredSlimeBlock(color, blockProperties(name + "_slime_block")
+                .mapColor(MapColor.GRASS).friction(0.8F).bounceRestitution(1.0F).sound(SoundType.SLIME_BLOCK).noOcclusion()));
+            SLIME_BLOCKS.put(color, slimeBlock);
+            registerBlockItem(name + "_slime_block", slimeBlock);
+        }
 
         Map<Block, Block> strippables = new HashMap<>(AxeItemAccessor.getStrippables());
         strippables.put(PALM_LOG, STRIPPED_PALM_LOG);
@@ -320,6 +377,7 @@ public final class ModContent {
         registerBlockItem("wet_farmland", WET_FARMLAND);
         registerBlockItem("atlantis_debris", ATLANTIS_DEBRIS);
         registerBlockItem("abyssalite_block", ABYSSALITE_BLOCK);
+        registerBlockItem("icicle", ICICLE);
         registerBlockItem("palm_log", PALM_LOG);
         registerBlockItem("stripped_palm_log", STRIPPED_PALM_LOG);
         registerBlockItem("palm_wood", PALM_WOOD);
@@ -347,10 +405,18 @@ public final class ModContent {
                     .build())));
         COCONUT_SEEDS = registerItem("coconut_seeds", new BlockItem(COCONUT, itemProperties("coconut_seeds").stacksTo(64)));
         COTTON = registerItem("cotton", new BlockItem(COTTON_BUSH, itemProperties("cotton").stacksTo(64)));
+        registerBlockItem("beach_grass", BEACH_GRASS);
+        registerBlockItem("tall_beach_grass", TALL_BEACH_GRASS);
         CALAMARI = registerItem("calamari", new Item(itemProperties("calamari").stacksTo(64)
             .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
         COOKED_CALAMARI = registerItem("cooked_calamari", new Item(itemProperties("cooked_calamari").stacksTo(64)
             .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(6).saturationModifier(0.8F).build())));
+        GRAPES = registerItem("grapes", new BlockItem(GRAPE_VINE, itemProperties("grapes").stacksTo(64)
+            .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+        TOMATO = registerItem("tomato", new BlockItem(TOMATO_BUSH, itemProperties("tomato").stacksTo(64)
+            .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+        CORN = registerItem("corn", new BlockItem(CORN_STALK, itemProperties("corn").stacksTo(64)
+            .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
 
         PALM_BOAT = registerItem("palm_boat", new net.minecraft.world.item.BoatItem(PALM_BOAT_ENTITY, itemProperties("palm_boat")));
         PALM_CHEST_BOAT = registerItem("palm_chest_boat", new net.minecraft.world.item.BoatItem(PALM_CHEST_BOAT_ENTITY, itemProperties("palm_chest_boat")));
@@ -388,10 +454,10 @@ public final class ModContent {
         ABYSSALITE_TRIDENT = registerItem("abyssalite_trident", new AbyssaliteTridentItem(
             itemProperties("abyssalite_trident").durability(750).repairable(ABYSSALITE_REPAIR_ITEMS)));
 
-        EMERALD_PICKAXE = registerItem("emerald_pickaxe", new Item(itemProperties("emerald_pickaxe").pickaxe(EMERALD_TOOL_MATERIAL, 1, -2.8F)));
-        EMERALD_AXE = registerItem("emerald_axe", new AxeItem(EMERALD_TOOL_MATERIAL, 5.0F, -3.0F, itemProperties("emerald_axe")));
+        EMERALD_PICKAXE = registerItem("emerald_pickaxe", new Item(itemProperties("emerald_pickaxe").pickaxe(EMERALD_TOOL_MATERIAL, 1.0F, -2.8F)));
+        EMERALD_AXE = registerItem("emerald_axe", new AxeItem(EMERALD_TOOL_MATERIAL, 6.0F, -3.1F, itemProperties("emerald_axe")));
         EMERALD_SHOVEL = registerItem("emerald_shovel", new ShovelItem(EMERALD_TOOL_MATERIAL, 1.5F, -3.0F, itemProperties("emerald_shovel")));
-        EMERALD_HOE = registerItem("emerald_hoe", new HoeItem(EMERALD_TOOL_MATERIAL, 0.0F, 0.0F, itemProperties("emerald_hoe")));
+        EMERALD_HOE = registerItem("emerald_hoe", new HoeItem(EMERALD_TOOL_MATERIAL, -2.0F, -1.0F, itemProperties("emerald_hoe")));
         EMERALD_SWORD = registerItem("emerald_sword", new Item(itemProperties("emerald_sword").sword(EMERALD_TOOL_MATERIAL, 3, -2.4F)));
         EMERALD_HELMET = registerItem("emerald_helmet", new EmeraldArmorItem("emerald_helmet", ArmorType.HELMET));
         EMERALD_CHESTPLATE = registerItem("emerald_chestplate", new EmeraldArmorItem("emerald_chestplate", ArmorType.CHESTPLATE));
@@ -405,8 +471,13 @@ public final class ModContent {
                 EMERALD_HELMET, EMERALD_CHESTPLATE, EMERALD_LEGGINGS, EMERALD_BOOTS));
         CREATIVE_TAB_ITEMS.addAll(List.of(PALM_LOG, STRIPPED_PALM_LOG, PALM_WOOD, STRIPPED_PALM_WOOD, PALM_PLANKS, PALM_SLAB, PALM_STAIRS, PALM_FENCE, PALM_FENCE_GATE,
                 PALM_DOOR, PALM_TRAPDOOR, PALM_PRESSURE_PLATE, PALM_BUTTON, PALM_SIGN, PALM_HANGING_SIGN,
-            PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS, COTTON, CALAMARI, COOKED_CALAMARI));
+            PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS, COTTON, CALAMARI, COOKED_CALAMARI,
+            GRAPES, TOMATO, CORN));
+        CREATIVE_TAB_ITEMS.addAll(List.of(BEACH_GRASS, TALL_BEACH_GRASS));
+        CREATIVE_TAB_ITEMS.addAll(GLOW_BLOCKS.values());
+        CREATIVE_TAB_ITEMS.addAll(SLIME_BLOCKS.values());
         CREATIVE_TAB_ITEMS.addAll(List.of(ATLANTIS_DEBRIS, ABYSSALITE_BLOCK, ABYSSALITE_SCRAP, ABYSSALITE_INGOT,
+            ICICLE,
                 ABYSSALITE_UPGRADE_SMITHING_TEMPLATE, ABYSSALITE_PICKAXE, ABYSSALITE_AXE, ABYSSALITE_SHOVEL,
                 ABYSSALITE_HOE, ABYSSALITE_SWORD, ABYSSALITE_HELMET, ABYSSALITE_CHESTPLATE, ABYSSALITE_LEGGINGS,
                 ABYSSALITE_BOOTS, ABYSSALITE_TRIDENT));

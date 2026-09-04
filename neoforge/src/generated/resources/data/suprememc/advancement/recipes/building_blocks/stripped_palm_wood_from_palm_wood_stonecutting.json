@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_palm_wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": "suprememc:palm_wood"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suprememc:stripped_palm_wood_from_palm_wood_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_palm_wood"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suprememc:stripped_palm_wood_from_palm_wood_stonecutting"
+    ]
+  }
+}

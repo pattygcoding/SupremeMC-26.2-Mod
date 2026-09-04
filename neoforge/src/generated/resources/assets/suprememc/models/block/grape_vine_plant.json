@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "suprememc:block/grape_vine_plant"
+  }
+}

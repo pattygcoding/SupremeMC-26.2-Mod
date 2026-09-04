@@ -5,6 +5,24 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "conditions": [
+                {
+                  "block": "suprememc:palm_slab",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "type": "double"
+                  }
+                }
+              ],
+              "count": 2.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
           "name": "suprememc:palm_slab"
         }
       ],

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:grapes"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "suprememc:blocks/grape_vine"
+}

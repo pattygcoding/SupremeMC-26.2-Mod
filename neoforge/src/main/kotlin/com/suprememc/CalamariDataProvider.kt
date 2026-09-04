@@ -8,7 +8,7 @@ import net.minecraft.data.PackOutput
 import java.util.concurrent.CompletableFuture
 
 class CalamariDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
-    private val items = arrayOf("calamari", "cooked_calamari")
+    private val items = arrayOf("calamari", "cooked_calamari", "grapes", "tomato", "corn")
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
@@ -62,7 +62,7 @@ class CalamariDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         if (condition != null) add("conditions", array(condition))
         add("functions", JsonArray().also { functions ->
             functions.add(obj { addProperty("function", "minecraft:set_count"); add("count", obj { addProperty("type", "minecraft:uniform"); addProperty("min", 1); addProperty("max", 2) }) })
-            functions.add(obj { addProperty("function", "minecraft:looting_enchant"); addProperty("count", 1) })
+            functions.add(obj { addProperty("function", "minecraft:enchanted_count_increase"); addProperty("enchantment", "minecraft:looting"); addProperty("count", 1) })
         })
     }
 

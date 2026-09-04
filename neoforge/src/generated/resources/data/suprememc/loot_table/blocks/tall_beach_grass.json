@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "items": "minecraft:shears"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "count": 2,
+                  "function": "minecraft:set_count"
+                }
+              ],
+              "name": "suprememc:beach_grass"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                },
+                {
+                  "chance": 0.125,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "name": "minecraft:wheat_seeds"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "suprememc:blocks/tall_beach_grass"
+}

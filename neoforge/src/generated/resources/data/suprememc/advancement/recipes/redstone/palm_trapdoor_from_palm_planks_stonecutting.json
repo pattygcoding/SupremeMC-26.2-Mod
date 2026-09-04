@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_palm_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "suprememc:palm_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suprememc:palm_trapdoor_from_palm_planks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_palm_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suprememc:palm_trapdoor_from_palm_planks_stonecutting"
+    ]
+  }
+}

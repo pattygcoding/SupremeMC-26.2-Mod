@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:palm_planks",
+  "result": {
+    "count": 1,
+    "id": "suprememc:palm_boat"
+  }
+}

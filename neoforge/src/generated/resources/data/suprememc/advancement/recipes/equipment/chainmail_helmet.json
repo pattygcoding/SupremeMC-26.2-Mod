@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chain": {
+    "has_iron_chain": {
       "conditions": {
         "items": [
           {
             "items": [
-              "suprememc:chain"
+              "minecraft:iron_chain"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_chain",
+      "has_iron_chain",
       "has_the_recipe"
     ]
   ],

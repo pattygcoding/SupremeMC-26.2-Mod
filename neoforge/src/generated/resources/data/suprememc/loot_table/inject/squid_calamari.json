@@ -30,7 +30,8 @@
                 },
                 {
                   "count": 1,
-                  "function": "minecraft:looting_enchant"
+                  "enchantment": "minecraft:looting",
+                  "function": "minecraft:enchanted_count_increase"
                 }
               ],
               "name": "suprememc:cooked_calamari"
@@ -62,7 +63,8 @@
                 },
                 {
                   "count": 1,
-                  "function": "minecraft:looting_enchant"
+                  "enchantment": "minecraft:looting",
+                  "function": "minecraft:enchanted_count_increase"
                 }
               ],
               "name": "suprememc:calamari"

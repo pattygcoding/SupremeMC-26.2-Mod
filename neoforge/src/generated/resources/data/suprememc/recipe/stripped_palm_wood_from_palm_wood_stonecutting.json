@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:palm_wood",
+  "result": {
+    "count": 1,
+    "id": "suprememc:stripped_palm_wood"
+  }
+}

@@ -15,6 +15,8 @@ class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         }
         writes += save(cache, flatItemModel("$namespace:item/cotton"), resourcePath("models/item/cotton.json"))
         writes += save(cache, itemModelDefinition("$namespace:item/cotton"), resourcePath("items/cotton.json"))
+        // Datagen-only: cotton_bush has no BlockItem, but assets/<ns>/items/<id>.json must resolve for every blockstate.
+        writes += save(cache, itemModelDefinition("$namespace:block/cotton_bush_stage3"), resourcePath("items/cotton_bush.json"))
         writes += save(cache, cottonLoot(), dataPath("loot_table/blocks/cotton_bush.json"))
         writes += save(cache, cottonLoot(), dataPath("loot_table/harvest/cotton_bush.json"))
         writes += save(cache, cottonPatch(), dataPath("worldgen/configured_feature/cotton_bushes.json"))
@@ -70,19 +72,11 @@ class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     }
 
     private fun cottonPatch() = obj {
-        addProperty("type", "minecraft:random_patch")
+        addProperty("type", "minecraft:simple_block")
         add("config", obj {
-            addProperty("tries", 32)
-            addProperty("xz_spread", 4)
-            addProperty("y_spread", 1)
-            add("feature", obj {
-                addProperty("feature", "minecraft:simple_block")
-                add("config", obj {
-                    add("to_place", obj {
-                        addProperty("type", "minecraft:simple_state_provider")
-                        add("state", obj { addProperty("Name", "$namespace:cotton_bush") })
-                    })
-                })
+            add("to_place", obj {
+                addProperty("type", "minecraft:simple_state_provider")
+                add("state", obj { addProperty("Name", "$namespace:cotton_bush") })
             })
         })
     }
@@ -90,11 +84,30 @@ class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private fun cottonPlacement() = obj {
         addProperty("feature", "$namespace:cotton_bushes")
         add("placement", JsonArray().also { placement ->
-            placement.add(obj { addProperty("type", "minecraft:rarity_filter"); addProperty("chance", 8) })
+            // Vanilla plains flower patches: noise_threshold_count(~11.5 avg) x rarity_filter 32 ≈ 0.36 patches/chunk.
+            // 1 attempt x rarity_filter 4 = 0.25 patches/chunk ≈ half as common, while keeping each patch dense.
+            placement.add(obj { addProperty("type", "minecraft:rarity_filter"); addProperty("chance", 4) })
             placement.add(obj { addProperty("type", "minecraft:in_square") })
             placement.add(obj { addProperty("type", "minecraft:heightmap"); addProperty("heightmap", "MOTION_BLOCKING") })
             placement.add(obj { addProperty("type", "minecraft:biome") })
+            placement.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 32) })
+            placement.add(obj {
+                addProperty("type", "minecraft:random_offset")
+                add("xz_spread", trapezoid(4))
+                add("y_spread", trapezoid(1))
+            })
+            placement.add(obj {
+                addProperty("type", "minecraft:block_predicate_filter")
+                add("predicate", obj { addProperty("type", "minecraft:matching_block_tag"); addProperty("tag", "minecraft:air") })
+            })
         })
+    }
+
+    private fun trapezoid(spread: Int) = obj {
+        addProperty("type", "minecraft:trapezoid")
+        addProperty("max", spread)
+        addProperty("min", -spread)
+        addProperty("plateau", 0)
     }
 
     private fun plainsBiomeModifier() = obj {

@@ -30,12 +30,12 @@ class EmeraldDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             "emerald_pickaxe", "emerald_axe", "emerald_shovel", "emerald_hoe", "emerald_sword",
             "emerald_helmet", "emerald_chestplate", "emerald_leggings", "emerald_boots"
         ).forEach { id ->
-            writes += save(cache, recipeAdvancement(id, "equipment", "emerald"), dataPath("advancement/recipes/equipment/$id.json"))
+            writes += save(cache, recipeAdvancement(id, "equipment", "minecraft:emerald"), dataPath("advancement/recipes/equipment/$id.json"))
         }
 
         listOf("chainmail_helmet", "chainmail_chestplate", "chainmail_leggings", "chainmail_boots").forEach { id ->
             writes += save(cache, chainmailRecipe(id), dataPath("recipe/$id.json"))
-            writes += save(cache, recipeAdvancement(id, "equipment", "chain"), dataPath("advancement/recipes/equipment/$id.json"))
+            writes += save(cache, recipeAdvancement(id, "equipment", "minecraft:iron_chain"), dataPath("advancement/recipes/equipment/$id.json"))
         }
 
         return CompletableFuture.allOf(*writes.toTypedArray())
@@ -76,7 +76,7 @@ class EmeraldDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             else -> arrayOf("C C", "C C")
         }
         add("pattern", JsonArray().also { pattern.forEach(it::add) })
-        add("key", obj { addProperty("A", "minecraft:chain") })
+        add("key", obj { addProperty("C", "minecraft:iron_chain") })
         add("result", obj { addProperty("id", "minecraft:$result"); addProperty("count", 1) })
     }
 

@@ -19,7 +19,7 @@ class CalamariDataTest : GeneratedDataTestSupport() {
     @Test
     fun injectsFortuneScaledCalamariDropsForBothSquidVariants() {
         val squid = readJson("data/suprememc/loot_table/inject/squid_calamari.json").toString()
-        assertTrue("cooked_calamari" in squid && "is_on_fire" in squid && "minecraft:looting_enchant" in squid)
+        assertTrue("cooked_calamari" in squid && "is_on_fire" in squid && "minecraft:enchanted_count_increase" in squid)
         val glowSquid = readJson("data/suprememc/loot_table/inject/glow_squid_calamari.json").toString()
         assertTrue("calamari" in glowSquid && "cooked_calamari" !in glowSquid)
         assertResourceExists("data/suprememc/loot_modifiers/add_calamari_to_squid.json")
