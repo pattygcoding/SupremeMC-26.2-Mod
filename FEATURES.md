@@ -1,5 +1,6 @@
 - Icicles use the same placement, growth, breaking, and fluid-transfer behavior as pointed dripstone, with custom icicle textures.
 - Cold biomes generate Ice Caves instead of Dripstone Caves underground: packed ice clusters replace dripstone clusters and icicles replace pointed dripstone. Giant dripstone-block pillars do not spawn in Ice Caves.
+- Drowned spawn weights match Bedrock in rivers, Dripstone Caves, Ice Caves, all ocean biomes, and Frozen Rivers: 100, 100, 100, and 5 respectively.
 - Custom enchantments: Bounty, Venom, Decay, and Wisdom are available as data-driven enchantments with their specified levels, weights, costs, equipment targets, localization, and incompatibility groups.
 - Venom applies Poison I for 3 seconds at level I and 6 seconds at level II after a direct melee hit, following vanilla effect-immunity rules.
 - Decay applies lethal Wither I for 2 seconds at level I and 4 seconds at level II after a direct melee hit.

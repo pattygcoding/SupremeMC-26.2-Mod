@@ -1,16 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
+  "group": "wooden_door",
   "key": {
-    "P": "suprememc:palm_planks"
+    "#": "minecraft:warped_planks"
   },
   "pattern": [
-    "PP",
-    "PP",
-    "PP"
+    "##",
+    "##",
+    "##"
   ],
   "result": {
     "count": 2,
-    "id": "suprememc:palm_door"
+    "id": "minecraft:warped_door"
   }
 }

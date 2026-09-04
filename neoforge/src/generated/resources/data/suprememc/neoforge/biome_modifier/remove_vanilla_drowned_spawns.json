@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:remove_spawns",
+  "biomes": [
+    "#minecraft:is_ocean",
+    "minecraft:river",
+    "minecraft:dripstone_caves",
+    "minecraft:frozen_river",
+    "suprememc:ice_caves"
+  ],
+  "entity_types": "minecraft:drowned"
+}

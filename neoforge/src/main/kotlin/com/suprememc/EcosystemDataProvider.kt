@@ -199,6 +199,15 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
         add("result", itemResult(result))
     }
 
+    protected fun minecraftShapedRecipe(result: String, count: Int, category: String, pattern: Array<String>, key: String, ingredient: String, group: String? = null) = obj {
+        addProperty("type", "minecraft:crafting_shaped")
+        addProperty("category", category)
+        if (group != null) addProperty("group", group)
+        add("pattern", JsonArray().also { pattern.forEach(it::add) })
+        add("key", obj { addProperty(key, "minecraft:$ingredient") })
+        add("result", minecraftItemResult(result, count))
+    }
+
     protected fun shapelessRecipe(result: String, count: Int, ingredient: String) = obj {
         addProperty("type", "minecraft:crafting_shapeless")
         addProperty("category", "misc")

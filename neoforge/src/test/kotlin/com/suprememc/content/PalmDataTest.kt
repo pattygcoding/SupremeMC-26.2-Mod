@@ -124,6 +124,20 @@ class PalmDataTest : GeneratedDataTestSupport() {
     }
 
     @Test
+    fun doorRecipesGiveCountOfTwo() {
+        val woodenDoors = listOf("oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry", "pale_oak", "bamboo", "crimson", "warped")
+        val vanillaDoors = woodenDoors + listOf("iron", "copper")
+        vanillaDoors.forEach { wood ->
+            val recipe = readJson("data/minecraft/recipe/${wood}_door.json")
+            assertEquals("minecraft:${wood}_door", recipe.getAsJsonObject("result").get("id").asString)
+            assertEquals(2, recipe.getAsJsonObject("result").get("count").asInt)
+        }
+        val palmDoorRecipe = readJson("data/suprememc/recipe/palm_door.json")
+        assertEquals("suprememc:palm_door", palmDoorRecipe.getAsJsonObject("result").get("id").asString)
+        assertEquals(2, palmDoorRecipe.getAsJsonObject("result").get("count").asInt)
+    }
+
+    @Test
     fun palmTreesGenerateOnEveryWarmBeachAndHalfOfTemperateBeaches() {
         val warm = readJson("data/suprememc/worldgen/placed_feature/palm_trees_warm.json")
         val temperate = readJson("data/suprememc/worldgen/placed_feature/palm_trees_temperate.json")

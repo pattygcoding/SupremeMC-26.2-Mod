@@ -72,6 +72,7 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, recipeAdvancement("palm_hanging_sign", "misc", "stripped_palm_log"), dataPath("advancement/recipes/misc/palm_hanging_sign.json"))
         writes += save(cache, leavesLoot(), dataPath("loot_table/blocks/palm_leaves.json"))
         writeWoodFamilyTags(cache, writes)
+        writeVanillaDoorRecipes(cache, writes)
         writes += save(cache, valuesTag("$namespace:palm_leaves"), minecraftDataPath("tags/item/leaves.json"))
         writes += save(cache, valuesTag("$namespace:palm_sapling"), minecraftDataPath("tags/item/saplings.json"))
         writeWorldgen(cache, writes)
@@ -103,6 +104,16 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, valuesTag("$namespace:palm_sign", "$namespace:palm_wall_sign"), minecraftDataPath("tags/block/signs.json"))
         writes += save(cache, valuesTag("$namespace:palm_sign"), minecraftDataPath("tags/item/signs.json"))
         writes += save(cache, valuesTag("$namespace:palm_hanging_sign", "$namespace:palm_wall_hanging_sign"), minecraftDataPath("tags/block/all_hanging_signs.json"))
+    }
+
+    private fun writeVanillaDoorRecipes(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
+        val woodenDoors = listOf("oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry", "pale_oak", "bamboo", "crimson", "warped")
+        woodenDoors.forEach { wood ->
+            val recipe = minecraftShapedRecipe("${wood}_door", 2, "redstone", arrayOf("##", "##", "##"), "#", "${wood}_planks", group = "wooden_door")
+            writes += save(cache, recipe, minecraftDataPath("recipe/${wood}_door.json"))
+        }
+        writes += save(cache, minecraftShapedRecipe("iron_door", 2, "redstone", arrayOf("##", "##", "##"), "#", "iron_ingot"), minecraftDataPath("recipe/iron_door.json"))
+        writes += save(cache, minecraftShapedRecipe("copper_door", 2, "redstone", arrayOf("##", "##", "##"), "#", "copper_ingot"), minecraftDataPath("recipe/copper_door.json"))
     }
 
     private fun writeCoconut(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
@@ -389,7 +400,7 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private fun stairsRecipe() = shapedRecipe("palm_stairs", "building", arrayOf("P  ", "PP ", "PPP"), "P", "palm_planks")
     private fun fenceRecipe() = shapedRecipe("palm_fence", "building", arrayOf("PSP", "PSP"), "P", "palm_planks").apply { getAsJsonObject("key").addProperty("S", "minecraft:stick") }
     private fun fenceGateRecipe() = shapedRecipe("palm_fence_gate", "redstone", arrayOf("SPS", "SPS"), "P", "palm_planks").apply { getAsJsonObject("key").addProperty("S", "minecraft:stick") }
-    private fun doorRecipe() = shapedRecipe("palm_door", "redstone", arrayOf("PP", "PP", "PP"), "P", "palm_planks").apply { getAsJsonObject("result").addProperty("count", 3) }
+    private fun doorRecipe() = shapedRecipe("palm_door", "redstone", arrayOf("PP", "PP", "PP"), "P", "palm_planks").apply { getAsJsonObject("result").addProperty("count", 2) }
     private fun trapdoorRecipe() = shapedRecipe("palm_trapdoor", "redstone", arrayOf("PPP", "PPP"), "P", "palm_planks").apply { getAsJsonObject("result").addProperty("count", 2) }
     private fun pressurePlateRecipe() = shapedRecipe("palm_pressure_plate", "redstone", arrayOf("PP"), "P", "palm_planks")
     private fun buttonRecipe() = shapedRecipe("palm_button", "redstone", arrayOf("P"), "P", "palm_planks")

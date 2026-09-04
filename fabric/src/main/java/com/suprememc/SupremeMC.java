@@ -16,6 +16,8 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -84,6 +86,7 @@ public class SupremeMC implements ModInitializer {
             beachOrCays,
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tall_beach_grass")));
+        registerDrownedSpawns();
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
@@ -95,6 +98,36 @@ public class SupremeMC implements ModInitializer {
 
         registerLootInjections();
     }
+
+        private static void registerDrownedSpawns() {
+        Predicate<BiomeSelectionContext> river = BiomeSelectors.includeByKey(Biomes.RIVER);
+        Predicate<BiomeSelectionContext> frozenRiver = BiomeSelectors.includeByKey(Biomes.FROZEN_RIVER);
+        Predicate<BiomeSelectionContext> dripstoneCaves = BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES);
+        Predicate<BiomeSelectionContext> iceCaves = BiomeSelectors.includeByKey(ResourceKey.create(
+            Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "ice_caves")));
+        Predicate<BiomeSelectionContext> oceans = BiomeSelectors.tag(BiomeTags.IS_OCEAN);
+
+        BiomeModifications.create(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "drowned_spawns"))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS, river,
+                context -> replaceDrownedSpawn(context, 100, 1, 1))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS, dripstoneCaves,
+                context -> replaceDrownedSpawn(context, 100, 4, 4))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS, iceCaves,
+                context -> replaceDrownedSpawn(context, 100, 4, 4))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS, oceans,
+                context -> replaceDrownedSpawn(context, 100, 1, 1))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS, frozenRiver,
+                context -> replaceDrownedSpawn(context, 5, 1, 1));
+        }
+
+        private static void replaceDrownedSpawn(net.fabricmc.fabric.api.biome.v1.BiomeModificationContext context,
+                            int weight, int minCount, int maxCount) {
+        context.getMobSpawnSettings().removeSpawnsOfEntityType(EntityType.DROWNED);
+        context.getMobSpawnSettings().addSpawn(
+            MobCategory.MONSTER,
+            new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(EntityType.DROWNED, minCount, maxCount),
+            weight);
+        }
 
     private static void registerLootInjections() {
         Map<ResourceKey<LootTable>, ResourceKey<LootTable>> injections = new HashMap<>();

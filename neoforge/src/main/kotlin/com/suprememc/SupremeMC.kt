@@ -64,6 +64,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(TomatoDataProvider(output))
             event.addProvider(BeachGrassDataProvider(output))
             event.addProvider(CalamariDataProvider(output))
+                event.addProvider(DrownedDataProvider(output))
                event.addProvider(EnchantmentDataProvider(output))
             event.addProvider(FloridaPlainsDataProvider(output))
             event.addProvider(CaysDataProvider(output))
