@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import com.suprememc.content.ModContent;
 import com.suprememc.loot.ModLootInjections;
 import net.minecraft.core.Registry;
@@ -20,7 +21,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
@@ -47,6 +47,10 @@ public class SupremeMC implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
+        FabricDefaultAttributeRegistry.register(ModContent.GRIZZLY_BEAR_ENTITY,
+            net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes());
+        FabricDefaultAttributeRegistry.register(ModContent.FIRE_CREEPER_ENTITY,
+            net.minecraft.world.entity.monster.Creeper.createAttributes());
         // Vanilla's sign block entities only accept their hardcoded block list, so opt the palm signs in.
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_WALL_SIGN);
@@ -87,6 +91,7 @@ public class SupremeMC implements ModInitializer {
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tall_beach_grass")));
         registerDrownedSpawns();
+        registerFireCreeperSpawns();
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
@@ -123,12 +128,27 @@ public class SupremeMC implements ModInitializer {
         private static void replaceDrownedSpawn(net.fabricmc.fabric.api.biome.v1.BiomeModificationContext context,
                             int weight, int minCount, int maxCount) {
             EntityType<?> drowned = BuiltInRegistries.ENTITY_TYPE.get(
-                Identifier.fromNamespaceAndPath("minecraft", "drowned")).orElseThrow();
+                Identifier.fromNamespaceAndPath("minecraft", "drowned")).orElseThrow().value();
             context.getMobSpawnSettings().removeSpawnsOfEntityType(drowned);
         context.getMobSpawnSettings().addSpawn(
             MobCategory.MONSTER,
                 new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(drowned, minCount, maxCount),
             weight);
+        }
+
+        private static void registerFireCreeperSpawns() {
+        BiomeModifications.create(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper_spawns"))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.ADDITIONS,
+                BiomeSelectors.includeByKey(
+                    Biomes.NETHER_WASTES,
+                    Biomes.SOUL_SAND_VALLEY,
+                    Biomes.CRIMSON_FOREST,
+                    Biomes.BASALT_DELTAS),
+                context -> context.getMobSpawnSettings().addSpawn(
+                    MobCategory.MONSTER,
+                    new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
+                        ModContent.FIRE_CREEPER_ENTITY, 1, 2),
+                    25));
         }
 
     private static void registerLootInjections() {

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:aquamarine_stairs"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

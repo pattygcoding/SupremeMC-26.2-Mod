@@ -9,6 +9,7 @@
     "MixinBoneMealItem",
     "AxeItemAccessor",
     "MixinThrownTrident",
+    "MixinEntityTypePredicate",
     "MixinTridentItem",
     "ThrownTridentAccessor",
     "MixinPlayer",

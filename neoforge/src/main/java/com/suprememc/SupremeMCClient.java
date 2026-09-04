@@ -2,6 +2,8 @@ package com.suprememc;
 
 import com.suprememc.client.AbyssaliteTridentRenderer;
 import com.suprememc.client.AbyssaliteTridentSpecialRenderer;
+import com.suprememc.client.FireCreeperRenderer;
+import com.suprememc.client.GrizzlyBearRenderer;
 import com.suprememc.content.ModContent;
 import java.util.List;
 import net.neoforged.api.distmarker.Dist;
@@ -22,6 +24,8 @@ public final class SupremeMCClient {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModContent.ABYSSALITE_TRIDENT_ENTITY, AbyssaliteTridentRenderer::new);
+        event.registerEntityRenderer(ModContent.GRIZZLY_BEAR_ENTITY, GrizzlyBearRenderer::new);
+        event.registerEntityRenderer(ModContent.FIRE_CREEPER_ENTITY, FireCreeperRenderer::new);
         event.registerEntityRenderer(ModContent.PALM_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         event.registerEntityRenderer(ModContent.PALM_CHEST_BOAT_ENTITY,

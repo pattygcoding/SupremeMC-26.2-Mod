@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "minecraft:aquamarine_block",
+  "result": {
+    "count": 1,
+    "id": "suprememc:aquamarine_stairs"
+  }
+}

@@ -2,6 +2,8 @@ package com.suprememc;
 
 import com.suprememc.client.AbyssaliteTridentRenderer;
 import com.suprememc.client.AbyssaliteTridentSpecialRenderer;
+import com.suprememc.client.FireCreeperRenderer;
+import com.suprememc.client.GrizzlyBearRenderer;
 import com.suprememc.content.ModContent;
 import java.util.List;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,6 +18,8 @@ public class SupremeMCClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModContent.ABYSSALITE_TRIDENT_ENTITY, AbyssaliteTridentRenderer::new);
+        EntityRendererRegistry.register(ModContent.GRIZZLY_BEAR_ENTITY, GrizzlyBearRenderer::new);
+        EntityRendererRegistry.register(ModContent.FIRE_CREEPER_ENTITY, FireCreeperRenderer::new);
         EntityRendererRegistry.register(ModContent.PALM_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         EntityRendererRegistry.register(ModContent.PALM_CHEST_BOAT_ENTITY,

@@ -116,3 +116,15 @@ common/src/main/resources/assets/suprememc/textures/block/grape_vine_plant.png
 Aquamarine armour uses a SupremeMC equipment asset when worn. Supply these three PNGs to render its custom appearance: `entity/equipment/humanoid/aquamarine.png`, `entity/equipment/humanoid_baby/aquamarine.png`, and `entity/equipment/humanoid_leggings/aquamarine.png`. The first two use the humanoid armour layer layout; the leggings PNG uses the leggings layer layout.
 
 Generated JSON resources remain in `neoforge/src/generated/resources` and are included by both loaders. Textures belong in `common/src/main/resources`, so they are natively shared by Fabric and NeoForge rather than copied between generated directories.
+
+## Fire Creeper
+
+The Fire Creeper entity and its spawn egg use these shared textures (already supplied):
+
+```text
+common/src/main/resources/assets/suprememc/textures/entity/fire_creeper/fire_creeper.png
+common/src/main/resources/assets/suprememc/textures/entity/fire_creeper/fire_creeper_armor.png
+common/src/main/resources/assets/suprememc/textures/item/fire_creeper_spawn_egg.png
+```
+
+`fire_creeper.png` follows the vanilla creeper texture layout, and `fire_creeper_armor.png` is the charged energy-swirl overlay shown when the Fire Creeper is struck by lightning (same layout as vanilla's `creeper_armor.png`).

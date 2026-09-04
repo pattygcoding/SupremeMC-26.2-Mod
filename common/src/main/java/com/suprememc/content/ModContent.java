@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.suprememc.Constants;
 import com.suprememc.content.blocks.*;
 import com.suprememc.content.entity.AbyssaliteTridentEntity;
+import com.suprememc.content.entity.FireCreeper;
+import com.suprememc.content.entity.GrizzlyBear;
 import com.suprememc.content.items.*;
 import com.suprememc.content.worldgen.BiomeTemperaturePlacementModifier;
 import com.suprememc.content.worldgen.PalmCoconutDecorator;
@@ -38,6 +40,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.entity.EntityType;
@@ -172,6 +175,22 @@ public final class ModContent {
     public static Block AQUAMARINE_ORE;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
     public static Block AQUAMARINE_BLOCK;
+    public static Block IRON_STAIRS;
+    public static Block IRON_SLAB;
+    public static Block LAPIS_STAIRS;
+    public static Block LAPIS_SLAB;
+    public static Block GOLD_STAIRS;
+    public static Block GOLD_SLAB;
+    public static Block DIAMOND_STAIRS;
+    public static Block DIAMOND_SLAB;
+    public static Block EMERALD_STAIRS;
+    public static Block EMERALD_SLAB;
+    public static Block COAL_STAIRS;
+    public static Block COAL_SLAB;
+    public static Block OBSIDIAN_STAIRS;
+    public static Block OBSIDIAN_SLAB;
+    public static Block NETHERITE_STAIRS;
+    public static Block NETHERITE_SLAB;
     public static Block WET_FARMLAND;
     public static final BlockSetType PALM_BLOCK_SET = new BlockSetType("palm");
     public static final WoodType PALM_WOOD_TYPE = new WoodType("palm", PALM_BLOCK_SET);
@@ -251,6 +270,10 @@ public final class ModContent {
     public static Item ABYSSALITE_BOOTS;
     public static Item ABYSSALITE_TRIDENT;
     public static EntityType<AbyssaliteTridentEntity> ABYSSALITE_TRIDENT_ENTITY;
+    public static EntityType<GrizzlyBear> GRIZZLY_BEAR_ENTITY;
+    public static Item GRIZZLY_BEAR_SPAWN_EGG;
+    public static EntityType<FireCreeper> FIRE_CREEPER_ENTITY;
+    public static Item FIRE_CREEPER_SPAWN_EGG;
     public static Item EMERALD_PICKAXE;
     public static Item EMERALD_AXE;
     public static Item EMERALD_SHOVEL;
@@ -288,6 +311,24 @@ public final class ModContent {
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("deepslate_aquamarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = registerBlock("aquamarine_block",
                 new Block(blockProperties("aquamarine_block").mapColor(MapColor.COLOR_CYAN).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        IRON_STAIRS = registerBlock("iron_stairs", new MaterialStairsBlock(Blocks.IRON_BLOCK.defaultBlockState(),
+            blockProperties("iron_stairs").mapColor(MapColor.METAL).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        IRON_SLAB = registerBlock("iron_slab", new SlabBlock(
+            blockProperties("iron_slab").mapColor(MapColor.METAL).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        LAPIS_STAIRS = registerBlock("lapis_stairs", new MaterialStairsBlock(Blocks.LAPIS_BLOCK.defaultBlockState(), materialProperties("lapis_stairs", MapColor.LAPIS, SoundType.METAL, 3.0F, 3.0F)));
+        LAPIS_SLAB = registerBlock("lapis_slab", new SlabBlock(materialProperties("lapis_slab", MapColor.LAPIS, SoundType.METAL, 3.0F, 3.0F)));
+        GOLD_STAIRS = registerBlock("gold_stairs", new MaterialStairsBlock(Blocks.GOLD_BLOCK.defaultBlockState(), materialProperties("gold_stairs", MapColor.GOLD, SoundType.METAL, 3.0F, 6.0F)));
+        GOLD_SLAB = registerBlock("gold_slab", new SlabBlock(materialProperties("gold_slab", MapColor.GOLD, SoundType.METAL, 3.0F, 6.0F)));
+        DIAMOND_STAIRS = registerBlock("diamond_stairs", new MaterialStairsBlock(Blocks.DIAMOND_BLOCK.defaultBlockState(), materialProperties("diamond_stairs", MapColor.DIAMOND, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        DIAMOND_SLAB = registerBlock("diamond_slab", new SlabBlock(materialProperties("diamond_slab", MapColor.DIAMOND, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        EMERALD_STAIRS = registerBlock("emerald_stairs", new MaterialStairsBlock(Blocks.EMERALD_BLOCK.defaultBlockState(), materialProperties("emerald_stairs", MapColor.EMERALD, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        EMERALD_SLAB = registerBlock("emerald_slab", new SlabBlock(materialProperties("emerald_slab", MapColor.EMERALD, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        COAL_STAIRS = registerBlock("coal_stairs", new MaterialStairsBlock(Blocks.COAL_BLOCK.defaultBlockState(), materialProperties("coal_stairs", MapColor.COLOR_BLACK, SoundType.STONE, 5.0F, 6.0F)));
+        COAL_SLAB = registerBlock("coal_slab", new SlabBlock(materialProperties("coal_slab", MapColor.COLOR_BLACK, SoundType.STONE, 5.0F, 6.0F)));
+        OBSIDIAN_STAIRS = registerBlock("obsidian_stairs", new MaterialStairsBlock(Blocks.OBSIDIAN.defaultBlockState(), materialProperties("obsidian_stairs", MapColor.COLOR_BLACK, SoundType.STONE, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        OBSIDIAN_SLAB = registerBlock("obsidian_slab", new SlabBlock(materialProperties("obsidian_slab", MapColor.COLOR_BLACK, SoundType.STONE, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        NETHERITE_STAIRS = registerBlock("netherite_stairs", new MaterialStairsBlock(Blocks.NETHERITE_BLOCK.defaultBlockState(), materialProperties("netherite_stairs", MapColor.COLOR_BLACK, SoundType.NETHERITE_BLOCK, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        NETHERITE_SLAB = registerBlock("netherite_slab", new SlabBlock(materialProperties("netherite_slab", MapColor.COLOR_BLACK, SoundType.NETHERITE_BLOCK, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
         WET_FARMLAND = registerBlock("wet_farmland", new WetFarmlandBlock(blockProperties("wet_farmland").mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
         ATLANTIS_DEBRIS = registerBlock("atlantis_debris", new Block(blockProperties("atlantis_debris")
             .mapColor(MapColor.COLOR_BLACK).sound(SoundType.METAL).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
@@ -371,9 +412,39 @@ public final class ModContent {
             EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, () -> PALM_CHEST_BOAT), MobCategory.MISC)
                 .sized(1.375F, 0.5625F).clientTrackingRange(10).build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "palm_chest_boat"))));
 
+        GRIZZLY_BEAR_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grizzly_bear"),
+            EntityType.Builder.<GrizzlyBear>of(GrizzlyBear::new, MobCategory.CREATURE)
+                .sized(1.4F, 1.4F).clientTrackingRange(10)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grizzly_bear"))));
+        // Same hitbox/tracking as the vanilla creeper; only its explosion is changed (see FireCreeper).
+        FIRE_CREEPER_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper"),
+            EntityType.Builder.<FireCreeper>of(FireCreeper::new, MobCategory.MONSTER)
+                .sized(0.6F, 1.7F).clientTrackingRange(8).fireImmune()
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper"))));
+
         registerBlockItem("aquamarine_ore", AQUAMARINE_ORE);
         registerBlockItem("deepslate_aquamarine_ore", DEEPSLATE_AQUAMARINE_ORE);
         registerBlockItem("aquamarine_block", AQUAMARINE_BLOCK);
+        registerBlockItem("iron_stairs", IRON_STAIRS);
+        registerBlockItem("iron_slab", IRON_SLAB);
+        registerBlockItem("lapis_stairs", LAPIS_STAIRS);
+        registerBlockItem("lapis_slab", LAPIS_SLAB);
+        registerBlockItem("gold_stairs", GOLD_STAIRS);
+        registerBlockItem("gold_slab", GOLD_SLAB);
+        registerBlockItem("diamond_stairs", DIAMOND_STAIRS);
+        registerBlockItem("diamond_slab", DIAMOND_SLAB);
+        registerBlockItem("emerald_stairs", EMERALD_STAIRS);
+        registerBlockItem("emerald_slab", EMERALD_SLAB);
+        registerBlockItem("coal_stairs", COAL_STAIRS);
+        registerBlockItem("coal_slab", COAL_SLAB);
+        registerBlockItem("obsidian_stairs", OBSIDIAN_STAIRS);
+        registerBlockItem("obsidian_slab", OBSIDIAN_SLAB);
+        registerBlockItem("netherite_stairs", NETHERITE_STAIRS);
+        registerBlockItem("netherite_slab", NETHERITE_SLAB);
         registerBlockItem("wet_farmland", WET_FARMLAND);
         registerBlockItem("atlantis_debris", ATLANTIS_DEBRIS);
         registerBlockItem("abyssalite_block", ABYSSALITE_BLOCK);
@@ -420,6 +491,10 @@ public final class ModContent {
 
         PALM_BOAT = registerItem("palm_boat", new net.minecraft.world.item.BoatItem(PALM_BOAT_ENTITY, itemProperties("palm_boat")));
         PALM_CHEST_BOAT = registerItem("palm_chest_boat", new net.minecraft.world.item.BoatItem(PALM_CHEST_BOAT_ENTITY, itemProperties("palm_chest_boat")));
+        GRIZZLY_BEAR_SPAWN_EGG = registerItem("grizzly_bear_spawn_egg",
+            new SpawnEggItem(itemProperties("grizzly_bear_spawn_egg").spawnEgg(GRIZZLY_BEAR_ENTITY)));
+        FIRE_CREEPER_SPAWN_EGG = registerItem("fire_creeper_spawn_egg",
+            new SpawnEggItem(itemProperties("fire_creeper_spawn_egg").spawnEgg(FIRE_CREEPER_ENTITY)));
 
         ABYSSALITE_SCRAP = registerItem("abyssalite_scrap", new Item(itemProperties("abyssalite_scrap").stacksTo(64)));
         ABYSSALITE_INGOT = registerItem("abyssalite_ingot", new Item(itemProperties("abyssalite_ingot").stacksTo(64)));
@@ -465,6 +540,9 @@ public final class ModContent {
         EMERALD_BOOTS = registerItem("emerald_boots", new EmeraldArmorItem("emerald_boots", ArmorType.BOOTS));
 
         CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, WET_FARMLAND,
+            IRON_STAIRS, IRON_SLAB, LAPIS_STAIRS, LAPIS_SLAB, GOLD_STAIRS, GOLD_SLAB,
+            DIAMOND_STAIRS, DIAMOND_SLAB, EMERALD_STAIRS, EMERALD_SLAB, COAL_STAIRS, COAL_SLAB,
+            OBSIDIAN_STAIRS, OBSIDIAN_SLAB, NETHERITE_STAIRS, NETHERITE_SLAB,
                 AQUAMARINE_PICKAXE, AQUAMARINE_AXE, AQUAMARINE_SHOVEL, AQUAMARINE_HOE, AQUAMARINE_SWORD,
                 AQUAMARINE_HELMET, AQUAMARINE_CHESTPLATE, AQUAMARINE_LEGGINGS, AQUAMARINE_BOOTS));
         CREATIVE_TAB_ITEMS.addAll(List.of(EMERALD_PICKAXE, EMERALD_AXE, EMERALD_SHOVEL, EMERALD_HOE, EMERALD_SWORD,
@@ -473,6 +551,8 @@ public final class ModContent {
                 PALM_DOOR, PALM_TRAPDOOR, PALM_PRESSURE_PLATE, PALM_BUTTON, PALM_SIGN, PALM_HANGING_SIGN,
             PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS, COTTON, CALAMARI, COOKED_CALAMARI,
             GRAPES, TOMATO, CORN));
+        CREATIVE_TAB_ITEMS.add(GRIZZLY_BEAR_SPAWN_EGG);
+        CREATIVE_TAB_ITEMS.add(FIRE_CREEPER_SPAWN_EGG);
         CREATIVE_TAB_ITEMS.addAll(List.of(BEACH_GRASS, TALL_BEACH_GRASS));
         CREATIVE_TAB_ITEMS.addAll(GLOW_BLOCKS.values());
         CREATIVE_TAB_ITEMS.addAll(SLIME_BLOCKS.values());
@@ -497,6 +577,10 @@ public final class ModContent {
     public static BlockBehaviour.Properties blockProperties(String id) {
         return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK,
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, id)));
+    }
+
+    private static BlockBehaviour.Properties materialProperties(String id, MapColor mapColor, SoundType sound, float strength, float resistance) {
+        return blockProperties(id).mapColor(mapColor).sound(sound).strength(strength, resistance);
     }
 
     private static <T extends Block> T registerBlock(String id, T block) {

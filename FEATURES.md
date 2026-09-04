@@ -31,6 +31,12 @@
 - Wearing a complete Aquamarine armour set continuously grants Water Breathing.
 - Equipped Aquamarine armour uses custom Aquamarine equipment textures for adult humanoids, baby humanoids, and leggings.
 
+## Iron Building Content
+
+- Iron, Lapis, Gold, Diamond, Emerald, Coal, Obsidian, and Netherite Stairs and Slabs use their vanilla block textures on every face.
+- Four material Blocks craft six Stairs, and three material Blocks craft six Slabs.
+- Stonecutting one material Block produces one Stair or two Slabs; Slabs drop two items when broken as a double slab.
+
 ## Emerald Content
 
 - Emerald-tier tools and armor sit between Iron and Diamond as a craftable intermediate upgrade.
@@ -97,4 +103,10 @@
 
 - Each of the 16 dye colors adds a Glowblock (e.g. Red Glowblock) with identical properties to vanilla Glowstone: light level 15, the same blast/mining strength, and the same glass breaking sound.
 - Each of the 16 dye colors also adds a colored Slime Block with identical bounce/movement-slowing properties to vanilla Slime Block. Piston stickiness is restricted to matching colors: a colored slime block only pulls/pushes together with slime blocks of the exact same color — it will not stick to vanilla Slime Block, Honey Block, or a differently colored slime block.
+
+## Fire Creeper
+
+- The Fire Creeper behaves exactly like a vanilla creeper — same AI, swelling fuse, flint-and-steel/fire-charge ignition, lightning charging, and gunpowder/music-disc drops — except its explosion always sets the blast area on fire.
+- Charged (lightning-struck) Fire Creepers keep the doubled vanilla blast radius, with fire as well.
+- A Fire Creeper Spawn Egg is available in the SupremeMC creative tab.
 

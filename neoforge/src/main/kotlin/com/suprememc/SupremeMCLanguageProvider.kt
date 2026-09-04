@@ -52,7 +52,9 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "grapes",
             "tomato",
             "corn"
-            ,"icicle"
+            ,"icicle",
+            "grizzly_bear_spawn_egg",
+            "fire_creeper_spawn_egg"
         )
         val blocks = arrayOf(
             "aquamarine_ore", 
@@ -61,6 +63,22 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "wet_farmland", 
             "atlantis_debris", 
             "abyssalite_block", 
+            "iron_stairs",
+            "iron_slab",
+            "lapis_stairs",
+            "lapis_slab",
+            "gold_stairs",
+            "gold_slab",
+            "diamond_stairs",
+            "diamond_slab",
+            "emerald_stairs",
+            "emerald_slab",
+            "coal_stairs",
+            "coal_slab",
+            "obsidian_stairs",
+            "obsidian_slab",
+            "netherite_stairs",
+            "netherite_slab",
             "palm_log", 
             "stripped_palm_log", 
             "palm_wood", 
@@ -110,6 +128,8 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             glowSlimeBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template.upgrade_description", "Upgrade to Abyssalite")
             enchantments.forEach { addProperty("enchantment.$namespace.$it", displayName(it)) }
+            addProperty("entity.$namespace.grizzly_bear", "Grizzly Bear")
+            addProperty("entity.$namespace.fire_creeper", "Fire Creeper")
             addProperty("biome.$namespace.florida_plains", "Florida Plains")
             addProperty("biome.$namespace.cays", "Cays")
             addProperty("biome.$namespace.ice_caves", "Ice Caves")
