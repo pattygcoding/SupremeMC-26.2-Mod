@@ -7,6 +7,8 @@
     "MixinItemEntity",
     "AxeItemAccessor",
     "MixinThrownTrident",
+    "MixinTridentItem",
+    "ThrownTridentAccessor",
     "MixinPlayer",
     "MixinLivingEntity"
   ],
