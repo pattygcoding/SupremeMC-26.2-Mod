@@ -1,0 +1,355 @@
+package com.suprememc.content
+
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import org.junit.jupiter.api.Test
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
+class ModContentDataTest {
+    @Test
+    fun generatesAbyssaliteProgressionResources() {
+        listOf(
+            "assets/suprememc/models/item/abyssalite_scrap.json",
+            "assets/suprememc/models/item/abyssalite_upgrade_smithing_template.json",
+            "assets/suprememc/models/block/atlantis_debris.json",
+            "assets/suprememc/equipment/abyssalite.json",
+            "assets/suprememc/items/abyssalite_ingot.json",
+            "data/suprememc/worldgen/configured_feature/atlantis_debris.json",
+            "data/suprememc/worldgen/placed_feature/atlantis_debris.json",
+            "data/suprememc/recipe/abyssalite_upgrade_smithing_template.json",
+            "data/suprememc/recipe/abyssalite_helmet_smithing.json",
+            "data/suprememc/recipe/abyssalite_scrap_from_smelting_atlantis_debris.json",
+            "data/suprememc/recipe/abyssalite_scrap_from_blasting_atlantis_debris.json"
+        ).forEach(::assertResourceExists)
+
+        val feature = readJson("data/suprememc/worldgen/configured_feature/atlantis_debris.json")
+            .getAsJsonObject("config")
+        assertEquals(2, feature.get("size").asInt)
+        assertEquals(0.5f, feature.get("discard_chance_on_air_exposure").asFloat)
+        assertEquals(4, feature.getAsJsonArray("targets").size())
+
+        val placed = readJson("data/suprememc/worldgen/placed_feature/atlantis_debris.json")
+        val height = placed.getAsJsonArray("placement").map { it.asJsonObject }
+            .first { it.get("type").asString == "minecraft:height_range" }
+            .getAsJsonObject("height")
+        assertEquals(-64, height.getAsJsonObject("min_inclusive").get("absolute").asInt)
+        assertEquals(-49, height.getAsJsonObject("max_inclusive").get("absolute").asInt)
+    }
+
+    @Test
+    fun injectsAbyssaliteTemplateIntoOceanStructureLoot() {
+        val guaranteed = readJson("data/suprememc/loot_table/inject/abyssalite_template_guaranteed.json")
+        val guaranteedEntry = guaranteed.getAsJsonArray("pools").single().asJsonObject
+            .getAsJsonArray("entries").single().asJsonObject
+        assertEquals("suprememc:abyssalite_upgrade_smithing_template", guaranteedEntry.get("name").asString)
+        assertFalse(guaranteedEntry.has("conditions"))
+
+        val rare = readJson("data/suprememc/loot_table/inject/abyssalite_template_rare.json")
+        val rareCondition = rare.getAsJsonArray("pools").single().asJsonObject
+            .getAsJsonArray("entries").single().asJsonObject
+            .getAsJsonArray("conditions").single().asJsonObject
+        assertEquals("minecraft:random_chance", rareCondition.get("condition").asString)
+        assertEquals(0.1f, rareCondition.get("chance").asFloat)
+
+        mapOf(
+            "add_abyssalite_template_buried_treasure" to
+                ("minecraft:chests/buried_treasure" to "suprememc:inject/abyssalite_template_guaranteed"),
+            "add_abyssalite_template_underwater_ruin_small" to
+                ("minecraft:chests/underwater_ruin_small" to "suprememc:inject/abyssalite_template_rare"),
+            "add_abyssalite_template_underwater_ruin_big" to
+                ("minecraft:chests/underwater_ruin_big" to "suprememc:inject/abyssalite_template_rare"),
+            "add_abyssalite_template_shipwreck_treasure" to
+                ("minecraft:chests/shipwreck_treasure" to "suprememc:inject/abyssalite_template_rare")
+        ).forEach { (name, expected) ->
+            val modifier = readJson("data/suprememc/loot_modifiers/$name.json")
+            assertEquals("neoforge:add_table", modifier.get("type").asString)
+            assertEquals(expected.second, modifier.get("table").asString)
+            val condition = modifier.getAsJsonArray("conditions").single().asJsonObject
+            assertEquals("neoforge:loot_table_id", condition.get("condition").asString)
+            assertEquals(expected.first, condition.get("loot_table_id").asString)
+        }
+    }
+
+    @Test
+    fun generatesAbyssaliteRecipesAndCookingValues() {        val ingot = readJson("data/suprememc/recipe/abyssalite_ingot.json")
+        assertEquals("minecraft:crafting_shapeless", ingot.get("type").asString)
+        assertEquals(8, ingot.getAsJsonArray("ingredients").size())
+        assertEquals("suprememc:abyssalite_ingot", ingot.getAsJsonObject("result").get("id").asString)
+
+        val template = readJson("data/suprememc/recipe/abyssalite_upgrade_smithing_template.json")
+        assertEquals("minecraft:crafting_shapeless", template.get("type").asString)
+        assertEquals(2, template.getAsJsonObject("result").get("count").asInt)
+        assertEquals(7, template.getAsJsonArray("ingredients").count { it.asString == "minecraft:diamond" })
+        assertEquals(1, template.getAsJsonArray("ingredients").count { it.asString == "minecraft:prismarine" })
+
+        val smithing = readJson("data/suprememc/recipe/abyssalite_helmet_smithing.json")
+        assertEquals("minecraft:smithing_transform", smithing.get("type").asString)
+        assertEquals("suprememc:abyssalite_upgrade_smithing_template", smithing.get("template").asString)
+        assertEquals("suprememc:aquamarine_helmet", smithing.get("base").asString)
+        assertEquals("suprememc:abyssalite_ingot", smithing.get("addition").asString)
+        assertEquals("suprememc:abyssalite_helmet", smithing.getAsJsonObject("result").get("id").asString)
+
+        listOf("smelting" to 200, "blasting" to 100).forEach { (kind, time) ->
+            val recipe = readJson("data/suprememc/recipe/abyssalite_scrap_from_${kind}_atlantis_debris.json")
+            assertEquals("minecraft:$kind", recipe.get("type").asString)
+            assertEquals("suprememc:abyssalite_scrap", recipe.getAsJsonObject("result").get("id").asString)
+            assertEquals(2.0f, recipe.get("experience").asFloat)
+            assertEquals(time, recipe.get("cookingtime").asInt)
+        }
+    }
+
+    @Test
+    fun generatesRequiredAquamarineProgressionResources() {
+        listOf(
+            "assets/suprememc/models/item/aquamarine.json",
+            "assets/suprememc/models/block/aquamarine_ore.json",
+            "assets/suprememc/blockstates/aquamarine_ore.json",
+            "assets/suprememc/equipment/aquamarine.json",
+            "assets/suprememc/items/aquamarine.json",
+            "assets/suprememc/items/aquamarine_ore.json",
+            "data/suprememc/loot_table/blocks/aquamarine_ore.json",
+            "data/suprememc/recipe/aquamarine_block.json",
+            "data/suprememc/recipe/aquamarine_from_aquamarine_block.json",
+            "data/suprememc/worldgen/configured_feature/aquamarine_ore.json",
+            "data/suprememc/worldgen/placed_feature/aquamarine_ore.json",
+            "data/suprememc/neoforge/biome_modifier/add_aquamarine_ore.json",
+            "data/minecraft/tags/block/needs_iron_tool.json",
+            "data/minecraft/tags/item/beacon_payment_items.json"
+        ).forEach(::assertResourceExists)
+    }
+
+    @Test
+    fun generatesPalmWoodsetResources() {
+        listOf(
+            "assets/suprememc/blockstates/palm_log.json",
+            "assets/suprememc/models/block/palm_log.json",
+            "assets/suprememc/models/block/palm_planks.json",
+            "assets/suprememc/models/block/stripped_palm_log.json",
+            "assets/suprememc/models/item/palm_planks.json",
+            "assets/suprememc/models/item/palm_boat.json",
+            "assets/suprememc/models/item/palm_sign.json",
+            "assets/suprememc/items/palm_planks.json",
+            "assets/suprememc/items/palm_sign.json",
+            "data/suprememc/recipe/palm_planks.json",
+            "data/suprememc/recipe/palm_log_to_wood.json",
+            "data/suprememc/recipe/palm_sign.json",
+            "data/suprememc/recipe/palm_boat.json",
+            "data/suprememc/loot_table/blocks/palm_leaves.json",
+            "data/suprememc/tags/block/minecraft_logs.json",
+            "data/suprememc/tags/item/palm_logs.json"
+        ).forEach(::assertResourceExists)
+
+        val logState = readJson("assets/suprememc/blockstates/palm_log.json")
+        assertTrue(logState.has("variants") || logState.has("multipart"))
+
+        val signRecipe = readJson("data/suprememc/recipe/palm_sign.json")
+        assertEquals("minecraft:crafting_shaped", signRecipe.get("type").asString)
+        assertEquals("suprememc:palm_sign", signRecipe.getAsJsonObject("result").get("id").asString)
+    }
+
+    @Test
+    fun generatesCustomEnchantmentsAndExclusiveSets() {
+        mapOf(
+            "bounty" to Triple(3, 2, "#minecraft:enchantable/weapon"),
+            "venom" to Triple(2, 5, "#minecraft:enchantable/weapon"),
+            "decay" to Triple(2, 1, "#minecraft:enchantable/weapon"),
+            "wisdom" to Triple(3, 2, "#minecraft:enchantable/leg_armor")
+        ).forEach { (id, expected) ->
+            val enchantment = readJson("data/suprememc/enchantment/$id.json")
+            assertEquals(expected.first, enchantment.get("max_level").asInt)
+            assertEquals(expected.second, enchantment.get("weight").asInt)
+            assertEquals(expected.third, enchantment.get("supported_items").asString)
+            assertEquals("enchantment.suprememc.$id", enchantment.getAsJsonObject("description").get("translate").asString)
+        }
+
+        val venom = readJson("data/suprememc/enchantment/venom.json").getAsJsonObject("effects")
+            .getAsJsonArray("minecraft:post_attack").single().asJsonObject
+        assertEquals("minecraft:poison", venom.getAsJsonObject("effect").get("to_apply").asString)
+        assertEquals(3.0, venom.getAsJsonObject("effect").get("min_duration").asDouble)
+        assertEquals(3.0, venom.getAsJsonObject("effect").getAsJsonObject("max_duration").get("per_level_above_first").asDouble)
+
+        val decay = readJson("data/suprememc/enchantment/decay.json").getAsJsonObject("effects")
+            .getAsJsonArray("minecraft:post_attack").single().asJsonObject
+        assertEquals("minecraft:wither", decay.getAsJsonObject("effect").get("to_apply").asString)
+        assertEquals(2.0, decay.getAsJsonObject("effect").getAsJsonObject("max_duration").get("per_level_above_first").asDouble)
+
+        assertTagContains("data/suprememc/tags/enchantment/exclusive_set/bounty.json", "minecraft:looting", "suprememc:bounty")
+        assertTagContains("data/suprememc/tags/enchantment/exclusive_set/status_damage.json", "minecraft:fire_aspect", "suprememc:venom", "suprememc:decay")
+        assertTagContains("data/suprememc/tags/enchantment/exclusive_set/xp_armor.json", "minecraft:thorns", "suprememc:wisdom")
+    }
+
+    @Test
+    fun generatesRecipeUnlockAdvancementsForAllRecipes() {
+        val expected = listOf(
+            Triple("aquamarine_block", "building", "aquamarine"),
+            Triple("aquamarine_from_aquamarine_block", "misc", "aquamarine_block"),
+            Triple("aquamarine_pickaxe", "equipment", "aquamarine"),
+            Triple("aquamarine_axe", "equipment", "aquamarine"),
+            Triple("aquamarine_shovel", "equipment", "aquamarine"),
+            Triple("aquamarine_hoe", "equipment", "aquamarine"),
+            Triple("aquamarine_sword", "equipment", "aquamarine"),
+            Triple("aquamarine_helmet", "equipment", "aquamarine"),
+            Triple("aquamarine_chestplate", "equipment", "aquamarine"),
+            Triple("aquamarine_leggings", "equipment", "aquamarine"),
+            Triple("aquamarine_boots", "equipment", "aquamarine"),
+            Triple("aquamarine_from_smelting_aquamarine_ore", "misc", "aquamarine_ore"),
+            Triple("aquamarine_from_blasting_aquamarine_ore", "misc", "aquamarine_ore"),
+            Triple("aquamarine_from_smelting_deepslate_aquamarine_ore", "misc", "deepslate_aquamarine_ore"),
+            Triple("aquamarine_from_blasting_deepslate_aquamarine_ore", "misc", "deepslate_aquamarine_ore")
+        )
+
+        expected.forEach { (recipeId, category, unlockItemId) ->
+            val advancement = readJson("data/suprememc/advancement/recipes/$category/$recipeId.json")
+            assertEquals("minecraft:recipes/root", advancement.get("parent").asString)
+
+            val criteria = advancement.getAsJsonObject("criteria")
+            assertTrue("Missing has_$unlockItemId criterion for $recipeId") { criteria.has("has_$unlockItemId") }
+            val unlockCriterion = criteria.getAsJsonObject("has_$unlockItemId")
+            assertEquals("minecraft:inventory_changed", unlockCriterion.get("trigger").asString)
+            val unlockItems = unlockCriterion.getAsJsonObject("conditions").getAsJsonArray("items")
+                .get(0).asJsonObject.getAsJsonArray("items")
+            assertEquals("suprememc:$unlockItemId", unlockItems.get(0).asString)
+
+            val hasRecipe = criteria.getAsJsonObject("has_the_recipe")
+            assertEquals("minecraft:recipe_unlocked", hasRecipe.get("trigger").asString)
+            assertEquals("suprememc:$recipeId", hasRecipe.getAsJsonObject("conditions").get("recipe").asString)
+
+            val requirements = advancement.getAsJsonArray("requirements")
+            assertTrue("Expected at least one requirement group for $recipeId") { requirements.size() > 0 }
+            val requirementGroup = requirements.get(0).asJsonArray.map { it.asString }
+            assertTrue(requirementGroup.contains("has_$unlockItemId"))
+            assertTrue(requirementGroup.contains("has_the_recipe"))
+
+            val rewardedRecipes = advancement.getAsJsonObject("rewards").getAsJsonArray("recipes")
+            assertEquals("suprememc:$recipeId", rewardedRecipes.get(0).asString)
+        }
+    }
+
+    @Test
+    fun allCraftingRecipesUseAValidCraftingBookCategory() {
+        val validCategories = setOf("building", "redstone", "equipment", "misc")
+        val recipesDir = generatedResources.resolve("data/suprememc/recipe")
+        Files.list(recipesDir).use { paths ->
+            paths.filter { it.toString().endsWith(".json") }.forEach { path ->
+                val recipe = JsonParser.parseString(Files.readString(path)).asJsonObject
+                if (recipe.get("type").asString != "minecraft:crafting_shaped" && recipe.get("type").asString != "minecraft:crafting_shapeless") {
+                    return@forEach
+                }
+                val category = recipe.get("category").asString
+                assertTrue("Recipe ${path.fileName} has invalid crafting category '$category'") { category in validCategories }
+            }
+        }
+    }
+
+    @Test
+    fun generatesMoistFarmlandAndAquamarineEquipmentModels() {
+        val farmlandModel = readJson("assets/suprememc/models/block/wet_farmland.json")
+        assertEquals("minecraft:block/farmland_moist", farmlandModel.get("parent").asString)
+        assertFalse(farmlandModel.has("textures"))
+
+        val layers = readJson("assets/suprememc/equipment/aquamarine.json").getAsJsonObject("layers")
+        assertTrue(layers.has("humanoid"))
+        assertTrue(layers.has("humanoid_baby"))
+        assertTrue(layers.has("humanoid_leggings"))
+        assertEquals("suprememc:aquamarine", layers.getAsJsonArray("humanoid").get(0).asJsonObject.get("texture").asString)
+    }
+
+    @Test
+    fun generatesOceanOnlyAquamarineOrePlacement() {
+        val config = readJson("data/suprememc/worldgen/configured_feature/aquamarine_ore.json").getAsJsonObject("config")
+        assertEquals(4, config.get("size").asInt)
+        assertEquals(0.5f, config.get("discard_chance_on_air_exposure").asFloat)
+        assertEquals(3, config.getAsJsonArray("targets").size())
+
+        val modifier = readJson("data/suprememc/neoforge/biome_modifier/add_aquamarine_ore.json")
+        assertEquals("neoforge:add_features", modifier.get("type").asString)
+        assertEquals("#minecraft:is_ocean", modifier.get("biomes").asString)
+        assertEquals("suprememc:aquamarine_ore", modifier.get("features").asString)
+        assertEquals("underground_ores", modifier.get("step").asString)
+    }
+
+    @Test
+    fun generatesCorrectProgressionRecipesLootAndTags() {
+        val compacting = readJson("data/suprememc/recipe/aquamarine_block.json")
+        assertEquals("minecraft:crafting_shaped", compacting.get("type").asString)
+        assertEquals("AAA", compacting.getAsJsonArray("pattern").get(0).asString)
+        assertEquals("suprememc:aquamarine", compacting.getAsJsonObject("key").get("A").asString)
+        assertEquals("suprememc:aquamarine_block", compacting.getAsJsonObject("result").get("id").asString)
+
+        val decompacting = readJson("data/suprememc/recipe/aquamarine_from_aquamarine_block.json")
+        assertEquals("minecraft:crafting_shapeless", decompacting.get("type").asString)
+        assertEquals("suprememc:aquamarine_block", decompacting.getAsJsonArray("ingredients").get(0).asString)
+        assertEquals(9, decompacting.getAsJsonObject("result").get("count").asInt)
+
+        listOf("aquamarine_ore", "deepslate_aquamarine_ore").forEach { oreId ->
+            val lootJson = readJson("data/suprememc/loot_table/blocks/$oreId.json").toString()
+            assertTrue("minecraft:silk_touch" in lootJson)
+            assertTrue("minecraft:fortune" in lootJson)
+            assertTrue("minecraft:ore_drops" in lootJson)
+            assertTrue("suprememc:aquamarine" in lootJson)
+            assertTrue("suprememc:$oreId" in lootJson)
+
+            assertCookingRecipe("aquamarine_from_smelting_$oreId", "minecraft:smelting", oreId)
+            assertCookingRecipe("aquamarine_from_blasting_$oreId", "minecraft:blasting", oreId)
+        }
+
+        assertTagContains("data/minecraft/tags/block/needs_iron_tool.json", "suprememc:aquamarine_ore", "suprememc:deepslate_aquamarine_ore", "suprememc:aquamarine_block")
+        assertTagContains("data/minecraft/tags/block/mineable/pickaxe.json", "suprememc:aquamarine_ore", "suprememc:deepslate_aquamarine_ore", "suprememc:aquamarine_block")
+        assertTagContains("data/minecraft/tags/block/beacon_base_blocks.json", "suprememc:aquamarine_block")
+        assertTagContains("data/minecraft/tags/item/beacon_payment_items.json", "suprememc:aquamarine")
+    }
+
+    @Test
+    fun generatedResourcesAreValidAndBackedByRequiredTextures() {
+        Files.walk(generatedResources).use { paths ->
+            paths.filter { it.toString().endsWith(".json") }.forEach { path ->
+                assertTrue("Empty JSON file: $path") { Files.size(path) > 0 }
+            }
+        }
+
+        val textures = Path.of("..", "common", "src", "main", "resources", "assets", "suprememc", "textures")
+        listOf(
+            "block/aquamarine_ore.png", "block/deepslate_aquamarine_ore.png", "block/aquamarine_block.png",
+            "item/aquamarine.png", "item/aquamarine_pickaxe.png", "item/aquamarine_axe.png", "item/aquamarine_shovel.png", "item/aquamarine_hoe.png", "item/aquamarine_sword.png",
+            "item/aquamarine_helmet.png", "item/aquamarine_chestplate.png", "item/aquamarine_leggings.png", "item/aquamarine_boots.png",
+            "entity/equipment/humanoid/aquamarine.png", "entity/equipment/humanoid_baby/aquamarine.png", "entity/equipment/humanoid_leggings/aquamarine.png"
+        ).forEach { texture ->
+            val texturePath = textures.resolve(texture)
+            assertTrue("Missing required texture: $texture") { Files.isRegularFile(texturePath) }
+            assertTrue("Empty texture: $texture") { Files.size(texturePath) > 0 }
+        }
+    }
+
+    private fun assertCookingRecipe(recipeId: String, type: String, ingredient: String) {
+        val recipe = readJson("data/suprememc/recipe/$recipeId.json")
+        assertEquals(type, recipe.get("type").asString)
+        assertEquals("suprememc:$ingredient", recipe.get("ingredient").asString)
+        assertEquals("suprememc:aquamarine", recipe.getAsJsonObject("result").get("id").asString)
+        assertEquals(1.0f, recipe.get("experience").asFloat)
+    }
+
+    private fun assertTagContains(relativePath: String, vararg expectedValues: String) {
+        val values = readJson(relativePath).getAsJsonArray("values").toString()
+        expectedValues.forEach { expectedValue ->
+            assertTrue("Missing tag value $expectedValue in $relativePath") { expectedValue in values }
+        }
+    }
+
+    private fun assertResourceExists(relativePath: String) {
+        assertTrue("Missing generated resource: $relativePath") { Files.isRegularFile(generatedResources.resolve(relativePath)) }
+    }
+
+    private fun readJson(relativePath: String): JsonObject {
+        val path = generatedResources.resolve(relativePath)
+        assertResourceExists(relativePath)
+        return JsonParser.parseString(Files.readString(path)).asJsonObject
+    }
+
+    private companion object {
+        val generatedResources: Path = Path.of("src", "generated", "resources")
+    }
+}

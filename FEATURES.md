@@ -1,3 +1,7 @@
+- Custom enchantments: Bounty, Venom, Decay, and Wisdom are available as data-driven enchantments with their specified levels, weights, costs, equipment targets, localization, and incompatibility groups.
+- Venom applies Poison I for 3 seconds at level I and 6 seconds at level II after a direct melee hit, following vanilla effect-immunity rules.
+- Decay applies lethal Wither I for 2 seconds at level I and 4 seconds at level II after a direct melee hit.
+- Bounty and Wisdom currently provide their data definitions and targeting metadata; their custom mob-head loot and Mending-decoupled XP multiplier require additional runtime hooks beyond the vanilla enchantment effect schema.
 # Implemented Features
 
 ## Abyssalite Content
@@ -24,6 +28,15 @@
 - Wearing a complete Aquamarine armour set continuously grants Water Breathing.
 - Equipped Aquamarine armour uses custom Aquamarine equipment textures for adult humanoids, baby humanoids, and leggings.
 
+## Emerald Content
+
+- Emerald-tier tools and armor sit between Iron and Diamond as a craftable intermediate upgrade.
+- Emerald tools use iron-equivalent mining tier, 350 durability, 6.5 mining speed, and emerald repair material.
+- Emerald armor uses 15 enchantability, 2/5/6/2 defense across the helmet/chestplate/leggings/boots, and +1 armor toughness.
+- The emerald gear set includes a pickaxe, axe, shovel, hoe, sword, helmet, chestplate, leggings, and boots.
+- Emerald items craft from emeralds and sticks in the same shaped layouts used by vanilla equipment progression.
+- Chainmail helmets, chestplates, leggings, and boots are also craftable using chain links in the vanilla-fitting shaped recipes.
+
 ## Palm Content
 
 - Palm trees generate naturally on beaches. Hot/warm-climate beaches (surface biome temperature 0.8+, which includes every vanilla beach) always grow 1-3 palms per chunk, rooted in sand or red sand above the waterline. Moderate-climate beaches (temperature 0.3-0.8) grow a single palm in only half of their chunks, so they stay visibly sparser. Snowy, frozen, and stony coasts (below 0.3) never grow palms.
@@ -33,6 +46,17 @@
 - Coconut Seeds plant a hanging coconut crop on the cardinal faces of Palm Logs and Stripped Palm Logs. The coconut grows through three stages (ages 0-2) via random ticks and bonemeal.
 - A fully mature coconut drops one Coconut when broken; immature stages drop nothing. Crafting one Coconut yields four Coconut Seeds.
 - Drinking a Coconut works like Milk: it clears all status effects but is consumed entirely (no bucket returned). Coconuts stack to 64.
+
+## Cotton Content
+
+- Cotton bushes generate naturally in Plains and Sunflower Plains as small patches. They grow through four stages (ages 0-3), matching sweet berry bushes.
+- Cotton can be placed on suitable ground to plant a stage-0 Cotton Bush. Mature bushes can be harvested by hand for 2-3 Cotton and reset to stage 1; breaking growing bushes drops Cotton with the same age and Fortune behavior as sweet berry bushes.
+
+## Calamari Content
+
+- Squid and glow squid drop 1-2 Calamari, with the maximum yield increasing by one per Looting level. Burning squid cook their Calamari drops directly.
+- Calamari restores 2 hunger and 1.2 saturation; Cooked Calamari restores 6 hunger and 9.6 saturation.
+- Calamari cooks into Cooked Calamari in a furnace (200 ticks), smoker (100 ticks), or campfire (600 ticks), awarding 0.35 XP.
 
 ## Loader Support
 

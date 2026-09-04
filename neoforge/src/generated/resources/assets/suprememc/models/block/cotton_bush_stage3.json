@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "suprememc:block/cotton_bush_stage3"
+  }
+}

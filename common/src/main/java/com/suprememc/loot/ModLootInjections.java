@@ -24,6 +24,13 @@ public final class ModLootInjections {
             new Injection("add_abyssalite_template_underwater_ruin_big", "minecraft:chests/underwater_ruin_big", RARE_ABYSSALITE_TEMPLATE),
             new Injection("add_abyssalite_template_shipwreck_treasure", "minecraft:chests/shipwreck_treasure", RARE_ABYSSALITE_TEMPLATE));
 
+        public static final String SQUID_CALAMARI = Constants.MOD_ID + ":inject/squid_calamari";
+        public static final String GLOW_SQUID_CALAMARI = Constants.MOD_ID + ":inject/glow_squid_calamari";
+
+        public static final List<Injection> CALAMARI_INJECTIONS = List.of(
+            new Injection("add_calamari_to_squid", "minecraft:entities/squid", SQUID_CALAMARI),
+            new Injection("add_calamari_to_glow_squid", "minecraft:entities/glow_squid", GLOW_SQUID_CALAMARI));
+
     private ModLootInjections() {
     }
 }

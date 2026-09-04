@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
@@ -62,6 +63,10 @@ public class SupremeMC implements ModInitializer {
             BiomeSelectors.tag(BiomeTags.IS_BEACH),
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "palm_trees_temperate")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS),
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cotton_bushes")));
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
@@ -77,6 +82,9 @@ public class SupremeMC implements ModInitializer {
     private static void registerLootInjections() {
         Map<ResourceKey<LootTable>, ResourceKey<LootTable>> injections = new HashMap<>();
         for (ModLootInjections.Injection injection : ModLootInjections.ABYSSALITE_TEMPLATE_INJECTIONS) {
+            injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
+        }
+        for (ModLootInjections.Injection injection : ModLootInjections.CALAMARI_INJECTIONS) {
             injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
         }
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {

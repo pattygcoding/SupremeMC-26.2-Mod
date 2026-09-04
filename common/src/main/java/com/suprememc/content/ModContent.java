@@ -136,6 +136,21 @@ public final class ModContent {
                 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 2.0F, 0.1F, ABYSSALITE_REPAIR_ITEMS,
                 ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssalite")));
 
+    public static final TagKey<Item> EMERALD_REPAIR_ITEMS = TagKey.create(Registries.ITEM,
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "emerald_repair_items"));
+    public static final ToolMaterial EMERALD_TOOL_MATERIAL = new ToolMaterial(
+        BlockTags.INCORRECT_FOR_IRON_TOOL, 350, 6.5F, 4.0F, 18, EMERALD_REPAIR_ITEMS);
+    public static final ArmorMaterial EMERALD_ARMOR_MATERIAL = new ArmorMaterial(
+        26,
+        Map.of(
+            ArmorType.BOOTS, 2,
+            ArmorType.LEGGINGS, 5,
+            ArmorType.CHESTPLATE, 6,
+            ArmorType.HELMET, 2,
+            ArmorType.BODY, 10),
+        15, SoundEvents.ARMOR_EQUIP_DIAMOND, 1.5F, 0.0F, EMERALD_REPAIR_ITEMS,
+        ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "emerald")));
+
     public static Item AQUAMARINE;
     public static Block AQUAMARINE_ORE;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
@@ -182,6 +197,8 @@ public final class ModContent {
     public static Block COCONUT;
     public static Item COCONUT_ITEM;
     public static Item COCONUT_SEEDS;
+    public static Block COTTON_BUSH;
+    public static Item COTTON;
     public static EntityType<Boat> PALM_BOAT_ENTITY;
     public static EntityType<ChestBoat> PALM_CHEST_BOAT_ENTITY;
     public static Item PALM_BOAT;
@@ -213,6 +230,17 @@ public final class ModContent {
     public static Item ABYSSALITE_BOOTS;
     public static Item ABYSSALITE_TRIDENT;
     public static EntityType<AbyssaliteTridentEntity> ABYSSALITE_TRIDENT_ENTITY;
+    public static Item EMERALD_PICKAXE;
+    public static Item EMERALD_AXE;
+    public static Item EMERALD_SHOVEL;
+    public static Item EMERALD_HOE;
+    public static Item EMERALD_SWORD;
+    public static Item EMERALD_HELMET;
+    public static Item EMERALD_CHESTPLATE;
+    public static Item EMERALD_LEGGINGS;
+    public static Item EMERALD_BOOTS;
+    public static Item CALAMARI;
+    public static Item COOKED_CALAMARI;
 
     public static void bootstrap() {
         if (registered) {
@@ -255,6 +283,7 @@ public final class ModContent {
         PALM_SAPLING = registerBlock("palm_sapling", new PalmSaplingBlock());
         POTTED_PALM_SAPLING = registerBlock("potted_palm_sapling", new FlowerPotBlock(PALM_SAPLING, blockProperties("potted_palm_sapling").mapColor(MapColor.COLOR_BLACK).sound(SoundType.STONE).strength(0.0F).noOcclusion()));
         COCONUT = registerBlock("coconut", new CoconutBlock(blockProperties("coconut").mapColor(MapColor.PLANT).sound(SoundType.WOOD).strength(0.2F, 3.0F).randomTicks().noCollision()));
+        COTTON_BUSH = registerBlock("cotton_bush", new CottonBushBlock(blockProperties("cotton_bush").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.2F).randomTicks().noCollision()));
 
         Map<Block, Block> strippables = new HashMap<>(AxeItemAccessor.getStrippables());
         strippables.put(PALM_LOG, STRIPPED_PALM_LOG);
@@ -317,6 +346,11 @@ public final class ModContent {
                     .onConsume(new net.minecraft.world.item.consume_effects.ClearAllStatusEffectsConsumeEffect())
                     .build())));
         COCONUT_SEEDS = registerItem("coconut_seeds", new BlockItem(COCONUT, itemProperties("coconut_seeds").stacksTo(64)));
+        COTTON = registerItem("cotton", new BlockItem(COTTON_BUSH, itemProperties("cotton").stacksTo(64)));
+        CALAMARI = registerItem("calamari", new Item(itemProperties("calamari").stacksTo(64)
+            .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+        COOKED_CALAMARI = registerItem("cooked_calamari", new Item(itemProperties("cooked_calamari").stacksTo(64)
+            .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(6).saturationModifier(0.8F).build())));
 
         PALM_BOAT = registerItem("palm_boat", new net.minecraft.world.item.BoatItem(PALM_BOAT_ENTITY, itemProperties("palm_boat")));
         PALM_CHEST_BOAT = registerItem("palm_chest_boat", new net.minecraft.world.item.BoatItem(PALM_CHEST_BOAT_ENTITY, itemProperties("palm_chest_boat")));
@@ -354,18 +388,30 @@ public final class ModContent {
         ABYSSALITE_TRIDENT = registerItem("abyssalite_trident", new AbyssaliteTridentItem(
             itemProperties("abyssalite_trident").durability(750).repairable(ABYSSALITE_REPAIR_ITEMS)));
 
+        EMERALD_PICKAXE = registerItem("emerald_pickaxe", new Item(itemProperties("emerald_pickaxe").pickaxe(EMERALD_TOOL_MATERIAL, 1, -2.8F)));
+        EMERALD_AXE = registerItem("emerald_axe", new AxeItem(EMERALD_TOOL_MATERIAL, 5.0F, -3.0F, itemProperties("emerald_axe")));
+        EMERALD_SHOVEL = registerItem("emerald_shovel", new ShovelItem(EMERALD_TOOL_MATERIAL, 1.5F, -3.0F, itemProperties("emerald_shovel")));
+        EMERALD_HOE = registerItem("emerald_hoe", new HoeItem(EMERALD_TOOL_MATERIAL, 0.0F, 0.0F, itemProperties("emerald_hoe")));
+        EMERALD_SWORD = registerItem("emerald_sword", new Item(itemProperties("emerald_sword").sword(EMERALD_TOOL_MATERIAL, 3, -2.4F)));
+        EMERALD_HELMET = registerItem("emerald_helmet", new EmeraldArmorItem("emerald_helmet", ArmorType.HELMET));
+        EMERALD_CHESTPLATE = registerItem("emerald_chestplate", new EmeraldArmorItem("emerald_chestplate", ArmorType.CHESTPLATE));
+        EMERALD_LEGGINGS = registerItem("emerald_leggings", new EmeraldArmorItem("emerald_leggings", ArmorType.LEGGINGS));
+        EMERALD_BOOTS = registerItem("emerald_boots", new EmeraldArmorItem("emerald_boots", ArmorType.BOOTS));
+
         CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, WET_FARMLAND,
                 AQUAMARINE_PICKAXE, AQUAMARINE_AXE, AQUAMARINE_SHOVEL, AQUAMARINE_HOE, AQUAMARINE_SWORD,
                 AQUAMARINE_HELMET, AQUAMARINE_CHESTPLATE, AQUAMARINE_LEGGINGS, AQUAMARINE_BOOTS));
+        CREATIVE_TAB_ITEMS.addAll(List.of(EMERALD_PICKAXE, EMERALD_AXE, EMERALD_SHOVEL, EMERALD_HOE, EMERALD_SWORD,
+                EMERALD_HELMET, EMERALD_CHESTPLATE, EMERALD_LEGGINGS, EMERALD_BOOTS));
         CREATIVE_TAB_ITEMS.addAll(List.of(PALM_LOG, STRIPPED_PALM_LOG, PALM_WOOD, STRIPPED_PALM_WOOD, PALM_PLANKS, PALM_SLAB, PALM_STAIRS, PALM_FENCE, PALM_FENCE_GATE,
                 PALM_DOOR, PALM_TRAPDOOR, PALM_PRESSURE_PLATE, PALM_BUTTON, PALM_SIGN, PALM_HANGING_SIGN,
-                PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS));
+            PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS, COTTON, CALAMARI, COOKED_CALAMARI));
         CREATIVE_TAB_ITEMS.addAll(List.of(ATLANTIS_DEBRIS, ABYSSALITE_BLOCK, ABYSSALITE_SCRAP, ABYSSALITE_INGOT,
                 ABYSSALITE_UPGRADE_SMITHING_TEMPLATE, ABYSSALITE_PICKAXE, ABYSSALITE_AXE, ABYSSALITE_SHOVEL,
                 ABYSSALITE_HOE, ABYSSALITE_SWORD, ABYSSALITE_HELMET, ABYSSALITE_CHESTPLATE, ABYSSALITE_LEGGINGS,
                 ABYSSALITE_BOOTS, ABYSSALITE_TRIDENT));
 
-        Constants.LOG.info("Registered Aquamarine progression content");
+        Constants.LOG.info("Registered SupremeMC progression content");
     }
 
     private static Item registerBlockItem(String id, Block block) {

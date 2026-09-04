@@ -54,8 +54,12 @@ class SupremeMC(eventBus: IEventBus) {
         private fun gatherData(event: GatherDataEvent.Client) {
             val output = event.generator.packOutput
             event.addProvider(AquamarineDataProvider(output))
+            event.addProvider(EmeraldDataProvider(output))
             event.addProvider(AbyssaliteDataProvider(output))
             event.addProvider(PalmDataProvider(output))
+            event.addProvider(CottonDataProvider(output))
+            event.addProvider(CalamariDataProvider(output))
+               event.addProvider(EnchantmentDataProvider(output))
             event.addProvider(SupremeMCLanguageProvider(output))
         }
     }

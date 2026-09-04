@@ -73,9 +73,30 @@ common/src/main/resources/assets/minecraft/textures/gui/hanging_signs/palm.png
 
 Use PNG files with transparent backgrounds where appropriate. A 16x16 pixel base texture is recommended; larger textures must use a multiple of 16 for correct pixel scaling.
 
+### Cotton
+
+Cotton uses these shared textures:
+
+```text
+common/src/main/resources/assets/suprememc/textures/item/cotton.png
+common/src/main/resources/assets/suprememc/textures/block/cotton_bush_stage0.png
+common/src/main/resources/assets/suprememc/textures/block/cotton_bush_stage1.png
+common/src/main/resources/assets/suprememc/textures/block/cotton_bush_stage2.png
+common/src/main/resources/assets/suprememc/textures/block/cotton_bush_stage3.png
+```
+
 The three block textures are used by their generated block models. Wet farmland inherits Minecraft's moist farmland model and texture, so it does not need `wet_farmland.png`. The ore and block inventory items reuse their respective block textures, so they do not need separate item PNGs. The armour inventory icons use the ten item textures above.
 
 ## Equipped Armour Appearance
+
+## Calamari
+
+Supply these shared item textures for the Calamari pipeline:
+
+```text
+common/src/main/resources/assets/suprememc/textures/item/calamari.png
+common/src/main/resources/assets/suprememc/textures/item/cooked_calamari.png
+```
 
 Aquamarine armour uses a SupremeMC equipment asset when worn. Supply these three PNGs to render its custom appearance: `entity/equipment/humanoid/aquamarine.png`, `entity/equipment/humanoid_baby/aquamarine.png`, and `entity/equipment/humanoid_leggings/aquamarine.png`. The first two use the humanoid armour layer layout; the leggings PNG uses the leggings layer layout.
 

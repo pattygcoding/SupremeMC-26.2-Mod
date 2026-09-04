@@ -16,6 +16,7 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
     protected fun resourcePath(relative: String) = output.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(namespace).resolve(relative)
     protected fun dataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(namespace).resolve(relative)
     protected fun minecraftDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("minecraft").resolve(relative)
+    protected fun cDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("c").resolve(relative)
 
     protected fun itemModelDefinition(model: String, tints: JsonArray? = null) = obj {
         add("model", obj {
@@ -151,7 +152,11 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
 
     protected fun cookingRecipe(type: String, ingredient: String, result: String = "aquamarine", time: Int = 200, experience: Float = 1.0f) = obj {
         addProperty("type", type)
-        addProperty("group", if (result.startsWith("abyssalite")) "abyssalite" else "aquamarine")
+        addProperty("group", when {
+            result.startsWith("abyssalite") -> "abyssalite"
+            result.contains("calamari") -> "food"
+            else -> "aquamarine"
+        })
         addProperty("ingredient", "$namespace:$ingredient")
         add("result", itemResult(result))
         addProperty("experience", experience)
