@@ -47,7 +47,7 @@ class ModContentDataTest {
         )
 
         val model = readJson("assets/suprememc/models/block/suprememc_logo_block.json")
-    assertEquals("suprememc:block/suprememc_logo_block_side", model.getAsJsonObject("textures").get("top").asString)
+        assertEquals("suprememc:block/suprememc_logo_block_top", model.getAsJsonObject("textures").get("top").asString)
         assertEquals("suprememc:block/suprememc_logo_block_side", model.getAsJsonObject("textures").get("side").asString)
         assertEquals("suprememc:block/suprememc_logo_block_bottom", model.getAsJsonObject("textures").get("bottom").asString)
     }
@@ -212,6 +212,22 @@ class ModContentDataTest {
                 entry.getAsJsonArray("functions").any { it.asJsonObject.get("function").asString == "minecraft:apply_bonus" }
             })
         }
+
+        val configuredOre = readJson("data/suprememc/worldgen/configured_feature/prismarine_ore.json")
+        val configuredSmallOre = readJson("data/suprememc/worldgen/configured_feature/prismarine_ore_small.json")
+        assertEquals(9, configuredOre.getAsJsonObject("config").get("size").asInt)
+        assertEquals(4, configuredSmallOre.getAsJsonObject("config").get("size").asInt)
+
+        val orePlacement = readJson("data/suprememc/worldgen/placed_feature/prismarine_ore.json").getAsJsonArray("placement")
+        val smallOrePlacement = readJson("data/suprememc/worldgen/placed_feature/prismarine_ore_small.json").getAsJsonArray("placement")
+        assertEquals(10, orePlacement[0].asJsonObject.get("count").asInt)
+        assertEquals(10, smallOrePlacement[0].asJsonObject.get("count").asInt)
+        assertEquals("minecraft:trapezoid", orePlacement[2].asJsonObject.getAsJsonObject("height").get("type").asString)
+        assertEquals("minecraft:uniform", smallOrePlacement[2].asJsonObject.getAsJsonObject("height").get("type").asString)
+
+        val biomeModifier = readJson("data/suprememc/neoforge/biome_modifier/add_prismarine_ore.json")
+        assertEquals("#minecraft:is_ocean", biomeModifier.getAsJsonArray("biomes").single().asString)
+        assertEquals(listOf("suprememc:prismarine_ore", "suprememc:prismarine_ore_small"), biomeModifier.getAsJsonArray("features").map { it.asString })
     }
 
     @Test

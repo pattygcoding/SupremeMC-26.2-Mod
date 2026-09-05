@@ -16,6 +16,7 @@
     "MixinPlayer",
     "MixinLivingEntity",
     "MixinNoiseBasedChunkGenerator",
+    "MixinOverworldBiomeBuilder",
     "MixinPistonStructureResolver"
   ],
   "client": [

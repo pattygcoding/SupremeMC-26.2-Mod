@@ -3,6 +3,9 @@
   "biomes": [
     "#minecraft:is_ocean"
   ],
-  "features": "suprememc:prismarine_ore",
+  "features": [
+    "suprememc:prismarine_ore",
+    "suprememc:prismarine_ore_small"
+  ],
   "step": "underground_ores"
 }

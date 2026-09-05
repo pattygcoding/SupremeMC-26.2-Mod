@@ -17,12 +17,14 @@ class PrismarineDataProvider(output: PackOutput) : EcosystemDataProvider(output)
             writes += save(cache, obj { addProperty("parent", "$namespace:block/$id") }, resourcePath("models/item/$id.json"))
             writes += save(cache, oreLoot(id), dataPath("loot_table/blocks/$id.json"))
         }
-        writes += save(cache, configuredFeature(), dataPath("worldgen/configured_feature/prismarine_ore.json"))
-        writes += save(cache, placedFeature(), dataPath("worldgen/placed_feature/prismarine_ore.json"))
+        writes += save(cache, configuredFeature(9), dataPath("worldgen/configured_feature/prismarine_ore.json"))
+        writes += save(cache, configuredFeature(4), dataPath("worldgen/configured_feature/prismarine_ore_small.json"))
+        writes += save(cache, placedFeature("prismarine_ore", 10, -24, 56, "minecraft:trapezoid"), dataPath("worldgen/placed_feature/prismarine_ore.json"))
+        writes += save(cache, placedFeature("prismarine_ore_small", 10, 0, 72, "minecraft:uniform"), dataPath("worldgen/placed_feature/prismarine_ore_small.json"))
         writes += save(cache, obj {
             addProperty("type", "neoforge:add_features")
             add("biomes", array("#minecraft:is_ocean"))
-            addProperty("features", "$namespace:prismarine_ore")
+            add("features", array("$namespace:prismarine_ore", "$namespace:prismarine_ore_small"))
             addProperty("step", "underground_ores")
         }, dataPath("neoforge/biome_modifier/add_prismarine_ore.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
@@ -73,11 +75,11 @@ class PrismarineDataProvider(output: PackOutput) : EcosystemDataProvider(output)
         add("term", silkTouchCondition())
     }
 
-    private fun configuredFeature() = obj {
+    private fun configuredFeature(size: Int) = obj {
         addProperty("type", "minecraft:ore")
         add("config", obj {
             addProperty("discard_chance_on_air_exposure", 0.0f)
-            addProperty("size", 4)
+            addProperty("size", size)
             add("targets", JsonArray().also {
                 it.add(oreTarget("$namespace:prismarine_ore", "minecraft:stone_ore_replaceables"))
                 it.add(oreTarget("$namespace:deepslate_prismarine_ore", "minecraft:deepslate_ore_replaceables"))
@@ -86,6 +88,21 @@ class PrismarineDataProvider(output: PackOutput) : EcosystemDataProvider(output)
     }
 
     private fun oreTarget(block: String, tag: String) = obj { add("state", obj { addProperty("Name", block) }); add("target", obj { addProperty("predicate_type", "minecraft:tag_match"); addProperty("tag", tag) }) }
-    private fun placedFeature() = obj { addProperty("feature", "$namespace:prismarine_ore"); add("placement", JsonArray().also { it.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 7) }); it.add(obj { addProperty("type", "minecraft:in_square") }); it.add(obj { addProperty("type", "minecraft:height_range"); add("height", obj { addProperty("type", "minecraft:trapezoid"); add("min_inclusive", obj { addProperty("above_bottom", -32) }); add("max_inclusive", obj { addProperty("above_bottom", 32) }) }) }); it.add(obj { addProperty("type", "minecraft:biome") }) }) }
+    private fun placedFeature(feature: String, count: Int, min: Int, max: Int, distribution: String) = obj {
+        addProperty("feature", "$namespace:$feature")
+        add("placement", JsonArray().also {
+            it.add(obj { addProperty("type", "minecraft:count"); addProperty("count", count) })
+            it.add(obj { addProperty("type", "minecraft:in_square") })
+            it.add(obj {
+                addProperty("type", "minecraft:height_range")
+                add("height", obj {
+                    addProperty("type", distribution)
+                    add("min_inclusive", obj { addProperty(if (min == 0) "above_bottom" else "absolute", min) })
+                    add("max_inclusive", obj { addProperty("absolute", max) })
+                })
+            })
+            it.add(obj { addProperty("type", "minecraft:biome") })
+        })
+    }
     override fun getName() = "SupremeMC prismarine ore resources"
 }

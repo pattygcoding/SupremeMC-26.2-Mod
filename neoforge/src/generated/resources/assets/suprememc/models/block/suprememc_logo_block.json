@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "suprememc:block/suprememc_logo_block_bottom",
     "side": "suprememc:block/suprememc_logo_block_side",
-    "top": "suprememc:block/suprememc_logo_block_side"
+    "top": "suprememc:block/suprememc_logo_block_top"
   }
 }

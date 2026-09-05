@@ -72,6 +72,10 @@ public class SupremeMC implements ModInitializer {
         BiomeModifications.addFeature(
             BiomeSelectors.tag(BiomeTags.IS_OCEAN),
             GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "prismarine_ore_small")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_OCEAN),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "atlantis_debris")));
         BiomeModifications.addFeature(
             BiomeSelectors.includeByKey(Biomes.FOREST, Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST,

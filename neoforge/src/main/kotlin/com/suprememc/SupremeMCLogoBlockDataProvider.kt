@@ -9,6 +9,7 @@ class SupremeMCLogoBlockDataProvider(output: PackOutput) : EcosystemDataProvider
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
         val id = "suprememc_logo_block"
+        val textureTop = "$namespace:block/${id}_top"
         val textureSide = "$namespace:block/${id}_side"
         val textureBottom = "$namespace:block/${id}_bottom"
 
@@ -18,7 +19,7 @@ class SupremeMCLogoBlockDataProvider(output: PackOutput) : EcosystemDataProvider
         writes += save(cache, obj {
             addProperty("parent", "minecraft:block/cube_bottom_top")
             add("textures", obj {
-                addProperty("top", textureSide)
+                addProperty("top", textureTop)
                 addProperty("side", textureSide)
                 addProperty("bottom", textureBottom)
             })
