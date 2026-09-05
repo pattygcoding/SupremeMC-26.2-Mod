@@ -42,8 +42,22 @@ class FloridaPlainsDataTest : GeneratedDataTestSupport() {
         assertTrue("minecraft:flower_swamp" in vegetationEntries)
         assertTrue("minecraft:patch_grass_normal" in vegetationEntries)
         assertTrue("suprememc:florida_plains_trees" in vegetationEntries)
+        assertTrue("suprememc:tomato_bushes" in vegetationEntries)
         assertFalse("minecraft:trees_swamp" in vegetationEntries)
         assertFalse("minecraft:patch_waterlily" in vegetationEntries)
+    }
+
+    @Test
+    fun tomatoPatchesPlaceFullyGrownBushes() {
+        val configured = readJson("data/suprememc/worldgen/configured_feature/tomato_bushes.json")
+        assertEquals("minecraft:simple_block", configured.get("type").asString)
+        val state = configured.getAsJsonObject("config").getAsJsonObject("to_place")
+            .getAsJsonObject("state")
+        assertEquals("suprememc:tomato_bush", state.get("Name").asString)
+        assertEquals("3", state.getAsJsonObject("Properties").get("age").asString)
+
+        val placed = readJson("data/suprememc/worldgen/placed_feature/tomato_bushes.json")
+        assertEquals("suprememc:tomato_bushes", placed.get("feature").asString)
     }
 
     @Test

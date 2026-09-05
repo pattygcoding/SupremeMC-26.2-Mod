@@ -25,6 +25,12 @@ common/src/main/resources/assets/suprememc/textures/
 	├── humanoid_baby/aquamarine.png
 	└── humanoid_leggings/aquamarine.png
 
+Anthracite textures:
+
+- `common/src/main/resources/assets/suprememc/textures/block/nether_anthracite_ore.png`
+- `common/src/main/resources/assets/suprememc/textures/block/anthracite_block.png`
+- `common/src/main/resources/assets/suprememc/textures/item/anthracite.png`
+
 ### Abyssalite
 
 Add these PNGs to the same shared directory for US-003 and US-004:

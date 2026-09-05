@@ -1,6 +1,8 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_beach",
+  "biomes": [
+    "#minecraft:is_beach"
+  ],
   "features": "suprememc:palm_trees_temperate",
   "step": "vegetal_decoration"
 }

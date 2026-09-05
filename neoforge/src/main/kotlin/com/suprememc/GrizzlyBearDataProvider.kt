@@ -32,7 +32,7 @@ class GrizzlyBearDataProvider(output: PackOutput) : EcosystemDataProvider(output
             save(cache, definition, resourcePath("items/grizzly_bear_spawn_egg.json")),
             save(cache, addGrizzlyBear(array("#minecraft:is_taiga"), 8),
                 dataPath("neoforge/biome_modifier/add_grizzly_bear_taiga.json")),
-            save(cache, addGrizzlyBear(otherColdBiomes, 2),
+            save(cache, addGrizzlyBear(otherColdBiomes, 8),
                 dataPath("neoforge/biome_modifier/add_grizzly_bear_cold.json"))
         )
     }

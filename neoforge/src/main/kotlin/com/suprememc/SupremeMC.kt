@@ -15,6 +15,8 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.data.event.GatherDataEvent
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.registries.RegisterEvent
 
 @Mod(Constants.MOD_ID)
@@ -24,6 +26,7 @@ class SupremeMC(eventBus: IEventBus) {
         eventBus.addListener(SupremeMC::registerContent)
         eventBus.addListener(SupremeMC::addSignBlockEntityBlocks)
         eventBus.addListener(SupremeMC::registerAttributes)
+            NeoForge.EVENT_BUS.addListener(SupremeMC::registerFuelValues)
         eventBus.addListener(SupremeMC::gatherData)
     }
 
@@ -37,13 +40,19 @@ class SupremeMC(eventBus: IEventBus) {
             event.put(ModContent.GRIZZLY_BEAR_ENTITY, net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes().build())
             event.put(ModContent.FIRE_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
         }
+        private fun registerFuelValues(event: FurnaceFuelBurnTimeEvent) {
+            when (event.itemStack.item) {
+                ModContent.ANTHRACITE -> event.setBurnTime(1600)
+                ModContent.ANTHRACITE_BLOCK.asItem() -> event.setBurnTime(16000)
+            }
+        }
         private fun registerContent(event: RegisterEvent) {
             if (event.registryKey == Registries.BLOCK || event.registryKey == Registries.ITEM) {
                 ModContent.bootstrap()
             } else if (event.registryKey == Registries.CREATIVE_MODE_TAB) {
                 val tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                     .title(Component.translatable("itemGroup.${Constants.MOD_ID}.main"))
-                    .icon { ItemStack(ModContent.AQUAMARINE) }
+                    .icon { ItemStack(ModContent.SUPREME_MC_LOGO_BLOCK) }
                     .displayItems { _, output -> ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept) }
                     .build()
                 Registry.register(
@@ -60,7 +69,13 @@ class SupremeMC(eventBus: IEventBus) {
         private fun gatherData(event: GatherDataEvent.Client) {
             val output = event.generator.packOutput
             event.addProvider(AquamarineDataProvider(output))
+            event.addProvider(AmberDataProvider(output))
+            event.addProvider(AnthraciteDataProvider(output))
+            event.addProvider(PrismarineDataProvider(output))
             event.addProvider(MaterialBlocksDataProvider(output))
+            event.addProvider(SupremeMCLogoBlockDataProvider(output))
+            event.addProvider(PolishedStoneWallsDataProvider(output))
+            event.addProvider(StoneBrickDataProvider(output))
             event.addProvider(EmeraldDataProvider(output))
             event.addProvider(AbyssaliteDataProvider(output))
             event.addProvider(IcicleDataProvider(output))
@@ -73,6 +88,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(CalamariDataProvider(output))
                 event.addProvider(DrownedDataProvider(output))
                event.addProvider(EnchantmentDataProvider(output))
+            event.addProvider(SmeltingDataProvider(output))
             event.addProvider(FloridaPlainsDataProvider(output))
             event.addProvider(CaysDataProvider(output))
             event.addProvider(IceCavesDataProvider(output))
@@ -80,6 +96,8 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(GlowSlimeDataProvider(output))
             event.addProvider(GrizzlyBearDataProvider(output))
             event.addProvider(FireCreeperDataProvider(output))
+            event.addProvider(BellDataProvider(output))
+            event.addProvider(CakeDataProvider(output))
             event.addProvider(SupremeMCLanguageProvider(output))
         }
     }

@@ -24,7 +24,7 @@ class AquamarineDataTest : GeneratedDataTestSupport() {
         assertEquals(4, config.get("size").asInt)
         assertEquals(3, config.getAsJsonArray("targets").size())
         val modifier = readJson("data/suprememc/neoforge/biome_modifier/add_aquamarine_ore.json")
-        assertEquals("#minecraft:is_ocean", modifier.get("biomes").asString)
+        assertEquals(listOf("#minecraft:is_ocean"), modifier.getAsJsonArray("biomes").map { it.asString })
         assertEquals("suprememc:aquamarine_ore", modifier.get("features").asString)
     }
 
@@ -39,5 +39,12 @@ class AquamarineDataTest : GeneratedDataTestSupport() {
             assertTrue("minecraft:silk_touch" in loot && "minecraft:fortune" in loot && "minecraft:ore_drops" in loot)
             assertTagContains("data/minecraft/tags/block/needs_iron_tool.json", "suprememc:aquamarine_ore", "suprememc:deepslate_aquamarine_ore", "suprememc:aquamarine_block")
         }
+        assertTagContains(
+            "data/c/tags/item/ores.json",
+            "suprememc:aquamarine_ore",
+            "suprememc:deepslate_aquamarine_ore",
+            "suprememc:nether_anthracite_ore",
+            "suprememc:atlantis_debris"
+        )
     }
 }

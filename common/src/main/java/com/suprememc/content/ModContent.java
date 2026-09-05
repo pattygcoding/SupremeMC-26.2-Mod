@@ -8,10 +8,13 @@ import com.suprememc.content.entity.FireCreeper;
 import com.suprememc.content.entity.GrizzlyBear;
 import com.suprememc.content.items.*;
 import com.suprememc.content.worldgen.BiomeTemperaturePlacementModifier;
+import com.suprememc.content.worldgen.CornPatchFeature;
+import com.suprememc.content.worldgen.GrapeVineHangFeature;
 import com.suprememc.content.worldgen.PalmCoconutDecorator;
 import com.suprememc.content.worldgen.PalmFoliagePlacer;
 import com.suprememc.content.worldgen.PalmTrunkPlacer;
 import com.suprememc.mixin.AxeItemAccessor;
+import com.suprememc.tabs.CreativeTab;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.Registry;
@@ -69,6 +72,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.FarmlandBlock;
@@ -89,6 +93,7 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -96,6 +101,8 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
@@ -117,6 +124,23 @@ public final class ModContent {
     // Loader-agnostic list, shared by fabric/neoforge to populate the SupremeMC creative tab.
     public static final List<ItemLike> CREATIVE_TAB_ITEMS = new java.util.ArrayList<>();
 
+    public static final TagKey<Item> COTTON_REPAIR_ITEMS = TagKey.create(Registries.ITEM,
+        Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cotton_repair_items"));
+    public static final ArmorMaterial COTTON_ARMOR_MATERIAL = new ArmorMaterial(
+        5,
+        Map.of(
+            ArmorType.BOOTS, 1,
+            ArmorType.LEGGINGS, 2,
+            ArmorType.CHESTPLATE, 3,
+            ArmorType.HELMET, 1,
+            ArmorType.BODY, 3),
+        15,
+        SoundEvents.ARMOR_EQUIP_LEATHER,
+        0.0F,
+        0.0F,
+        COTTON_REPAIR_ITEMS,
+        ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cotton")));
+
         public static final ArmorMaterial AQUAMARINE_ARMOR_MATERIAL = new ArmorMaterial(
             33,
             Map.of(
@@ -131,6 +155,12 @@ public final class ModContent {
             0.0F,
             ItemTags.REPAIRS_DIAMOND_ARMOR,
             ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "aquamarine")));
+        public static final ArmorMaterial AMBER_ARMOR_MATERIAL = new ArmorMaterial(
+            33,
+            Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8,
+                ArmorType.HELMET, 3, ArmorType.BODY, 11),
+            10, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, ItemTags.REPAIRS_DIAMOND_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "amber")));
 
             public static final TagKey<Item> ABYSSALITE_REPAIR_ITEMS = TagKey.create(Registries.ITEM,
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssalite_repair_items"));
@@ -172,11 +202,22 @@ public final class ModContent {
     );
     
     public static Item AQUAMARINE;
+    public static Item AMBER;
+    public static Item ANTHRACITE;
     public static Block AQUAMARINE_ORE;
+    public static Block NETHER_ANTHRACITE_ORE;
+    public static Block ANTHRACITE_BLOCK;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
     public static Block AQUAMARINE_BLOCK;
     public static Block AQUAMARINE_STAIRS;
     public static Block AQUAMARINE_SLAB;
+    public static Block AMBER_ORE;
+    public static Block DEEPSLATE_AMBER_ORE;
+    public static Block PRISMARINE_ORE;
+    public static Block DEEPSLATE_PRISMARINE_ORE;
+    public static Block AMBER_BLOCK;
+    public static Block AMBER_STAIRS;
+    public static Block AMBER_SLAB;
     public static Block IRON_STAIRS;
     public static Block IRON_SLAB;
     public static Block LAPIS_STAIRS;
@@ -193,7 +234,23 @@ public final class ModContent {
     public static Block OBSIDIAN_SLAB;
     public static Block NETHERITE_STAIRS;
     public static Block NETHERITE_SLAB;
+    public static Block POLISHED_GRANITE_WALL;
+    public static Block POLISHED_DIORITE_WALL;
+    public static Block POLISHED_ANDESITE_WALL;
+    public static Block ANDESITE_BRICKS;
+    public static Block ANDESITE_BRICK_STAIRS;
+    public static Block ANDESITE_BRICK_SLAB;
+    public static Block ANDESITE_BRICK_WALL;
+    public static Block DIORITE_BRICKS;
+    public static Block DIORITE_BRICK_STAIRS;
+    public static Block DIORITE_BRICK_SLAB;
+    public static Block DIORITE_BRICK_WALL;
+    public static Block GRANITE_BRICKS;
+    public static Block GRANITE_BRICK_STAIRS;
+    public static Block GRANITE_BRICK_SLAB;
+    public static Block GRANITE_BRICK_WALL;
     public static Block WET_FARMLAND;
+    public static Block SUPREME_MC_LOGO_BLOCK;
     public static final BlockSetType PALM_BLOCK_SET = new BlockSetType("palm");
     public static final WoodType PALM_WOOD_TYPE = new WoodType("palm", PALM_BLOCK_SET);
         private static final ResourceKey<ConfiguredFeature<?, ?>> PALM_TREE = ResourceKey.create(
@@ -212,6 +269,12 @@ public final class ModContent {
         public static final TreeDecoratorType<PalmCoconutDecorator> PALM_COCONUT_DECORATOR_TYPE = Registry.register(
             BuiltInRegistries.TREE_DECORATOR_TYPE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "palm_coconut"),
             new TreeDecoratorType<>(PalmCoconutDecorator.CODEC));
+        public static final Feature<NoneFeatureConfiguration> CORN_PATCH_FEATURE = Registry.register(
+            BuiltInRegistries.FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "corn_patch"),
+            new CornPatchFeature());
+        public static final Feature<NoneFeatureConfiguration> GRAPE_VINE_HANG_FEATURE = Registry.register(
+            BuiltInRegistries.FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grape_vine_hang"),
+            new GrapeVineHangFeature(NoneFeatureConfiguration.CODEC));
     public static Block PALM_LOG;
     public static Block STRIPPED_PALM_LOG;
     public static Block PALM_WOOD;
@@ -237,6 +300,10 @@ public final class ModContent {
     public static Item COCONUT_SEEDS;
     public static Block COTTON_BUSH;
     public static Item COTTON;
+    public static Item COTTON_HELMET;
+    public static Item COTTON_CHESTPLATE;
+    public static Item COTTON_LEGGINGS;
+    public static Item COTTON_BOOTS;
     public static Block TOMATO_BUSH;
     public static Block BEACH_GRASS;
     public static Block TALL_BEACH_GRASS;
@@ -263,6 +330,15 @@ public final class ModContent {
     public static Item AQUAMARINE_CHESTPLATE;
     public static Item AQUAMARINE_LEGGINGS;
     public static Item AQUAMARINE_BOOTS;
+    public static Item AMBER_PICKAXE;
+    public static Item AMBER_AXE;
+    public static Item AMBER_SHOVEL;
+    public static Item AMBER_HOE;
+    public static Item AMBER_SWORD;
+    public static Item AMBER_HELMET;
+    public static Item AMBER_CHESTPLATE;
+    public static Item AMBER_LEGGINGS;
+    public static Item AMBER_BOOTS;
     public static Item ABYSSALITE_PICKAXE;
     public static Item ABYSSALITE_AXE;
     public static Item ABYSSALITE_SHOVEL;
@@ -308,9 +384,15 @@ public final class ModContent {
         registered = true;
 
         AQUAMARINE = registerItem("aquamarine", new Item(itemProperties("aquamarine").stacksTo(64)));
+        AMBER = registerItem("amber", new Item(itemProperties("amber").stacksTo(64)));
+        ANTHRACITE = registerItem("anthracite", new Item(itemProperties("anthracite").stacksTo(64)));
 
         AQUAMARINE_ORE = registerBlock("aquamarine_ore",
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("aquamarine_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+        NETHER_ANTHRACITE_ORE = registerBlock("nether_anthracite_ore",
+            new DropExperienceBlock(UniformInt.of(0, 2), blockProperties("nether_anthracite_ore").mapColor(MapColor.NETHER).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+        ANTHRACITE_BLOCK = registerBlock("anthracite_block",
+            new Block(blockProperties("anthracite_block").mapColor(MapColor.COLOR_BLACK).sound(SoundType.STONE).strength(5.0F, 6.0F)));
         DEEPSLATE_AQUAMARINE_ORE = registerBlock("deepslate_aquamarine_ore",
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("deepslate_aquamarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = registerBlock("aquamarine_block",
@@ -319,6 +401,20 @@ public final class ModContent {
             materialProperties("aquamarine_stairs", MapColor.COLOR_CYAN, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_SLAB = registerBlock("aquamarine_slab", new SlabBlock(
             materialProperties("aquamarine_slab", MapColor.COLOR_CYAN, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        AMBER_ORE = registerBlock("amber_ore", new DropExperienceBlock(UniformInt.of(3, 7),
+            blockProperties("amber_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+        DEEPSLATE_AMBER_ORE = registerBlock("deepslate_amber_ore", new DropExperienceBlock(UniformInt.of(3, 7),
+            blockProperties("deepslate_amber_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
+        PRISMARINE_ORE = registerBlock("prismarine_ore", new DropExperienceBlock(UniformInt.of(1, 5),
+            blockProperties("prismarine_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+        DEEPSLATE_PRISMARINE_ORE = registerBlock("deepslate_prismarine_ore", new DropExperienceBlock(UniformInt.of(1, 5),
+            blockProperties("deepslate_prismarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
+        AMBER_BLOCK = registerBlock("amber_block", new Block(
+            blockProperties("amber_block").mapColor(MapColor.COLOR_ORANGE).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        AMBER_STAIRS = registerBlock("amber_stairs", new MaterialStairsBlock(AMBER_BLOCK.defaultBlockState(),
+            materialProperties("amber_stairs", MapColor.COLOR_ORANGE, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        AMBER_SLAB = registerBlock("amber_slab", new SlabBlock(
+            materialProperties("amber_slab", MapColor.COLOR_ORANGE, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
         IRON_STAIRS = registerBlock("iron_stairs", new MaterialStairsBlock(Blocks.IRON_BLOCK.defaultBlockState(),
             blockProperties("iron_stairs").mapColor(MapColor.METAL).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         IRON_SLAB = registerBlock("iron_slab", new SlabBlock(
@@ -337,7 +433,24 @@ public final class ModContent {
         OBSIDIAN_SLAB = registerBlock("obsidian_slab", new SlabBlock(materialProperties("obsidian_slab", MapColor.COLOR_BLACK, SoundType.STONE, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
         NETHERITE_STAIRS = registerBlock("netherite_stairs", new MaterialStairsBlock(Blocks.NETHERITE_BLOCK.defaultBlockState(), materialProperties("netherite_stairs", MapColor.COLOR_BLACK, SoundType.NETHERITE_BLOCK, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
         NETHERITE_SLAB = registerBlock("netherite_slab", new SlabBlock(materialProperties("netherite_slab", MapColor.COLOR_BLACK, SoundType.NETHERITE_BLOCK, 50.0F, 1200.0F).requiresCorrectToolForDrops()));
+        POLISHED_GRANITE_WALL = registerBlock("polished_granite_wall", new WallBlock(materialProperties("polished_granite_wall", MapColor.COLOR_ORANGE, SoundType.STONE, 2.0F, 6.0F).requiresCorrectToolForDrops()));
+        POLISHED_DIORITE_WALL = registerBlock("polished_diorite_wall", new WallBlock(materialProperties("polished_diorite_wall", MapColor.QUARTZ, SoundType.STONE, 2.0F, 6.0F).requiresCorrectToolForDrops()));
+        POLISHED_ANDESITE_WALL = registerBlock("polished_andesite_wall", new WallBlock(materialProperties("polished_andesite_wall", MapColor.STONE, SoundType.STONE, 2.0F, 6.0F).requiresCorrectToolForDrops()));
+        ANDESITE_BRICKS = registerBlock("andesite_bricks", new Block(materialProperties("andesite_bricks", MapColor.STONE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        ANDESITE_BRICK_STAIRS = registerBlock("andesite_brick_stairs", new MaterialStairsBlock(ANDESITE_BRICKS.defaultBlockState(), materialProperties("andesite_brick_stairs", MapColor.STONE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        ANDESITE_BRICK_SLAB = registerBlock("andesite_brick_slab", new SlabBlock(materialProperties("andesite_brick_slab", MapColor.STONE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        ANDESITE_BRICK_WALL = registerBlock("andesite_brick_wall", new WallBlock(materialProperties("andesite_brick_wall", MapColor.STONE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        DIORITE_BRICKS = registerBlock("diorite_bricks", new Block(materialProperties("diorite_bricks", MapColor.QUARTZ, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        DIORITE_BRICK_STAIRS = registerBlock("diorite_brick_stairs", new MaterialStairsBlock(DIORITE_BRICKS.defaultBlockState(), materialProperties("diorite_brick_stairs", MapColor.QUARTZ, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        DIORITE_BRICK_SLAB = registerBlock("diorite_brick_slab", new SlabBlock(materialProperties("diorite_brick_slab", MapColor.QUARTZ, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        DIORITE_BRICK_WALL = registerBlock("diorite_brick_wall", new WallBlock(materialProperties("diorite_brick_wall", MapColor.QUARTZ, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        GRANITE_BRICKS = registerBlock("granite_bricks", new Block(materialProperties("granite_bricks", MapColor.COLOR_ORANGE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        GRANITE_BRICK_STAIRS = registerBlock("granite_brick_stairs", new MaterialStairsBlock(GRANITE_BRICKS.defaultBlockState(), materialProperties("granite_brick_stairs", MapColor.COLOR_ORANGE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        GRANITE_BRICK_SLAB = registerBlock("granite_brick_slab", new SlabBlock(materialProperties("granite_brick_slab", MapColor.COLOR_ORANGE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
+        GRANITE_BRICK_WALL = registerBlock("granite_brick_wall", new WallBlock(materialProperties("granite_brick_wall", MapColor.COLOR_ORANGE, SoundType.STONE, 1.5F, 6.0F).requiresCorrectToolForDrops()));
         WET_FARMLAND = registerBlock("wet_farmland", new WetFarmlandBlock(blockProperties("wet_farmland").mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
+        SUPREME_MC_LOGO_BLOCK = registerBlock("suprememc_logo_block", new Block(blockProperties("suprememc_logo_block")
+            .mapColor(MapColor.GRASS).sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         ATLANTIS_DEBRIS = registerBlock("atlantis_debris", new Block(blockProperties("atlantis_debris")
             .mapColor(MapColor.COLOR_BLACK).sound(SoundType.METAL).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
         ABYSSALITE_BLOCK = registerBlock("abyssalite_block", new Block(blockProperties("abyssalite_block")
@@ -439,10 +552,19 @@ public final class ModContent {
                     Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper"))));
 
         registerBlockItem("aquamarine_ore", AQUAMARINE_ORE);
+        registerBlockItem("nether_anthracite_ore", NETHER_ANTHRACITE_ORE);
+        registerBlockItem("anthracite_block", ANTHRACITE_BLOCK);
         registerBlockItem("deepslate_aquamarine_ore", DEEPSLATE_AQUAMARINE_ORE);
         registerBlockItem("aquamarine_block", AQUAMARINE_BLOCK);
         registerBlockItem("aquamarine_stairs", AQUAMARINE_STAIRS);
         registerBlockItem("aquamarine_slab", AQUAMARINE_SLAB);
+        registerBlockItem("amber_ore", AMBER_ORE);
+        registerBlockItem("deepslate_amber_ore", DEEPSLATE_AMBER_ORE);
+        registerBlockItem("prismarine_ore", PRISMARINE_ORE);
+        registerBlockItem("deepslate_prismarine_ore", DEEPSLATE_PRISMARINE_ORE);
+        registerBlockItem("amber_block", AMBER_BLOCK);
+        registerBlockItem("amber_stairs", AMBER_STAIRS);
+        registerBlockItem("amber_slab", AMBER_SLAB);
         registerBlockItem("iron_stairs", IRON_STAIRS);
         registerBlockItem("iron_slab", IRON_SLAB);
         registerBlockItem("lapis_stairs", LAPIS_STAIRS);
@@ -459,7 +581,23 @@ public final class ModContent {
         registerBlockItem("obsidian_slab", OBSIDIAN_SLAB);
         registerBlockItem("netherite_stairs", NETHERITE_STAIRS);
         registerBlockItem("netherite_slab", NETHERITE_SLAB);
+        registerBlockItem("polished_granite_wall", POLISHED_GRANITE_WALL);
+        registerBlockItem("polished_diorite_wall", POLISHED_DIORITE_WALL);
+        registerBlockItem("polished_andesite_wall", POLISHED_ANDESITE_WALL);
+        registerBlockItem("andesite_bricks", ANDESITE_BRICKS);
+        registerBlockItem("andesite_brick_stairs", ANDESITE_BRICK_STAIRS);
+        registerBlockItem("andesite_brick_slab", ANDESITE_BRICK_SLAB);
+        registerBlockItem("andesite_brick_wall", ANDESITE_BRICK_WALL);
+        registerBlockItem("diorite_bricks", DIORITE_BRICKS);
+        registerBlockItem("diorite_brick_stairs", DIORITE_BRICK_STAIRS);
+        registerBlockItem("diorite_brick_slab", DIORITE_BRICK_SLAB);
+        registerBlockItem("diorite_brick_wall", DIORITE_BRICK_WALL);
+        registerBlockItem("granite_bricks", GRANITE_BRICKS);
+        registerBlockItem("granite_brick_stairs", GRANITE_BRICK_STAIRS);
+        registerBlockItem("granite_brick_slab", GRANITE_BRICK_SLAB);
+        registerBlockItem("granite_brick_wall", GRANITE_BRICK_WALL);
         registerBlockItem("wet_farmland", WET_FARMLAND);
+        registerBlockItem("suprememc_logo_block", SUPREME_MC_LOGO_BLOCK);
         registerBlockItem("atlantis_debris", ATLANTIS_DEBRIS);
         registerBlockItem("abyssalite_block", ABYSSALITE_BLOCK);
         registerBlockItem("abyssalite_stairs", ABYSSALITE_STAIRS);
@@ -492,6 +630,10 @@ public final class ModContent {
                     .build())));
         COCONUT_SEEDS = registerItem("coconut_seeds", new BlockItem(COCONUT, itemProperties("coconut_seeds").stacksTo(64)));
         COTTON = registerItem("cotton", new BlockItem(COTTON_BUSH, itemProperties("cotton").stacksTo(64)));
+        COTTON_HELMET = registerItem("cotton_helmet", new Item(itemProperties("cotton_helmet").humanoidArmor(COTTON_ARMOR_MATERIAL, ArmorType.HELMET)));
+        COTTON_CHESTPLATE = registerItem("cotton_chestplate", new Item(itemProperties("cotton_chestplate").humanoidArmor(COTTON_ARMOR_MATERIAL, ArmorType.CHESTPLATE)));
+        COTTON_LEGGINGS = registerItem("cotton_leggings", new Item(itemProperties("cotton_leggings").humanoidArmor(COTTON_ARMOR_MATERIAL, ArmorType.LEGGINGS)));
+        COTTON_BOOTS = registerItem("cotton_boots", new Item(itemProperties("cotton_boots").humanoidArmor(COTTON_ARMOR_MATERIAL, ArmorType.BOOTS)));
         registerBlockItem("beach_grass", BEACH_GRASS);
         registerBlockItem("tall_beach_grass", TALL_BEACH_GRASS);
         CALAMARI = registerItem("calamari", new Item(itemProperties("calamari").stacksTo(64)
@@ -504,6 +646,8 @@ public final class ModContent {
             .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
         CORN = registerItem("corn", new BlockItem(CORN_STALK, itemProperties("corn").stacksTo(64)
             .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+
+        registerCompostables();
 
         PALM_BOAT = registerItem("palm_boat", new net.minecraft.world.item.BoatItem(PALM_BOAT_ENTITY, itemProperties("palm_boat")));
         PALM_CHEST_BOAT = registerItem("palm_chest_boat", new net.minecraft.world.item.BoatItem(PALM_CHEST_BOAT_ENTITY, itemProperties("palm_chest_boat")));
@@ -527,6 +671,15 @@ public final class ModContent {
         AQUAMARINE_CHESTPLATE = registerItem("aquamarine_chestplate", new AquamarineArmorItem("aquamarine_chestplate", ArmorType.CHESTPLATE));
         AQUAMARINE_LEGGINGS = registerItem("aquamarine_leggings", new AquamarineArmorItem("aquamarine_leggings", ArmorType.LEGGINGS));
         AQUAMARINE_BOOTS = registerItem("aquamarine_boots", new AquamarineArmorItem("aquamarine_boots", ArmorType.BOOTS));
+        AMBER_PICKAXE = registerItem("amber_pickaxe", new Item(itemProperties("amber_pickaxe").pickaxe(ToolMaterial.DIAMOND, 1, -2.8F)));
+        AMBER_AXE = registerItem("amber_axe", new AxeItem(ToolMaterial.DIAMOND, 5.0F, -3.0F, itemProperties("amber_axe")));
+        AMBER_SHOVEL = registerItem("amber_shovel", new AmberShovelItem("amber_shovel"));
+        AMBER_HOE = registerItem("amber_hoe", new AmberHoeItem("amber_hoe"));
+        AMBER_SWORD = registerItem("amber_sword", new Item(itemProperties("amber_sword").sword(ToolMaterial.DIAMOND, 3, -2.4F)));
+        AMBER_HELMET = registerItem("amber_helmet", new AmberArmorItem("amber_helmet", ArmorType.HELMET));
+        AMBER_CHESTPLATE = registerItem("amber_chestplate", new AmberArmorItem("amber_chestplate", ArmorType.CHESTPLATE));
+        AMBER_LEGGINGS = registerItem("amber_leggings", new AmberArmorItem("amber_leggings", ArmorType.LEGGINGS));
+        AMBER_BOOTS = registerItem("amber_boots", new AmberArmorItem("amber_boots", ArmorType.BOOTS));
         ABYSSALITE_PICKAXE = registerItem("abyssalite_pickaxe", new Item(itemProperties("abyssalite_pickaxe").pickaxe(ABYSSALITE_TOOL_MATERIAL, 1, -2.8F)));
         ABYSSALITE_AXE = registerItem("abyssalite_axe", new AxeItem(ABYSSALITE_TOOL_MATERIAL, 5.0F, -3.0F, itemProperties("abyssalite_axe")));
         ABYSSALITE_SHOVEL = registerItem("abyssalite_shovel", new AbyssaliteShovelItem());
@@ -555,34 +708,26 @@ public final class ModContent {
         EMERALD_LEGGINGS = registerItem("emerald_leggings", new EmeraldArmorItem("emerald_leggings", ArmorType.LEGGINGS));
         EMERALD_BOOTS = registerItem("emerald_boots", new EmeraldArmorItem("emerald_boots", ArmorType.BOOTS));
 
-        CREATIVE_TAB_ITEMS.addAll(List.of(AQUAMARINE, AQUAMARINE_ORE, DEEPSLATE_AQUAMARINE_ORE, AQUAMARINE_BLOCK, AQUAMARINE_STAIRS, AQUAMARINE_SLAB, WET_FARMLAND,
-            IRON_STAIRS, IRON_SLAB, LAPIS_STAIRS, LAPIS_SLAB, GOLD_STAIRS, GOLD_SLAB,
-            DIAMOND_STAIRS, DIAMOND_SLAB, EMERALD_STAIRS, EMERALD_SLAB, COAL_STAIRS, COAL_SLAB,
-            OBSIDIAN_STAIRS, OBSIDIAN_SLAB, NETHERITE_STAIRS, NETHERITE_SLAB,
-                AQUAMARINE_PICKAXE, AQUAMARINE_AXE, AQUAMARINE_SHOVEL, AQUAMARINE_HOE, AQUAMARINE_SWORD,
-                AQUAMARINE_HELMET, AQUAMARINE_CHESTPLATE, AQUAMARINE_LEGGINGS, AQUAMARINE_BOOTS));
-        CREATIVE_TAB_ITEMS.addAll(List.of(EMERALD_PICKAXE, EMERALD_AXE, EMERALD_SHOVEL, EMERALD_HOE, EMERALD_SWORD,
-                EMERALD_HELMET, EMERALD_CHESTPLATE, EMERALD_LEGGINGS, EMERALD_BOOTS));
-        CREATIVE_TAB_ITEMS.addAll(List.of(PALM_LOG, STRIPPED_PALM_LOG, PALM_WOOD, STRIPPED_PALM_WOOD, PALM_PLANKS, PALM_SLAB, PALM_STAIRS, PALM_FENCE, PALM_FENCE_GATE,
-                PALM_DOOR, PALM_TRAPDOOR, PALM_PRESSURE_PLATE, PALM_BUTTON, PALM_SIGN, PALM_HANGING_SIGN,
-            PALM_BOAT, PALM_CHEST_BOAT, PALM_LEAVES, PALM_SAPLING, COCONUT_ITEM, COCONUT_SEEDS, COTTON, CALAMARI, COOKED_CALAMARI,
-            GRAPES, TOMATO, CORN));
-        CREATIVE_TAB_ITEMS.add(GRIZZLY_BEAR_SPAWN_EGG);
-        CREATIVE_TAB_ITEMS.add(FIRE_CREEPER_SPAWN_EGG);
-        CREATIVE_TAB_ITEMS.addAll(List.of(BEACH_GRASS, TALL_BEACH_GRASS));
-        CREATIVE_TAB_ITEMS.addAll(GLOW_BLOCKS.values());
-        CREATIVE_TAB_ITEMS.addAll(SLIME_BLOCKS.values());
-        CREATIVE_TAB_ITEMS.addAll(List.of(ATLANTIS_DEBRIS, ABYSSALITE_BLOCK, ABYSSALITE_STAIRS, ABYSSALITE_SLAB, ABYSSALITE_SCRAP, ABYSSALITE_INGOT,
-            ICICLE,
-                ABYSSALITE_UPGRADE_SMITHING_TEMPLATE, ABYSSALITE_PICKAXE, ABYSSALITE_AXE, ABYSSALITE_SHOVEL,
-                ABYSSALITE_HOE, ABYSSALITE_SWORD, ABYSSALITE_HELMET, ABYSSALITE_CHESTPLATE, ABYSSALITE_LEGGINGS,
-                ABYSSALITE_BOOTS, ABYSSALITE_TRIDENT));
+        CreativeTab.populate();
 
         Constants.LOG.info("Registered SupremeMC progression content");
     }
 
     private static Item registerBlockItem(String id, Block block) {
         return registerItem(id, new BlockItem(block, itemProperties(id).useBlockDescriptionPrefix()));
+    }
+
+    private static void registerCompostables() {
+        ComposterBlock.COMPOSTABLES.put(PALM_LEAVES.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(PALM_SAPLING.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(COCONUT_ITEM, 0.65F);
+        ComposterBlock.COMPOSTABLES.put(COCONUT_SEEDS, 0.3F);
+        ComposterBlock.COMPOSTABLES.put(COTTON, 0.65F);
+        ComposterBlock.COMPOSTABLES.put(TOMATO, 0.65F);
+        ComposterBlock.COMPOSTABLES.put(BEACH_GRASS.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(TALL_BEACH_GRASS.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(GRAPES, 0.65F);
+        ComposterBlock.COMPOSTABLES.put(CORN, 0.65F);
     }
 
     public static Item.Properties itemProperties(String id) {

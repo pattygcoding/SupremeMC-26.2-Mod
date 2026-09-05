@@ -4,7 +4,10 @@
     "to_place": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "suprememc:cotton_bush"
+        "Name": "suprememc:cotton_bush",
+        "Properties": {
+          "age": "3"
+        }
       }
     }
   }

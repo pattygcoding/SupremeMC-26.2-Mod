@@ -12,9 +12,11 @@ class EnchantmentDataProvider(output: PackOutput) : EcosystemDataProvider(output
         writes += save(cache, venom(), dataPath("enchantment/venom.json"))
         writes += save(cache, decay(), dataPath("enchantment/decay.json"))
         writes += save(cache, wisdom(), dataPath("enchantment/wisdom.json"))
+        writes += save(cache, smelting(), dataPath("enchantment/smelting.json"))
         writes += save(cache, valuesTag("minecraft:looting", "$namespace:bounty"), dataPath("tags/enchantment/exclusive_set/bounty.json"))
         writes += save(cache, valuesTag("minecraft:fire_aspect", "$namespace:venom", "$namespace:decay"), dataPath("tags/enchantment/exclusive_set/status_damage.json"))
         writes += save(cache, valuesTag("minecraft:thorns", "$namespace:wisdom"), dataPath("tags/enchantment/exclusive_set/xp_armor.json"))
+        writes += save(cache, valuesTag("minecraft:silk_touch", "$namespace:smelting"), dataPath("tags/enchantment/exclusive_set/smelting.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
 
@@ -76,6 +78,10 @@ class EnchantmentDataProvider(output: PackOutput) : EcosystemDataProvider(output
     private fun wisdom() = base("wisdom", 4, 3, 2, "#minecraft:enchantable/leg_armor", 15, 9, 65, 9).apply {
         addProperty("exclusive_set", "#$namespace:exclusive_set/xp_armor")
         add("slots", JsonArray().also { it.add("legs") })
+    }
+
+    private fun smelting() = base("smelting", 4, 1, 2, "#minecraft:enchantable/mining", 15, 9, 65, 9).apply {
+        addProperty("exclusive_set", "#$namespace:exclusive_set/smelting")
     }
 
     override fun getName() = "SupremeMC enchantments"

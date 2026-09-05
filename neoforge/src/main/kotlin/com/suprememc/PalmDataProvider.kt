@@ -24,7 +24,10 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             writes += save(cache, itemModelDefinition("$namespace:item/$id", tints), resourcePath("items/$id.json"))
         }
         blockModels().forEach { (name, model) -> writes += save(cache, model, resourcePath("models/block/$name.json")) }
-        arrayOf("palm_log", "stripped_palm_log", "palm_wood", "stripped_palm_wood", "palm_planks", "palm_stairs", "palm_fence", "palm_fence_gate", "palm_door", "palm_trapdoor", "palm_pressure_plate", "palm_button", "palm_sapling").forEach { id ->
+        arrayOf("palm_log", "stripped_palm_log", "palm_wood", "stripped_palm_wood").forEach { id ->
+            writes += save(cache, woodSmeltingLootTable(id), dataPath("loot_table/blocks/$id.json"))
+        }
+        arrayOf("palm_planks", "palm_stairs", "palm_fence", "palm_fence_gate", "palm_door", "palm_trapdoor", "palm_pressure_plate", "palm_button", "palm_sapling").forEach { id ->
             writes += save(cache, selfDropLootTable(id), dataPath("loot_table/blocks/$id.json"))
         }
         // Slabs drop 2 when the placed block is the double variant, matching vanilla oak_slab.json.
@@ -152,7 +155,7 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
 
     private fun addFeaturesBiomeModifier(feature: String) = obj {
         addProperty("type", "neoforge:add_features")
-        addProperty("biomes", "#minecraft:is_beach")
+        add("biomes", array("#minecraft:is_beach"))
         addProperty("features", "$namespace:$feature")
         addProperty("step", "vegetal_decoration")
     }
@@ -415,6 +418,73 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         listOf(0.05, 0.0625, 0.083333336, 0.1),
         listOf(0.02, 0.022222223, 0.025, 0.033333335, 0.1),
     )
+    private fun woodSmeltingLootTable(id: String) = obj {
+        addProperty("type", "minecraft:block")
+        addProperty("random_sequence", "$namespace:blocks/$id")
+        add("pools", JsonArray().also { pools ->
+            pools.add(obj {
+                addProperty("rolls", 1.0)
+                add("entries", JsonArray().also { entries ->
+                    entries.add(obj {
+                        addProperty("type", "minecraft:alternatives")
+                        add("children", JsonArray().also { children ->
+                            children.add(obj {
+                                addProperty("type", "minecraft:item")
+                                addProperty("name", "$namespace:$id")
+                                add("conditions", JsonArray().also { it.add(silkTouchCondition()) })
+                            })
+                            children.add(obj {
+                                addProperty("type", "minecraft:item")
+                                addProperty("name", "minecraft:charcoal")
+                                add("conditions", JsonArray().also {
+                                    it.add(smeltingCondition())
+                                    it.add(survivesExplosionCondition())
+                                })
+                            })
+                            children.add(obj {
+                                addProperty("type", "minecraft:item")
+                                addProperty("name", "$namespace:$id")
+                                add("conditions", JsonArray().also { it.add(survivesExplosionCondition()) })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    private fun silkTouchCondition() = obj {
+        addProperty("condition", "minecraft:match_tool")
+        add("predicate", obj {
+            add("predicates", obj {
+                add("minecraft:enchantments", JsonArray().also {
+                    it.add(obj {
+                        addProperty("enchantments", "minecraft:silk_touch")
+                        add("levels", obj { addProperty("min", 1) })
+                    })
+                })
+            })
+        })
+    }
+
+    private fun smeltingCondition() = obj {
+        addProperty("condition", "minecraft:match_tool")
+        add("predicate", obj {
+            add("predicates", obj {
+                add("minecraft:enchantments", JsonArray().also {
+                    it.add(obj {
+                        addProperty("enchantments", "$namespace:smelting")
+                        add("levels", obj { addProperty("min", 1) })
+                    })
+                })
+            })
+        })
+    }
+
+    private fun survivesExplosionCondition() = obj {
+        addProperty("condition", "minecraft:survives_explosion")
+    }
+
     override fun getName() = "SupremeMC palm resources"
 
     private companion object {

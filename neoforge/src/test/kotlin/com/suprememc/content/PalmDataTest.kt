@@ -209,7 +209,7 @@ class PalmDataTest : GeneratedDataTestSupport() {
         ).forEach { (file, feature) ->
             val modifier = readJson("data/suprememc/neoforge/biome_modifier/$file.json")
             assertEquals("neoforge:add_features", modifier.get("type").asString)
-            assertEquals("#minecraft:is_beach", modifier.get("biomes").asString)
+            assertEquals(listOf("#minecraft:is_beach"), modifier.getAsJsonArray("biomes").map { it.asString })
             assertEquals("suprememc:$feature", modifier.get("features").asString)
             assertEquals("vegetal_decoration", modifier.get("step").asString)
         }

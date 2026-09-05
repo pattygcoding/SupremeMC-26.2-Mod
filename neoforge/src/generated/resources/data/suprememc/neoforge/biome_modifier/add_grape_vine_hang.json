@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "#minecraft:is_savanna"
+  ],
+  "features": "suprememc:grape_vine_hang",
+  "step": "vegetal_decoration"
+}

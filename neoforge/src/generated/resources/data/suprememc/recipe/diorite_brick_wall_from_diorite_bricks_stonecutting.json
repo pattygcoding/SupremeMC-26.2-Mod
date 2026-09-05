@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:diorite_bricks",
+  "result": {
+    "count": 1,
+    "id": "suprememc:diorite_brick_wall"
+  }
+}

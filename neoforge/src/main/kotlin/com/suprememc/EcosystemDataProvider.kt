@@ -16,6 +16,7 @@ abstract class EcosystemDataProvider(private val output: PackOutput) : DataProvi
     protected fun resourcePath(relative: String) = output.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(namespace).resolve(relative)
     protected fun dataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(namespace).resolve(relative)
     protected fun minecraftDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("minecraft").resolve(relative)
+    protected fun neoforgeDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("neoforge").resolve(relative)
     protected fun cDataPath(relative: String) = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve("c").resolve(relative)
 
     protected fun itemModelDefinition(model: String, tints: JsonArray? = null) = obj {

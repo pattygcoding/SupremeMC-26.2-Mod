@@ -12,9 +12,12 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
         val ingredientId: String = "${id}_block"
     )
 
+    private val vanillaTextureMaterials = setOf("iron", "lapis", "gold", "diamond", "emerald", "coal", "obsidian", "netherite")
+
     private val materials = listOf(
         Material("iron"), Material("lapis"), Material("gold"), Material("diamond"),
         Material("emerald"), Material("coal"), Material("obsidian", "obsidian", "obsidian"),
+        Material("amber"),
         Material("netherite"), Material("aquamarine"), Material("abyssalite")
     )
 
@@ -23,7 +26,11 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
         materials.forEach { material ->
             val stairs = "${material.id}_stairs"
             val slab = "${material.id}_slab"
-            val texture = "minecraft:block/${material.textureId}"
+            val texture = if (material.id in vanillaTextureMaterials) {
+                "minecraft:block/${material.textureId}"
+            } else {
+                "$namespace:block/${material.textureId}"
+            }
 
             writes += save(cache, stairsBlockState(stairs), resourcePath("blockstates/$stairs.json"))
             writes += save(cache, slabBlockState(slab), resourcePath("blockstates/$slab.json"))
@@ -40,14 +47,15 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
             writes += save(cache, slabLootTable(slab), dataPath("loot_table/blocks/$slab.json"))
             val stairsStonecutting = "${stairs}_from_${material.ingredientId}_stonecutting"
             val slabStonecutting = "${slab}_from_${material.ingredientId}_stonecutting"
-            writes += save(cache, shapedRecipe(stairs, 6, material.ingredientId, arrayOf("#  ", "## ", "###")), dataPath("recipe/$stairs.json"))
-            writes += save(cache, shapedRecipe(slab, 6, material.ingredientId, arrayOf("###")), dataPath("recipe/$slab.json"))
-            writes += save(cache, stonecuttingRecipe(stairs, 1, material.ingredientId), dataPath("recipe/$stairsStonecutting.json"))
-            writes += save(cache, stonecuttingRecipe(slab, 2, material.ingredientId), dataPath("recipe/$slabStonecutting.json"))
-            writes += save(cache, recipeAdvancement(stairs, material.ingredientId), dataPath("advancement/recipes/building_blocks/$stairs.json"))
-            writes += save(cache, recipeAdvancement(slab, material.ingredientId), dataPath("advancement/recipes/building_blocks/$slab.json"))
-            writes += save(cache, recipeAdvancement(stairsStonecutting, material.ingredientId), dataPath("advancement/recipes/building_blocks/$stairsStonecutting.json"))
-            writes += save(cache, recipeAdvancement(slabStonecutting, material.ingredientId), dataPath("advancement/recipes/building_blocks/$slabStonecutting.json"))
+            val ingredient = if (material.id in vanillaTextureMaterials) "minecraft:${material.ingredientId}" else "$namespace:${material.ingredientId}"
+            writes += save(cache, shapedRecipe(stairs, 6, ingredient, arrayOf("#  ", "## ", "###")), dataPath("recipe/$stairs.json"))
+            writes += save(cache, shapedRecipe(slab, 6, ingredient, arrayOf("###")), dataPath("recipe/$slab.json"))
+            writes += save(cache, stonecuttingRecipe(stairs, 1, ingredient), dataPath("recipe/$stairsStonecutting.json"))
+            writes += save(cache, stonecuttingRecipe(slab, 2, ingredient), dataPath("recipe/$slabStonecutting.json"))
+            writes += save(cache, recipeAdvancement(stairs, ingredient), dataPath("advancement/recipes/building_blocks/$stairs.json"))
+            writes += save(cache, recipeAdvancement(slab, ingredient), dataPath("advancement/recipes/building_blocks/$slab.json"))
+            writes += save(cache, recipeAdvancement(stairsStonecutting, ingredient), dataPath("advancement/recipes/building_blocks/$stairsStonecutting.json"))
+            writes += save(cache, recipeAdvancement(slabStonecutting, ingredient), dataPath("advancement/recipes/building_blocks/$slabStonecutting.json"))
         }
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
@@ -125,19 +133,20 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
         addProperty("type", "minecraft:crafting_shaped")
         addProperty("category", "building")
         add("pattern", JsonArray().also { pattern.forEach(it::add) })
-        add("key", obj { addProperty("#", "minecraft:$ingredient") })
+        add("key", obj { addProperty("#", if (ingredient.contains(':')) ingredient else "$namespace:$ingredient") })
         add("result", itemResult(result, count))
     }
 
     private fun stonecuttingRecipe(result: String, count: Int, ingredient: String) = obj {
         addProperty("type", "minecraft:stonecutting")
-        addProperty("ingredient", "minecraft:$ingredient")
+        addProperty("ingredient", if (ingredient.contains(':')) ingredient else "$namespace:$ingredient")
         add("result", itemResult(result, count))
     }
 
     private fun recipeAdvancement(recipe: String, ingredient: String) = obj {
-        val material = ingredient.substringAfter("minecraft:").substringBefore('_')
-        val block = "minecraft:$ingredient"
+        val normalizedIngredient = if (ingredient.contains(':')) ingredient else "$namespace:$ingredient"
+        val material = normalizedIngredient.substringAfter(':').substringBefore('_')
+        val block = normalizedIngredient
         addProperty("parent", "minecraft:recipes/root")
         add("criteria", obj {
             add("has_${material}_block", obj {

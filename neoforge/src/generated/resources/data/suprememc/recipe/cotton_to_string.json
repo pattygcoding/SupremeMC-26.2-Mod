@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:cotton"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:string"
+  }
+}

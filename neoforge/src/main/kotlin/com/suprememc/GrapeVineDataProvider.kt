@@ -18,7 +18,32 @@ class GrapeVineDataProvider(output: PackOutput) : EcosystemDataProvider(output) 
         // assets/<ns>/items/<id>.json must still resolve for every generated blockstate.
         writes += save(cache, itemModelDefinition("$namespace:block/grape_vine"), resourcePath("items/grape_vine.json"))
         writes += save(cache, itemModelDefinition("$namespace:block/grape_vine_plant"), resourcePath("items/grape_vine_plant.json"))
+        writes += save(cache, grapeVineHangFeature(), dataPath("worldgen/configured_feature/grape_vine_hang.json"))
+        writes += save(cache, grapeVineHangPlacement(), dataPath("worldgen/placed_feature/grape_vine_hang.json"))
+        writes += save(cache, grapeVineBiomeModifier(), dataPath("neoforge/biome_modifier/add_grape_vine_hang.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
+    }
+
+    private fun grapeVineHangFeature() = obj {
+        addProperty("type", "$namespace:grape_vine_hang")
+        add("config", obj {})
+    }
+
+    private fun grapeVineHangPlacement() = obj {
+        addProperty("feature", "$namespace:grape_vine_hang")
+        add("placement", JsonArray().also { placement ->
+            placement.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 6) })
+            placement.add(obj { addProperty("type", "minecraft:in_square") })
+            placement.add(obj { addProperty("type", "minecraft:heightmap"); addProperty("heightmap", "WORLD_SURFACE_WG") })
+            placement.add(obj { addProperty("type", "minecraft:biome") })
+        })
+    }
+
+    private fun grapeVineBiomeModifier() = obj {
+        addProperty("type", "neoforge:add_features")
+        add("biomes", JsonArray().also { biomes -> biomes.add("#minecraft:is_savanna") })
+        addProperty("features", "$namespace:grape_vine_hang")
+        addProperty("step", "vegetal_decoration")
     }
 
     private fun blockState(id: String) = obj {

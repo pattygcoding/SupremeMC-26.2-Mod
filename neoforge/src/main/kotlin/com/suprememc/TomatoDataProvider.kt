@@ -17,6 +17,8 @@ class TomatoDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, itemModelDefinition("$namespace:block/tomato_bush_stage3"), resourcePath("items/tomato_bush.json"))
         writes += save(cache, tomatoLoot(), dataPath("loot_table/blocks/tomato_bush.json"))
         writes += save(cache, tomatoLoot(), dataPath("loot_table/harvest/tomato_bush.json"))
+        writes += save(cache, tomatoPatch(), dataPath("worldgen/configured_feature/tomato_bushes.json"))
+        writes += save(cache, tomatoPlacement(), dataPath("worldgen/placed_feature/tomato_bushes.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
 
@@ -62,6 +64,46 @@ class TomatoDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
                 })
             })
         })
+    }
+
+    private fun tomatoPatch() = obj {
+        addProperty("type", "minecraft:simple_block")
+        add("config", obj {
+            add("to_place", obj {
+                addProperty("type", "minecraft:simple_state_provider")
+                add("state", obj {
+                    addProperty("Name", "$namespace:tomato_bush")
+                    add("Properties", obj { addProperty("age", "3") })
+                })
+            })
+        })
+    }
+
+    private fun tomatoPlacement() = obj {
+        addProperty("feature", "$namespace:tomato_bushes")
+        add("placement", JsonArray().also { placement ->
+            placement.add(obj { addProperty("type", "minecraft:rarity_filter"); addProperty("chance", 4) })
+            placement.add(obj { addProperty("type", "minecraft:in_square") })
+            placement.add(obj { addProperty("type", "minecraft:heightmap"); addProperty("heightmap", "MOTION_BLOCKING") })
+            placement.add(obj { addProperty("type", "minecraft:biome") })
+            placement.add(obj { addProperty("type", "minecraft:count"); addProperty("count", 32) })
+            placement.add(obj {
+                addProperty("type", "minecraft:random_offset")
+                add("xz_spread", trapezoid(4))
+                add("y_spread", trapezoid(1))
+            })
+            placement.add(obj {
+                addProperty("type", "minecraft:block_predicate_filter")
+                add("predicate", obj { addProperty("type", "minecraft:matching_block_tag"); addProperty("tag", "minecraft:air") })
+            })
+        })
+    }
+
+    private fun trapezoid(spread: Int) = obj {
+        addProperty("type", "minecraft:trapezoid")
+        addProperty("max", spread)
+        addProperty("min", -spread)
+        addProperty("plateau", 0)
     }
 
     override fun getName() = "SupremeMC tomato"

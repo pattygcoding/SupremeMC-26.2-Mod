@@ -18,9 +18,10 @@ class AquamarineDataProvider(output: PackOutput) : EcosystemDataProvider(output)
         writeWorldgen(cache, writes)
         writes += save(cache, oreLoot("aquamarine_ore"), dataPath("loot_table/blocks/aquamarine_ore.json"))
         writes += save(cache, oreLoot("deepslate_aquamarine_ore"), dataPath("loot_table/blocks/deepslate_aquamarine_ore.json"))
-        writes += save(cache, valuesTag("$namespace:aquamarine_ore", "$namespace:deepslate_aquamarine_ore", "$namespace:aquamarine_block"), minecraftDataPath("tags/block/needs_iron_tool.json"))
-        writes += save(cache, valuesTag("$namespace:aquamarine_ore", "$namespace:deepslate_aquamarine_ore", "$namespace:aquamarine_block", "$namespace:atlantis_debris", "$namespace:abyssalite_block"), minecraftDataPath("tags/block/mineable/pickaxe.json"))
+        writes += save(cache, valuesTag("$namespace:aquamarine_ore", "$namespace:deepslate_aquamarine_ore", "$namespace:aquamarine_block", "$namespace:nether_anthracite_ore", "$namespace:anthracite_block"), minecraftDataPath("tags/block/needs_iron_tool.json"))
+        writes += save(cache, valuesTag("$namespace:aquamarine_ore", "$namespace:deepslate_aquamarine_ore", "$namespace:aquamarine_block", "$namespace:atlantis_debris", "$namespace:abyssalite_block", "$namespace:nether_anthracite_ore", "$namespace:anthracite_block"), minecraftDataPath("tags/block/mineable/pickaxe.json"))
         writes += save(cache, valuesTag("$namespace:aquamarine_block"), minecraftDataPath("tags/block/beacon_base_blocks.json"))
+        writes += save(cache, valuesTag("$namespace:aquamarine_ore", "$namespace:deepslate_aquamarine_ore", "$namespace:nether_anthracite_ore", "$namespace:atlantis_debris"), cDataPath("tags/item/ores.json"))
         writes += save(cache, valuesTag("$namespace:aquamarine"), minecraftDataPath("tags/item/beacon_payment_items.json"))
         writes += save(cache, equipmentAsset(), resourcePath("equipment/aquamarine.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
@@ -67,7 +68,7 @@ class AquamarineDataProvider(output: PackOutput) : EcosystemDataProvider(output)
         }
         writes += save(cache, feature, dataPath("worldgen/configured_feature/aquamarine_ore.json"))
         writes += save(cache, obj { addProperty("feature", "$namespace:aquamarine_ore"); add("placement", placement(7, -80, 80)) }, dataPath("worldgen/placed_feature/aquamarine_ore.json"))
-        writes += save(cache, obj { addProperty("type", "neoforge:add_features"); addProperty("biomes", "#minecraft:is_ocean"); addProperty("features", "$namespace:aquamarine_ore"); addProperty("step", "underground_ores") }, dataPath("neoforge/biome_modifier/add_aquamarine_ore.json"))
+        writes += save(cache, obj { addProperty("type", "neoforge:add_features"); add("biomes", array("#minecraft:is_ocean")); addProperty("features", "$namespace:aquamarine_ore"); addProperty("step", "underground_ores") }, dataPath("neoforge/biome_modifier/add_aquamarine_ore.json"))
     }
 
     private fun oreTarget(block: String, value: String, tag: Boolean = true) = obj { add("state", obj { addProperty("Name", block) }); add("target", obj { addProperty("predicate_type", if (tag) "minecraft:tag_match" else "minecraft:block_match"); addProperty(if (tag) "tag" else "block", value) }) }

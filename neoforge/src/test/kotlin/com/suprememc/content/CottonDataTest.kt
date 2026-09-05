@@ -16,6 +16,15 @@ class CottonDataTest : GeneratedDataTestSupport() {
     }
 
     @Test
+    fun cottonCraftsIntoOneString() {
+        val recipe = readJson("data/suprememc/recipe/cotton_to_string.json")
+        assertEquals("minecraft:crafting_shapeless", recipe.get("type").asString)
+        assertEquals(listOf("suprememc:cotton"), recipe.getAsJsonArray("ingredients").map { it.asString })
+        assertEquals("minecraft:string", recipe.getAsJsonObject("result").get("id").asString)
+        assertEquals(1, recipe.getAsJsonObject("result").get("count").asInt)
+    }
+
+    @Test
     fun cottonBushLootMatchesSweetBerryGrowthStages() {
         listOf("blocks/cotton_bush", "harvest/cotton_bush").forEach { path ->
             val pools = readJson("data/suprememc/loot_table/$path.json").getAsJsonArray("pools").map { it.asJsonObject }
@@ -31,10 +40,12 @@ class CottonDataTest : GeneratedDataTestSupport() {
     fun cottonBushesGenerateOnlyInPlainsVariants() {
         val configured = readJson("data/suprememc/worldgen/configured_feature/cotton_bushes.json")
         assertEquals("minecraft:simple_block", configured.get("type").asString)
+        val state = configured.getAsJsonObject("config").getAsJsonObject("to_place")
+            .getAsJsonObject("state")
+        assertEquals("suprememc:cotton_bush", state.get("Name").asString)
         assertEquals(
-            "suprememc:cotton_bush",
-            configured.getAsJsonObject("config").getAsJsonObject("to_place")
-                .getAsJsonObject("state").get("Name").asString
+            "3",
+            state.getAsJsonObject("Properties").get("age").asString
         )
 
         val placed = readJson("data/suprememc/worldgen/placed_feature/cotton_bushes.json")

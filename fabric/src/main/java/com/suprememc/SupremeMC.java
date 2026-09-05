@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import com.suprememc.content.ModContent;
 import com.suprememc.loot.ModLootInjections;
@@ -47,6 +48,10 @@ public class SupremeMC implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
+        FuelValueEvents.BUILD.register((builder, context) -> {
+            builder.add(ModContent.ANTHRACITE, 1600);
+            builder.add(ModContent.ANTHRACITE_BLOCK, 16000);
+        });
         FabricDefaultAttributeRegistry.register(ModContent.GRIZZLY_BEAR_ENTITY,
             net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes());
         FabricDefaultAttributeRegistry.register(ModContent.FIRE_CREEPER_ENTITY,
@@ -63,7 +68,24 @@ public class SupremeMC implements ModInitializer {
         BiomeModifications.addFeature(
             BiomeSelectors.tag(BiomeTags.IS_OCEAN),
             GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "prismarine_ore")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_OCEAN),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "atlantis_debris")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.FOREST, Biomes.FLOWER_FOREST, Biomes.BIRCH_FOREST,
+                Biomes.OLD_GROWTH_BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.GROVE),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "amber_ore")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PALE_GARDEN),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "amber_ore_pale_garden")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_NETHER),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "nether_anthracite_ore")));
         // Palm beaches: warm-climate beaches always grow palms; moderate-climate beaches at a 50% chunk rate
         // and lower density. The placed feature JSONs (packaged from the shared generated data) carry the
         // temperature tiers and sand substrate rules, so behavior matches the NeoForge biome modifiers.
@@ -79,6 +101,10 @@ public class SupremeMC implements ModInitializer {
             BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS),
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cotton_bushes")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.includeByKey(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS),
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "corn_patches")));
         // Beach grass grows on both real beach biomes and the custom Cays biome (mirrors the NeoForge biome modifier).
         Predicate<BiomeSelectionContext> beachOrCays =
             BiomeSelectors.tag(BiomeTags.IS_BEACH).or(BiomeSelectors.includeByKey(CAYS));
@@ -90,12 +116,16 @@ public class SupremeMC implements ModInitializer {
             beachOrCays,
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "tall_beach_grass")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_SAVANNA),
+            GenerationStep.Decoration.VEGETAL_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grape_vine_hang")));
         registerDrownedSpawns();
         registerFireCreeperSpawns();
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
-                .icon(() -> new ItemStack(ModContent.AQUAMARINE))
+                .icon(() -> new ItemStack(ModContent.SUPREME_MC_LOGO_BLOCK))
                 .displayItems((params, output) -> ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept))
                 .build();
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,

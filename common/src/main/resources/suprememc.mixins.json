@@ -6,6 +6,7 @@
   "mixins": [
     "MixinItemEntity",
     "MixinPotionItem",
+    "MixinItems",
     "MixinBoneMealItem",
     "AxeItemAccessor",
     "MixinThrownTrident",
@@ -14,7 +15,6 @@
     "ThrownTridentAccessor",
     "MixinPlayer",
     "MixinLivingEntity",
-    "MixinOverworldBiomeBuilder",
     "MixinNoiseBasedChunkGenerator",
     "MixinPistonStructureResolver"
   ],

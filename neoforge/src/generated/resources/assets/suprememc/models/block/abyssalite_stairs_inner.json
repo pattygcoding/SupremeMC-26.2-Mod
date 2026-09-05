@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/inner_stairs",
   "textures": {
-    "bottom": "minecraft:block/abyssalite_block",
-    "side": "minecraft:block/abyssalite_block",
-    "top": "minecraft:block/abyssalite_block"
+    "bottom": "suprememc:block/abyssalite_block",
+    "side": "suprememc:block/abyssalite_block",
+    "top": "suprememc:block/abyssalite_block"
   }
 }

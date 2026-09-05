@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "suprememc:cotton"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "suprememc:cotton"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "suprememc:cotton"
+      }
+    ]
+  }
+}

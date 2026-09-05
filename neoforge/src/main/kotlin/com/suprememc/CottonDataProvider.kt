@@ -9,12 +9,33 @@ import java.util.concurrent.CompletableFuture
 class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
+        val armor = arrayOf("cotton_helmet", "cotton_chestplate", "cotton_leggings", "cotton_boots")
         writes += save(cache, cottonBlockState(), resourcePath("blockstates/cotton_bush.json"))
         (0..3).forEach { age ->
             writes += save(cache, model("minecraft:block/cross", "cross" to "$namespace:block/cotton_bush_stage$age"), resourcePath("models/block/cotton_bush_stage$age.json"))
         }
         writes += save(cache, flatItemModel("$namespace:item/cotton"), resourcePath("models/item/cotton.json"))
         writes += save(cache, itemModelDefinition("$namespace:item/cotton"), resourcePath("items/cotton.json"))
+        modelFiles(cache, writes, armor)
+        writes += save(cache, valuesTag("$namespace:cotton"), dataPath("tags/item/cotton_repair_items.json"))
+        armor.forEach { id ->
+            val pattern = when (id) {
+                "cotton_helmet" -> arrayOf("CCC", "C C")
+                "cotton_chestplate" -> arrayOf("C C", "CCC", "CCC")
+                "cotton_leggings" -> arrayOf("CCC", "C C", "C C")
+                else -> arrayOf("C C", "C C")
+            }
+            writes += save(cache, shapedRecipe(id, "equipment", pattern, "C", "cotton"), dataPath("recipe/$id.json"))
+            writes += save(cache, recipeAdvancement(id, "equipment", "cotton"), dataPath("advancement/recipes/equipment/$id.json"))
+        }
+        writes += save(cache, obj {
+            addProperty("type", "minecraft:crafting_shapeless")
+            addProperty("category", "misc")
+            add("ingredients", JsonArray().also { it.add("$namespace:cotton") })
+            add("result", minecraftItemResult("string"))
+        }, dataPath("recipe/cotton_to_string.json"))
+        writes += save(cache, recipeAdvancement("cotton_to_string", "misc", "cotton"), dataPath("advancement/recipes/misc/cotton_to_string.json"))
+        writes += save(cache, equipmentAsset(), resourcePath("equipment/cotton.json"))
         // Datagen-only: cotton_bush has no BlockItem, but assets/<ns>/items/<id>.json must resolve for every blockstate.
         writes += save(cache, itemModelDefinition("$namespace:block/cotton_bush_stage3"), resourcePath("items/cotton_bush.json"))
         writes += save(cache, cottonLoot(), dataPath("loot_table/blocks/cotton_bush.json"))
@@ -76,7 +97,10 @@ class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         add("config", obj {
             add("to_place", obj {
                 addProperty("type", "minecraft:simple_state_provider")
-                add("state", obj { addProperty("Name", "$namespace:cotton_bush") })
+                add("state", obj {
+                    addProperty("Name", "$namespace:cotton_bush")
+                    add("Properties", obj { addProperty("age", "3") })
+                })
             })
         })
     }
@@ -116,6 +140,16 @@ class CottonDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         addProperty("features", "$namespace:cotton_bushes")
         addProperty("step", "vegetal_decoration")
     }
+
+    private fun equipmentAsset() = obj {
+        add("layers", obj {
+            add("humanoid", arrayLayer("cotton"))
+            add("humanoid_baby", arrayLayer("cotton"))
+            add("humanoid_leggings", arrayLayer("cotton"))
+        })
+    }
+
+    private fun arrayLayer(id: String) = JsonArray().also { it.add(obj { addProperty("texture", "$namespace:$id") }) }
 
     override fun getName() = "SupremeMC cotton"
 }

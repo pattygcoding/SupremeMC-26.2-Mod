@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "group": "aquamarine",
+  "ingredient": "suprememc:amber_ore",
+  "result": {
+    "count": 1,
+    "id": "suprememc:aquamarine"
+  }
+}

@@ -1,6 +1,8 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_ocean",
+  "biomes": [
+    "#minecraft:is_ocean"
+  ],
   "features": "suprememc:atlantis_debris",
   "step": "underground_ores"
 }

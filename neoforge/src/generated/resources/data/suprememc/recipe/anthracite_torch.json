@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "suprememc:anthracite",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "A",
+    "S"
+  ],
+  "result": {
+    "count": 8,
+    "id": "minecraft:torch"
+  }
+}

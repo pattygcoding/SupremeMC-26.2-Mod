@@ -1,0 +1,10 @@
+{
+  "values": {
+    "suprememc:anthracite": {
+      "burn_time": 1600
+    },
+    "suprememc:anthracite_block": {
+      "burn_time": 16000
+    }
+  }
+}

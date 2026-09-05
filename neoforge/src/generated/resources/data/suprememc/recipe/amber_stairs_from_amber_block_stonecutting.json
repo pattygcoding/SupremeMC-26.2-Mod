@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:amber_block",
+  "result": {
+    "count": 1,
+    "id": "suprememc:amber_stairs"
+  }
+}

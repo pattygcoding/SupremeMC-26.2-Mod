@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:pale_garden"
+  ],
+  "features": "suprememc:amber_ore_pale_garden",
+  "step": "underground_ores"
+}

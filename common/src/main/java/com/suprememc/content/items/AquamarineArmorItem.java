@@ -22,7 +22,7 @@ public class AquamarineArmorItem extends Item {
                 && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof AquamarineArmorItem
                 && player.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof AquamarineArmorItem
                 && player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof AquamarineArmorItem;
-            if (fullSet) living.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 40, 0, false, false, false));
+            if (fullSet) living.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 25, 0, false, false, false));
         }
     }
 }

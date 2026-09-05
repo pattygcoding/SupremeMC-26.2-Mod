@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": "minecraft:aquamarine_block"
+    "#": "suprememc:aquamarine_block"
   },
   "pattern": [
     "###"

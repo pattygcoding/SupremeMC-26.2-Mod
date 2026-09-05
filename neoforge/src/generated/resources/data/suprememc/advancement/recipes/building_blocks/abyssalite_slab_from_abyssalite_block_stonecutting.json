@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:abyssalite_block"
+            "items": "suprememc:abyssalite_block"
           }
         ]
       },

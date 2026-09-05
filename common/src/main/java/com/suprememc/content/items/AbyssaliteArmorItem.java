@@ -17,8 +17,8 @@ public class AbyssaliteArmorItem extends Item {
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
         if (entity instanceof Player player && isFullSet(player)) {
-            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 40, 0, false, false, true));
-            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 40, 0, false, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 25, 0, false, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 25, 0, false, false, true));
         }
     }
 
