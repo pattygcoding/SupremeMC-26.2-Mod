@@ -134,3 +134,15 @@ common/src/main/resources/assets/suprememc/textures/item/fire_creeper_spawn_egg.
 ```
 
 `fire_creeper.png` follows the vanilla creeper texture layout, and `fire_creeper_armor.png` is the charged energy-swirl overlay shown when the Fire Creeper is struck by lightning (same layout as vanilla's `creeper_armor.png`).
+
+## Snow Creeper
+
+The Snow Creeper entity and its spawn egg use these shared textures (already supplied):
+
+```text
+common/src/main/resources/assets/suprememc/textures/entity/snow_creeper/snow_creeper.png
+common/src/main/resources/assets/suprememc/textures/entity/snow_creeper/snow_creeper_armor.png
+common/src/main/resources/assets/suprememc/textures/item/snow_creeper_spawn_egg.png
+```
+
+`snow_creeper.png` follows the vanilla creeper texture layout, and `snow_creeper_armor.png` is the charged energy-swirl overlay shown when the Snow Creeper is struck by lightning (same layout as vanilla's `creeper_armor.png`).

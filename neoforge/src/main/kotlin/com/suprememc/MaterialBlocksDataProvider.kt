@@ -18,7 +18,8 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
         Material("iron"), Material("lapis"), Material("gold"), Material("diamond"),
         Material("emerald"), Material("coal"), Material("obsidian", "obsidian", "obsidian"),
         Material("amber"),
-        Material("netherite"), Material("aquamarine"), Material("abyssalite")
+        Material("netherite"), Material("aquamarine"), Material("abyssalite"),
+        Material("burning_diamond")
     )
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {

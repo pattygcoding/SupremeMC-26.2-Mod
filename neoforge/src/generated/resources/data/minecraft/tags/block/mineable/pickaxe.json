@@ -7,10 +7,7 @@
     "suprememc:abyssalite_block",
     "suprememc:nether_anthracite_ore",
     "suprememc:anthracite_block",
-    "suprememc:amber_ore",
-    "suprememc:deepslate_amber_ore",
-    "suprememc:amber_block",
-    "suprememc:prismarine_ore",
-    "suprememc:deepslate_prismarine_ore"
+    "suprememc:burning_diamond_ore",
+    "suprememc:burning_diamond_block"
   ]
 }

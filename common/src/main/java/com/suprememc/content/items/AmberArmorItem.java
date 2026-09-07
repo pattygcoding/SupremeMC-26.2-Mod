@@ -22,7 +22,7 @@ public class AmberArmorItem extends Item {
                 && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof AmberArmorItem
                 && player.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof AmberArmorItem
                 && player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof AmberArmorItem;
-            if (fullSet) living.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 25, 0, false, false, false));
+            if (fullSet) living.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 205, 0, false, false, false));
         }
     }
 }

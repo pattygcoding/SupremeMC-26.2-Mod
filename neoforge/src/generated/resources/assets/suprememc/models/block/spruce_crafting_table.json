@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "minecraft:block/spruce_planks",
+    "east": "suprememc:block/spruce_crafting_table_side",
+    "north": "suprememc:block/spruce_crafting_table_front",
+    "particle": "suprememc:block/spruce_crafting_table_front",
+    "south": "suprememc:block/spruce_crafting_table_side",
+    "up": "suprememc:block/spruce_crafting_table_top",
+    "west": "suprememc:block/spruce_crafting_table_front"
+  }
+}

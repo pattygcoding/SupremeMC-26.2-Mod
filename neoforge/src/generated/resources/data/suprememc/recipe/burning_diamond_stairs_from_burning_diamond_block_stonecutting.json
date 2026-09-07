@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:burning_diamond_block",
+  "result": {
+    "count": 1,
+    "id": "suprememc:burning_diamond_stairs"
+  }
+}

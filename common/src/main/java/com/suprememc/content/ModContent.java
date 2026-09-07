@@ -4,8 +4,10 @@ import com.mojang.serialization.MapCodec;
 import com.suprememc.Constants;
 import com.suprememc.content.blocks.*;
 import com.suprememc.content.entity.AbyssaliteTridentEntity;
+import com.suprememc.content.entity.EnderSpider;
 import com.suprememc.content.entity.FireCreeper;
 import com.suprememc.content.entity.GrizzlyBear;
+import com.suprememc.content.entity.SnowCreeper;
 import com.suprememc.content.items.*;
 import com.suprememc.content.worldgen.BiomeTemperaturePlacementModifier;
 import com.suprememc.content.worldgen.CornPatchFeature;
@@ -16,6 +18,7 @@ import com.suprememc.content.worldgen.PalmTrunkPlacer;
 import com.suprememc.mixin.AxeItemAccessor;
 import com.suprememc.tabs.CreativeTab;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -45,9 +48,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -55,6 +63,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.entity.vehicle.boat.ChestBoat;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.core.Position;
 import net.minecraft.core.Direction;
@@ -79,6 +88,7 @@ import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.HangingSignBlock;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -155,6 +165,34 @@ public final class ModContent {
             0.0F,
             ItemTags.REPAIRS_DIAMOND_ARMOR,
             ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "aquamarine")));
+        public static final ArmorMaterial BURNING_DIAMOND_ARMOR_MATERIAL = new ArmorMaterial(
+            33,
+            Map.of(
+                ArmorType.BOOTS, 3,
+                ArmorType.LEGGINGS, 6,
+                ArmorType.CHESTPLATE, 8,
+                ArmorType.HELMET, 3,
+                ArmorType.BODY, 11),
+            10,
+            SoundEvents.ARMOR_EQUIP_DIAMOND,
+            2.0F,
+            0.0F,
+            ItemTags.REPAIRS_DIAMOND_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "burning_diamond")));
+        public static final ArmorMaterial BURNING_NETHERITE_ARMOR_MATERIAL = new ArmorMaterial(
+            37,
+            Map.of(
+                ArmorType.BOOTS, 3,
+                ArmorType.LEGGINGS, 6,
+                ArmorType.CHESTPLATE, 8,
+                ArmorType.HELMET, 3,
+                ArmorType.BODY, 11),
+            15,
+            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            3.0F,
+            0.1F,
+            ItemTags.REPAIRS_NETHERITE_ARMOR,
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "burning_netherite")));
         public static final ArmorMaterial AMBER_ARMOR_MATERIAL = new ArmorMaterial(
             33,
             Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8,
@@ -202,13 +240,29 @@ public final class ModContent {
     );
     
     public static Item AQUAMARINE;
+    public static Item BURNING_DIAMOND;
+    public static Item BURNING_NETHERITE_PICKAXE;
+    public static Item BURNING_NETHERITE_AXE;
+    public static Item BURNING_NETHERITE_SHOVEL;
+    public static Item BURNING_NETHERITE_HOE;
+    public static Item BURNING_NETHERITE_SWORD;
+    public static Item BURNING_NETHERITE_HELMET;
+    public static Item BURNING_NETHERITE_CHESTPLATE;
+    public static Item BURNING_NETHERITE_LEGGINGS;
+    public static Item BURNING_NETHERITE_BOOTS;
     public static Item AMBER;
     public static Item ANTHRACITE;
+    public static Item EXPERIENCE_DUST;
+    public static Item XYLIUM_DUST;
     public static Block AQUAMARINE_ORE;
+    public static Block BURNING_DIAMOND_ORE;
     public static Block NETHER_ANTHRACITE_ORE;
     public static Block ANTHRACITE_BLOCK;
     public static Block DEEPSLATE_AQUAMARINE_ORE;
     public static Block AQUAMARINE_BLOCK;
+    public static Block BURNING_DIAMOND_BLOCK;
+    public static Block BURNING_DIAMOND_STAIRS;
+    public static Block BURNING_DIAMOND_SLAB;
     public static Block AQUAMARINE_STAIRS;
     public static Block AQUAMARINE_SLAB;
     public static Block AMBER_ORE;
@@ -251,6 +305,32 @@ public final class ModContent {
     public static Block GRANITE_BRICK_WALL;
     public static Block WET_FARMLAND;
     public static Block SUPREME_MC_LOGO_BLOCK;
+    public static Block SPRUCE_BOOKSHELF;
+    public static Block BIRCH_BOOKSHELF;
+    public static Block JUNGLE_BOOKSHELF;
+    public static Block ACACIA_BOOKSHELF;
+    public static Block DARK_OAK_BOOKSHELF;
+    public static Block MANGROVE_BOOKSHELF;
+    public static Block CHERRY_BOOKSHELF;
+    public static Block PALE_OAK_BOOKSHELF;
+    public static Block BAMBOO_BOOKSHELF;
+    public static Block CRIMSON_BOOKSHELF;
+    public static Block WARPED_BOOKSHELF;
+    public static Block PALM_BOOKSHELF;
+    public static Block SPRUCE_CRAFTING_TABLE;
+    public static Block BIRCH_CRAFTING_TABLE;
+    public static Block JUNGLE_CRAFTING_TABLE;
+    public static Block ACACIA_CRAFTING_TABLE;
+    public static Block DARK_OAK_CRAFTING_TABLE;
+    public static Block MANGROVE_CRAFTING_TABLE;
+    public static Block CHERRY_CRAFTING_TABLE;
+    public static Block PALE_OAK_CRAFTING_TABLE;
+    public static Block BAMBOO_CRAFTING_TABLE;
+    public static Block CRIMSON_CRAFTING_TABLE;
+    public static Block WARPED_CRAFTING_TABLE;
+    public static Block PALM_CRAFTING_TABLE;
+    public static Block BLACKSTONE_FURNACE;
+    public static Block DEEPSLATE_FURNACE;
     public static final BlockSetType PALM_BLOCK_SET = new BlockSetType("palm");
     public static final WoodType PALM_WOOD_TYPE = new WoodType("palm", PALM_BLOCK_SET);
         private static final ResourceKey<ConfiguredFeature<?, ?>> PALM_TREE = ResourceKey.create(
@@ -307,6 +387,20 @@ public final class ModContent {
     public static Block TOMATO_BUSH;
     public static Block BEACH_GRASS;
     public static Block TALL_BEACH_GRASS;
+    public static Block BUTTERCUP;
+    public static Block CLOVER;
+    public static Holder<Potion> LUCK_POTION;
+    public static Holder<Potion> LONG_LUCK_POTION;
+    public static Holder<Potion> STRONG_LUCK_POTION;
+    public static Holder<Potion> BAD_LUCK_POTION;
+    public static Holder<Potion> LONG_BAD_LUCK_POTION;
+    public static Holder<Potion> STRONG_BAD_LUCK_POTION;
+    public static Holder<Potion> HUNGER_POTION;
+    public static Holder<Potion> LONG_HUNGER_POTION;
+    public static Holder<Potion> STRONG_HUNGER_POTION;
+    public static Holder<Potion> DECAY_POTION;
+    public static Holder<Potion> LONG_DECAY_POTION;
+    public static Holder<Potion> STRONG_DECAY_POTION;
     public static EntityType<Boat> PALM_BOAT_ENTITY;
     public static EntityType<ChestBoat> PALM_CHEST_BOAT_ENTITY;
     public static Item PALM_BOAT;
@@ -330,6 +424,15 @@ public final class ModContent {
     public static Item AQUAMARINE_CHESTPLATE;
     public static Item AQUAMARINE_LEGGINGS;
     public static Item AQUAMARINE_BOOTS;
+    public static Item BURNING_DIAMOND_PICKAXE;
+    public static Item BURNING_DIAMOND_AXE;
+    public static Item BURNING_DIAMOND_SHOVEL;
+    public static Item BURNING_DIAMOND_HOE;
+    public static Item BURNING_DIAMOND_SWORD;
+    public static Item BURNING_DIAMOND_HELMET;
+    public static Item BURNING_DIAMOND_CHESTPLATE;
+    public static Item BURNING_DIAMOND_LEGGINGS;
+    public static Item BURNING_DIAMOND_BOOTS;
     public static Item AMBER_PICKAXE;
     public static Item AMBER_AXE;
     public static Item AMBER_SHOVEL;
@@ -352,8 +455,12 @@ public final class ModContent {
     public static EntityType<AbyssaliteTridentEntity> ABYSSALITE_TRIDENT_ENTITY;
     public static EntityType<GrizzlyBear> GRIZZLY_BEAR_ENTITY;
     public static Item GRIZZLY_BEAR_SPAWN_EGG;
+    public static EntityType<EnderSpider> ENDER_SPIDER_ENTITY;
+    public static Item ENDER_SPIDER_SPAWN_EGG;
     public static EntityType<FireCreeper> FIRE_CREEPER_ENTITY;
     public static Item FIRE_CREEPER_SPAWN_EGG;
+    public static EntityType<SnowCreeper> SNOW_CREEPER_ENTITY;
+    public static Item SNOW_CREEPER_SPAWN_EGG;
     public static Item EMERALD_PICKAXE;
     public static Item EMERALD_AXE;
     public static Item EMERALD_SHOVEL;
@@ -386,9 +493,13 @@ public final class ModContent {
         AQUAMARINE = registerItem("aquamarine", new Item(itemProperties("aquamarine").stacksTo(64)));
         AMBER = registerItem("amber", new Item(itemProperties("amber").stacksTo(64)));
         ANTHRACITE = registerItem("anthracite", new Item(itemProperties("anthracite").stacksTo(64)));
+        EXPERIENCE_DUST = registerItem("experience_dust", new Item(itemProperties("experience_dust").stacksTo(64)));
+        XYLIUM_DUST = registerItem("xylium_dust", new Item(itemProperties("xylium_dust").stacksTo(64)));
 
         AQUAMARINE_ORE = registerBlock("aquamarine_ore",
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("aquamarine_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+        BURNING_DIAMOND_ORE = registerBlock("burning_diamond_ore",
+            new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("burning_diamond_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
         NETHER_ANTHRACITE_ORE = registerBlock("nether_anthracite_ore",
             new DropExperienceBlock(UniformInt.of(0, 2), blockProperties("nether_anthracite_ore").mapColor(MapColor.NETHER).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
         ANTHRACITE_BLOCK = registerBlock("anthracite_block",
@@ -397,6 +508,12 @@ public final class ModContent {
             new DropExperienceBlock(UniformInt.of(3, 7), blockProperties("deepslate_aquamarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = registerBlock("aquamarine_block",
                 new Block(blockProperties("aquamarine_block").mapColor(MapColor.COLOR_CYAN).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        BURNING_DIAMOND_BLOCK = registerBlock("burning_diamond_block",
+            new Block(blockProperties("burning_diamond_block").mapColor(MapColor.DIAMOND).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        BURNING_DIAMOND_STAIRS = registerBlock("burning_diamond_stairs", new MaterialStairsBlock(BURNING_DIAMOND_BLOCK.defaultBlockState(),
+            materialProperties("burning_diamond_stairs", MapColor.DIAMOND, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
+        BURNING_DIAMOND_SLAB = registerBlock("burning_diamond_slab", new SlabBlock(
+            materialProperties("burning_diamond_slab", MapColor.DIAMOND, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_STAIRS = registerBlock("aquamarine_stairs", new MaterialStairsBlock(AQUAMARINE_BLOCK.defaultBlockState(),
             materialProperties("aquamarine_stairs", MapColor.COLOR_CYAN, SoundType.METAL, 5.0F, 6.0F).requiresCorrectToolForDrops()));
         AQUAMARINE_SLAB = registerBlock("aquamarine_slab", new SlabBlock(
@@ -451,6 +568,32 @@ public final class ModContent {
         WET_FARMLAND = registerBlock("wet_farmland", new WetFarmlandBlock(blockProperties("wet_farmland").mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
         SUPREME_MC_LOGO_BLOCK = registerBlock("suprememc_logo_block", new Block(blockProperties("suprememc_logo_block")
             .mapColor(MapColor.GRASS).sound(SoundType.GRASS).strength(0.6F).randomTicks()));
+        SPRUCE_BOOKSHELF = registerBookshelf("spruce_bookshelf", MapColor.PODZOL);
+        BIRCH_BOOKSHELF = registerBookshelf("birch_bookshelf", MapColor.SAND);
+        JUNGLE_BOOKSHELF = registerBookshelf("jungle_bookshelf", MapColor.DIRT);
+        ACACIA_BOOKSHELF = registerBookshelf("acacia_bookshelf", MapColor.COLOR_ORANGE);
+        DARK_OAK_BOOKSHELF = registerBookshelf("dark_oak_bookshelf", MapColor.COLOR_BROWN);
+        MANGROVE_BOOKSHELF = registerBookshelf("mangrove_bookshelf", MapColor.COLOR_RED);
+        CHERRY_BOOKSHELF = registerBookshelf("cherry_bookshelf", MapColor.COLOR_PINK);
+        PALE_OAK_BOOKSHELF = registerBookshelf("pale_oak_bookshelf", MapColor.COLOR_LIGHT_GRAY);
+        BAMBOO_BOOKSHELF = registerBookshelf("bamboo_bookshelf", MapColor.COLOR_YELLOW);
+        CRIMSON_BOOKSHELF = registerBookshelf("crimson_bookshelf", MapColor.COLOR_RED);
+        WARPED_BOOKSHELF = registerBookshelf("warped_bookshelf", MapColor.COLOR_CYAN);
+        PALM_BOOKSHELF = registerBookshelf("palm_bookshelf", MapColor.WOOD);
+        SPRUCE_CRAFTING_TABLE = registerCraftingTable("spruce_crafting_table", MapColor.PODZOL);
+        BIRCH_CRAFTING_TABLE = registerCraftingTable("birch_crafting_table", MapColor.SAND);
+        JUNGLE_CRAFTING_TABLE = registerCraftingTable("jungle_crafting_table", MapColor.DIRT);
+        ACACIA_CRAFTING_TABLE = registerCraftingTable("acacia_crafting_table", MapColor.COLOR_ORANGE);
+        DARK_OAK_CRAFTING_TABLE = registerCraftingTable("dark_oak_crafting_table", MapColor.COLOR_BROWN);
+        MANGROVE_CRAFTING_TABLE = registerCraftingTable("mangrove_crafting_table", MapColor.COLOR_RED);
+        CHERRY_CRAFTING_TABLE = registerCraftingTable("cherry_crafting_table", MapColor.COLOR_PINK);
+        PALE_OAK_CRAFTING_TABLE = registerCraftingTable("pale_oak_crafting_table", MapColor.COLOR_LIGHT_GRAY);
+        BAMBOO_CRAFTING_TABLE = registerCraftingTable("bamboo_crafting_table", MapColor.COLOR_YELLOW);
+        CRIMSON_CRAFTING_TABLE = registerCraftingTable("crimson_crafting_table", MapColor.COLOR_RED);
+        WARPED_CRAFTING_TABLE = registerCraftingTable("warped_crafting_table", MapColor.COLOR_CYAN);
+        PALM_CRAFTING_TABLE = registerCraftingTable("palm_crafting_table", MapColor.WOOD);
+        BLACKSTONE_FURNACE = registerFurnace("blackstone_furnace", MapColor.COLOR_BLACK);
+        DEEPSLATE_FURNACE = registerFurnace("deepslate_furnace", MapColor.DEEPSLATE);
         ATLANTIS_DEBRIS = registerBlock("atlantis_debris", new Block(blockProperties("atlantis_debris")
             .mapColor(MapColor.COLOR_BLACK).sound(SoundType.METAL).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
         ABYSSALITE_BLOCK = registerBlock("abyssalite_block", new Block(blockProperties("abyssalite_block")
@@ -491,6 +634,22 @@ public final class ModContent {
         GRAPE_VINE_PLANT = registerBlock("grape_vine_plant", new GrapeVinePlantBlock(blockProperties("grape_vine_plant").mapColor(MapColor.PLANT).sound(SoundType.WEEPING_VINES).strength(0.2F).noCollision().noOcclusion()));
         CORN_STALK = registerBlock("corn_stalk", new CornStalkBlock(blockProperties("corn_stalk").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion().randomTicks()));
         CORN_STALK_PLANT = registerBlock("corn_stalk_plant", new CornStalkPlantBlock(blockProperties("corn_stalk_plant").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+        BUTTERCUP = registerBlock("buttercup", new FlowerBlock(MobEffects.SATURATION, 7.0F,
+            blockProperties("buttercup").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+        CLOVER = registerBlock("clover", new CloverBlock(
+            blockProperties("clover").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.0F).noCollision().noOcclusion()));
+        LUCK_POTION = registerPotion("luck", 6000, 0, MobEffects.LUCK);
+        LONG_LUCK_POTION = registerPotion("long_luck", 9600, 0, MobEffects.LUCK);
+        STRONG_LUCK_POTION = registerPotion("strong_luck", 1800, 1, MobEffects.LUCK);
+        BAD_LUCK_POTION = registerPotion("bad_luck", 6000, 0, MobEffects.UNLUCK);
+        LONG_BAD_LUCK_POTION = registerPotion("long_bad_luck", 9600, 0, MobEffects.UNLUCK);
+        STRONG_BAD_LUCK_POTION = registerPotion("strong_bad_luck", 1800, 1, MobEffects.UNLUCK);
+        HUNGER_POTION = registerPotion("hunger", 2700, 0, MobEffects.HUNGER);
+        LONG_HUNGER_POTION = registerPotion("long_hunger", 5400, 0, MobEffects.HUNGER);
+        STRONG_HUNGER_POTION = registerPotion("strong_hunger", 1200, 1, MobEffects.HUNGER);
+        DECAY_POTION = registerPotion("decay", 2400, 0, MobEffects.WITHER);
+        LONG_DECAY_POTION = registerPotion("long_decay", 3600, 0, MobEffects.WITHER);
+        STRONG_DECAY_POTION = registerPotion("strong_decay", 1200, 1, MobEffects.WITHER);
 
         for (DyeColor color : DyeColor.values()) {
             String name = color.getSerializedName();
@@ -543,6 +702,12 @@ public final class ModContent {
                 .sized(1.4F, 1.4F).clientTrackingRange(10)
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grizzly_bear"))));
+        ENDER_SPIDER_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "ender_spider"),
+            EntityType.Builder.<EnderSpider>of(EnderSpider::new, MobCategory.MONSTER)
+                .sized(1.4F, 0.9F).eyeHeight(0.65F).clientTrackingRange(8)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(Constants.MOD_ID, "ender_spider"))));
         // Same hitbox/tracking as the vanilla creeper; only its explosion is changed (see FireCreeper).
         FIRE_CREEPER_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper"),
@@ -550,12 +715,30 @@ public final class ModContent {
                 .sized(0.6F, 1.7F).clientTrackingRange(8).fireImmune()
                 .build(ResourceKey.create(Registries.ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(Constants.MOD_ID, "fire_creeper"))));
+        SNOW_CREEPER_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snow_creeper"),
+            EntityType.Builder.<SnowCreeper>of(SnowCreeper::new, MobCategory.MONSTER)
+                .sized(0.6F, 1.7F).clientTrackingRange(8)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snow_creeper"))));
+        // Vanilla only assigns an ON_GROUND placement rule to entity types it registers itself;
+        // without this, custom entity types default to NO_RESTRICTIONS and spawn floating in mid-air.
+        SpawnPlacements.register(ENDER_SPIDER_ENTITY, SpawnPlacementTypes.ON_GROUND,
+            Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(FIRE_CREEPER_ENTITY, SpawnPlacementTypes.ON_GROUND,
+            Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
+        SpawnPlacements.register(SNOW_CREEPER_ENTITY, SpawnPlacementTypes.ON_GROUND,
+            Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 
         registerBlockItem("aquamarine_ore", AQUAMARINE_ORE);
+        registerBlockItem("burning_diamond_ore", BURNING_DIAMOND_ORE);
         registerBlockItem("nether_anthracite_ore", NETHER_ANTHRACITE_ORE);
         registerBlockItem("anthracite_block", ANTHRACITE_BLOCK);
         registerBlockItem("deepslate_aquamarine_ore", DEEPSLATE_AQUAMARINE_ORE);
         registerBlockItem("aquamarine_block", AQUAMARINE_BLOCK);
+        registerBlockItem("burning_diamond_block", BURNING_DIAMOND_BLOCK);
+        registerBlockItem("burning_diamond_stairs", BURNING_DIAMOND_STAIRS);
+        registerBlockItem("burning_diamond_slab", BURNING_DIAMOND_SLAB);
         registerBlockItem("aquamarine_stairs", AQUAMARINE_STAIRS);
         registerBlockItem("aquamarine_slab", AQUAMARINE_SLAB);
         registerBlockItem("amber_ore", AMBER_ORE);
@@ -598,6 +781,32 @@ public final class ModContent {
         registerBlockItem("granite_brick_wall", GRANITE_BRICK_WALL);
         registerBlockItem("wet_farmland", WET_FARMLAND);
         registerBlockItem("suprememc_logo_block", SUPREME_MC_LOGO_BLOCK);
+        registerBlockItem("spruce_bookshelf", SPRUCE_BOOKSHELF);
+        registerBlockItem("birch_bookshelf", BIRCH_BOOKSHELF);
+        registerBlockItem("jungle_bookshelf", JUNGLE_BOOKSHELF);
+        registerBlockItem("acacia_bookshelf", ACACIA_BOOKSHELF);
+        registerBlockItem("dark_oak_bookshelf", DARK_OAK_BOOKSHELF);
+        registerBlockItem("mangrove_bookshelf", MANGROVE_BOOKSHELF);
+        registerBlockItem("cherry_bookshelf", CHERRY_BOOKSHELF);
+        registerBlockItem("pale_oak_bookshelf", PALE_OAK_BOOKSHELF);
+        registerBlockItem("bamboo_bookshelf", BAMBOO_BOOKSHELF);
+        registerBlockItem("crimson_bookshelf", CRIMSON_BOOKSHELF);
+        registerBlockItem("warped_bookshelf", WARPED_BOOKSHELF);
+        registerBlockItem("palm_bookshelf", PALM_BOOKSHELF);
+        registerBlockItem("spruce_crafting_table", SPRUCE_CRAFTING_TABLE);
+        registerBlockItem("birch_crafting_table", BIRCH_CRAFTING_TABLE);
+        registerBlockItem("jungle_crafting_table", JUNGLE_CRAFTING_TABLE);
+        registerBlockItem("acacia_crafting_table", ACACIA_CRAFTING_TABLE);
+        registerBlockItem("dark_oak_crafting_table", DARK_OAK_CRAFTING_TABLE);
+        registerBlockItem("mangrove_crafting_table", MANGROVE_CRAFTING_TABLE);
+        registerBlockItem("cherry_crafting_table", CHERRY_CRAFTING_TABLE);
+        registerBlockItem("pale_oak_crafting_table", PALE_OAK_CRAFTING_TABLE);
+        registerBlockItem("bamboo_crafting_table", BAMBOO_CRAFTING_TABLE);
+        registerBlockItem("crimson_crafting_table", CRIMSON_CRAFTING_TABLE);
+        registerBlockItem("warped_crafting_table", WARPED_CRAFTING_TABLE);
+        registerBlockItem("palm_crafting_table", PALM_CRAFTING_TABLE);
+        registerBlockItem("blackstone_furnace", BLACKSTONE_FURNACE);
+        registerBlockItem("deepslate_furnace", DEEPSLATE_FURNACE);
         registerBlockItem("atlantis_debris", ATLANTIS_DEBRIS);
         registerBlockItem("abyssalite_block", ABYSSALITE_BLOCK);
         registerBlockItem("abyssalite_stairs", ABYSSALITE_STAIRS);
@@ -636,6 +845,8 @@ public final class ModContent {
         COTTON_BOOTS = registerItem("cotton_boots", new Item(itemProperties("cotton_boots").humanoidArmor(COTTON_ARMOR_MATERIAL, ArmorType.BOOTS)));
         registerBlockItem("beach_grass", BEACH_GRASS);
         registerBlockItem("tall_beach_grass", TALL_BEACH_GRASS);
+        registerBlockItem("buttercup", BUTTERCUP);
+        registerBlockItem("clover", CLOVER);
         CALAMARI = registerItem("calamari", new Item(itemProperties("calamari").stacksTo(64)
             .food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
         COOKED_CALAMARI = registerItem("cooked_calamari", new Item(itemProperties("cooked_calamari").stacksTo(64)
@@ -653,13 +864,38 @@ public final class ModContent {
         PALM_CHEST_BOAT = registerItem("palm_chest_boat", new net.minecraft.world.item.BoatItem(PALM_CHEST_BOAT_ENTITY, itemProperties("palm_chest_boat")));
         GRIZZLY_BEAR_SPAWN_EGG = registerItem("grizzly_bear_spawn_egg",
             new SpawnEggItem(itemProperties("grizzly_bear_spawn_egg").spawnEgg(GRIZZLY_BEAR_ENTITY)));
+        ENDER_SPIDER_SPAWN_EGG = registerItem("ender_spider_spawn_egg",
+            new SpawnEggItem(itemProperties("ender_spider_spawn_egg").spawnEgg(ENDER_SPIDER_ENTITY)));
         FIRE_CREEPER_SPAWN_EGG = registerItem("fire_creeper_spawn_egg",
             new SpawnEggItem(itemProperties("fire_creeper_spawn_egg").spawnEgg(FIRE_CREEPER_ENTITY)));
+        SNOW_CREEPER_SPAWN_EGG = registerItem("snow_creeper_spawn_egg",
+            new SpawnEggItem(itemProperties("snow_creeper_spawn_egg").spawnEgg(SNOW_CREEPER_ENTITY)));
 
         ABYSSALITE_SCRAP = registerItem("abyssalite_scrap", new Item(itemProperties("abyssalite_scrap").stacksTo(64)));
         ABYSSALITE_INGOT = registerItem("abyssalite_ingot", new Item(itemProperties("abyssalite_ingot").stacksTo(64)));
         ABYSSALITE_UPGRADE_SMITHING_TEMPLATE = registerItem("abyssalite_upgrade_smithing_template",
             new Item(itemProperties("abyssalite_upgrade_smithing_template").stacksTo(64)));
+
+        BURNING_DIAMOND = registerItem("burning_diamond", new Item(itemProperties("burning_diamond")));
+        BURNING_DIAMOND_PICKAXE = registerItem("burning_diamond_pickaxe", new Item(itemProperties("burning_diamond_pickaxe").pickaxe(ToolMaterial.DIAMOND, 1, -2.8F)));
+        BURNING_DIAMOND_AXE = registerItem("burning_diamond_axe", new AxeItem(ToolMaterial.DIAMOND, 5.0F, -3.0F, itemProperties("burning_diamond_axe")));
+        BURNING_DIAMOND_SHOVEL = registerItem("burning_diamond_shovel", new ShovelItem(ToolMaterial.DIAMOND, 1.5F, -3.0F, itemProperties("burning_diamond_shovel")));
+        BURNING_DIAMOND_HOE = registerItem("burning_diamond_hoe", new HoeItem(ToolMaterial.DIAMOND, 0.0F, -3.0F, itemProperties("burning_diamond_hoe")));
+        BURNING_DIAMOND_SWORD = registerItem("burning_diamond_sword", new Item(itemProperties("burning_diamond_sword").sword(ToolMaterial.DIAMOND, 3, -2.4F)));
+        BURNING_DIAMOND_HELMET = registerItem("burning_diamond_helmet", new BurningDiamondArmorItem("burning_diamond_helmet", ArmorType.HELMET));
+        BURNING_DIAMOND_CHESTPLATE = registerItem("burning_diamond_chestplate", new BurningDiamondArmorItem("burning_diamond_chestplate", ArmorType.CHESTPLATE));
+        BURNING_DIAMOND_LEGGINGS = registerItem("burning_diamond_leggings", new BurningDiamondArmorItem("burning_diamond_leggings", ArmorType.LEGGINGS));
+        BURNING_DIAMOND_BOOTS = registerItem("burning_diamond_boots", new BurningDiamondArmorItem("burning_diamond_boots", ArmorType.BOOTS));
+
+        BURNING_NETHERITE_PICKAXE = registerItem("burning_netherite_pickaxe", new Item(itemProperties("burning_netherite_pickaxe").pickaxe(ToolMaterial.NETHERITE, 1, -2.8F)));
+        BURNING_NETHERITE_AXE = registerItem("burning_netherite_axe", new AxeItem(ToolMaterial.NETHERITE, 5.0F, -3.0F, itemProperties("burning_netherite_axe")));
+        BURNING_NETHERITE_SHOVEL = registerItem("burning_netherite_shovel", new ShovelItem(ToolMaterial.NETHERITE, 1.5F, -3.0F, itemProperties("burning_netherite_shovel")));
+        BURNING_NETHERITE_HOE = registerItem("burning_netherite_hoe", new HoeItem(ToolMaterial.NETHERITE, 0.0F, -3.0F, itemProperties("burning_netherite_hoe")));
+        BURNING_NETHERITE_SWORD = registerItem("burning_netherite_sword", new Item(itemProperties("burning_netherite_sword").sword(ToolMaterial.NETHERITE, 3, -2.4F)));
+        BURNING_NETHERITE_HELMET = registerItem("burning_netherite_helmet", new BurningNetheriteArmorItem("burning_netherite_helmet", ArmorType.HELMET));
+        BURNING_NETHERITE_CHESTPLATE = registerItem("burning_netherite_chestplate", new BurningNetheriteArmorItem("burning_netherite_chestplate", ArmorType.CHESTPLATE));
+        BURNING_NETHERITE_LEGGINGS = registerItem("burning_netherite_leggings", new BurningNetheriteArmorItem("burning_netherite_leggings", ArmorType.LEGGINGS));
+        BURNING_NETHERITE_BOOTS = registerItem("burning_netherite_boots", new BurningNetheriteArmorItem("burning_netherite_boots", ArmorType.BOOTS));
 
         AQUAMARINE_PICKAXE = registerItem("aquamarine_pickaxe", new Item(itemProperties("aquamarine_pickaxe").pickaxe(ToolMaterial.DIAMOND, 1, -2.8F)));
         AQUAMARINE_AXE = registerItem("aquamarine_axe", new AxeItem(ToolMaterial.DIAMOND, 5.0F, -3.0F, itemProperties("aquamarine_axe")));
@@ -713,6 +949,15 @@ public final class ModContent {
         Constants.LOG.info("Registered SupremeMC progression content");
     }
 
+    private static Holder<Potion> registerPotion(String id, int duration, int amplifier,
+                                                  Holder<net.minecraft.world.effect.MobEffect> effect) {
+        return Registry.registerForHolder(
+            BuiltInRegistries.POTION,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, id),
+            new Potion(id, new MobEffectInstance(effect, duration, amplifier))
+        );
+    }
+
     private static Item registerBlockItem(String id, Block block) {
         return registerItem(id, new BlockItem(block, itemProperties(id).useBlockDescriptionPrefix()));
     }
@@ -728,6 +973,8 @@ public final class ModContent {
         ComposterBlock.COMPOSTABLES.put(TALL_BEACH_GRASS.asItem(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(GRAPES, 0.65F);
         ComposterBlock.COMPOSTABLES.put(CORN, 0.65F);
+        ComposterBlock.COMPOSTABLES.put(BUTTERCUP.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(CLOVER.asItem(), 0.3F);
     }
 
     public static Item.Properties itemProperties(String id) {
@@ -747,6 +994,21 @@ public final class ModContent {
     private static <T extends Block> T registerBlock(String id, T block) {
         RegistryHelper.registerBlock(id, block);
         return block;
+    }
+
+    private static Block registerBookshelf(String id, MapColor mapColor) {
+        return registerBlock(id, new BookshelfBlock(blockProperties(id)
+            .mapColor(mapColor).instrument(NoteBlockInstrument.BASS).strength(1.5F).sound(SoundType.WOOD).ignitedByLava()));
+    }
+
+    private static Block registerCraftingTable(String id, MapColor mapColor) {
+        return registerBlock(id, new WoodCraftingTableBlock(blockProperties(id)
+            .mapColor(mapColor).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.WOOD).ignitedByLava()));
+    }
+
+    private static Block registerFurnace(String id, MapColor mapColor) {
+        return registerBlock(id, new StoneFurnaceBlock(blockProperties(id)
+            .mapColor(mapColor).instrument(NoteBlockInstrument.BASS).strength(3.5F).sound(SoundType.STONE)));
     }
 
     private static <T extends Item> T registerItem(String id, T item) {

@@ -1,0 +1,21 @@
+{
+  "values": [
+    "minecraft:slime_block",
+    "suprememc:white_slime_block",
+    "suprememc:orange_slime_block",
+    "suprememc:magenta_slime_block",
+    "suprememc:light_blue_slime_block",
+    "suprememc:yellow_slime_block",
+    "suprememc:lime_slime_block",
+    "suprememc:pink_slime_block",
+    "suprememc:gray_slime_block",
+    "suprememc:light_gray_slime_block",
+    "suprememc:cyan_slime_block",
+    "suprememc:purple_slime_block",
+    "suprememc:blue_slime_block",
+    "suprememc:brown_slime_block",
+    "suprememc:green_slime_block",
+    "suprememc:red_slime_block",
+    "suprememc:black_slime_block"
+  ]
+}

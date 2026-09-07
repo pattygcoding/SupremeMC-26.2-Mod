@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "suprememc:block/palm_planks",
+    "east": "suprememc:block/palm_crafting_table_side",
+    "north": "suprememc:block/palm_crafting_table_front",
+    "particle": "suprememc:block/palm_crafting_table_front",
+    "south": "suprememc:block/palm_crafting_table_side",
+    "up": "suprememc:block/palm_crafting_table_top",
+    "west": "suprememc:block/palm_crafting_table_front"
+  }
+}

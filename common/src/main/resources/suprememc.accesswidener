@@ -8,3 +8,6 @@ accessible	method	net/minecraft/world/entity/monster/Creeper	explodeCreeper	()V
 extendable	method	net/minecraft/world/entity/monster/Creeper	explodeCreeper	()V
 accessible	method	net/minecraft/world/entity/monster/Creeper	spawnLingeringCloud	()V
 accessible	field	net/minecraft/world/entity/monster/Creeper	explosionRadius	I
+accessible	method	net/minecraft/world/entity/SpawnPlacements	register	(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacementType;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
+accessible	method	net/minecraft/world/level/ServerExplosion	calculateExplodedPositions	()Ljava/util/List;
+accessible	field	net/minecraft/client/renderer/item/properties/numeric/RangeSelectItemModelProperties	ID_MAPPER	Lnet/minecraft/util/ExtraCodecs$LateBoundIdMapper;

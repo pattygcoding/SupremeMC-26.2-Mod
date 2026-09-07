@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "minecraft:netherite_ingot",
+  "base": "suprememc:burning_diamond_leggings",
+  "result": {
+    "count": 1,
+    "id": "suprememc:burning_netherite_leggings"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

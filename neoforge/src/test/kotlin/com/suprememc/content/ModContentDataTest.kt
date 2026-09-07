@@ -29,6 +29,19 @@ class ModContentDataTest {
     }
 
     @Test
+    fun upgradesBurningDiamondEquipmentToBurningNetherite() {
+        listOf("pickaxe", "axe", "shovel", "hoe", "sword", "helmet", "chestplate", "leggings", "boots").forEach { id ->
+            val recipe = readJson("data/suprememc/recipe/burning_netherite_$id.json")
+            assertEquals("minecraft:smithing_transform", recipe.get("type").asString)
+            assertEquals("minecraft:netherite_upgrade_smithing_template", recipe.get("template").asString)
+            assertEquals("suprememc:burning_diamond_$id", recipe.get("base").asString)
+            assertEquals("minecraft:netherite_ingot", recipe.get("addition").asString)
+            assertEquals("suprememc:burning_netherite_$id", recipe.getAsJsonObject("result").get("id").asString)
+        }
+        assertFalse(Files.exists(generatedResources.resolve("data/suprememc/recipe/burning_netherite.json")))
+    }
+
+    @Test
     fun generatesSupremeMCLogoBlockRecipeAdvancementAndModels() {
         val recipe = readJson("data/suprememc/recipe/suprememc_logo_block.json")
         assertEquals("minecraft:crafting_shapeless", recipe.get("type").asString)
@@ -50,6 +63,40 @@ class ModContentDataTest {
         assertEquals("suprememc:block/suprememc_logo_block_top", model.getAsJsonObject("textures").get("top").asString)
         assertEquals("suprememc:block/suprememc_logo_block_side", model.getAsJsonObject("textures").get("side").asString)
         assertEquals("suprememc:block/suprememc_logo_block_bottom", model.getAsJsonObject("textures").get("bottom").asString)
+    }
+
+    @Test
+    fun generatesEnderSpiderSpawnEggAndLootTable() {
+        listOf(
+            "assets/suprememc/models/item/ender_spider_spawn_egg.json",
+            "assets/suprememc/items/ender_spider_spawn_egg.json",
+            "data/suprememc/loot_table/entities/ender_spider.json"
+        ).forEach(::assertResourceExists)
+
+        val model = readJson("assets/suprememc/models/item/ender_spider_spawn_egg.json")
+        assertEquals("suprememc:item/ender_spider_spawn_egg", model.getAsJsonObject("textures").get("layer0").asString)
+
+        val lootTable = readJson("data/suprememc/loot_table/entities/ender_spider.json")
+        val entries = lootTable.getAsJsonArray("pools").flatMap { pool ->
+            pool.asJsonObject.getAsJsonArray("entries").map { it.asJsonObject.get("name").asString }
+        }
+        assertEquals(setOf("minecraft:string", "minecraft:spider_eye", "minecraft:ender_pearl"), entries.toSet())
+    }
+
+    @Test
+    fun generatesColoredSlimeBlockDyeingRecipes() {
+        val colors = listOf("white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black")
+        val slimeTag = readJson("data/suprememc/tags/item/slime_blocks.json")
+        assertEquals(
+            setOf("minecraft:slime_block") + colors.map { "suprememc:${it}_slime_block" },
+            slimeTag.getAsJsonArray("values").map { it.asString }.toSet()
+        )
+
+        val recipe = readJson("data/suprememc/recipe/red_slime_block.json")
+        assertEquals("minecraft:crafting_shapeless", recipe.get("type").asString)
+        assertEquals(setOf("#suprememc:slime_blocks", "minecraft:red_dye"), recipe.getAsJsonArray("ingredients").map { it.asString }.toSet())
+        assertEquals("suprememc:red_slime_block", recipe.getAsJsonObject("result").get("id").asString)
+        assertResourceExists("data/suprememc/advancement/recipes/misc/red_slime_block.json")
     }
 
     @Test
@@ -266,7 +313,10 @@ class ModContentDataTest {
             "venom" to Triple(2, 5, "#minecraft:enchantable/weapon"),
             "decay" to Triple(2, 1, "#minecraft:enchantable/weapon"),
             "wisdom" to Triple(3, 2, "#minecraft:enchantable/leg_armor"),
-            "smelting" to Triple(1, 2, "#minecraft:enchantable/mining")
+            "smelting" to Triple(1, 2, "#minecraft:enchantable/mining"),
+            "tension" to Triple(3, 5, "minecraft:bow")
+            ,"curse_of_mass" to Triple(1, 1, "#suprememc:curse_of_mass_items")
+            ,"curse_of_sloth" to Triple(1, 1, "#suprememc:curse_of_sloth_items")
         ).forEach { (id, expected) ->
             val enchantment = readJson("data/suprememc/enchantment/$id.json")
             assertEquals(expected.first, enchantment.get("max_level").asInt)
@@ -290,6 +340,21 @@ class ModContentDataTest {
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/status_damage.json", "minecraft:fire_aspect", "suprememc:venom", "suprememc:decay")
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/xp_armor.json", "minecraft:thorns", "suprememc:wisdom")
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/smelting.json", "minecraft:silk_touch", "suprememc:smelting")
+        assertTagContains("data/suprememc/tags/enchantment/exclusive_set/tension.json", "minecraft:punch", "suprememc:tension")
+        assertTagContains("data/minecraft/tags/enchantment/curse.json", "suprememc:curse_of_mass", "suprememc:curse_of_sloth")
+        assertTagContains("data/minecraft/tags/enchantment/treasure.json", "suprememc:curse_of_mass", "suprememc:curse_of_sloth")
+        assertTagContains(
+            "data/suprememc/tags/item/curse_of_mass_items.json",
+            "#minecraft:enchantable/armor",
+            "#minecraft:enchantable/weapon",
+            "#minecraft:enchantable/mining"
+        )
+        assertTagContains(
+            "data/suprememc/tags/item/curse_of_sloth_items.json",
+            "#minecraft:enchantable/armor",
+            "#minecraft:enchantable/weapon",
+            "#minecraft:enchantable/mining"
+        )
     }
 
     @Test

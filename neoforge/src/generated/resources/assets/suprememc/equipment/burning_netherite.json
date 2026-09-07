@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "suprememc:burning_netherite"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "suprememc:burning_netherite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "suprememc:burning_netherite"
+      }
+    ]
+  }
+}

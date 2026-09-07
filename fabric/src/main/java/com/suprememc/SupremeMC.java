@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.registry.FuelValueEvents;
+import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import com.suprememc.content.ModContent;
 import com.suprememc.loot.ModLootInjections;
@@ -18,6 +19,9 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
@@ -48,19 +52,40 @@ public class SupremeMC implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
+        FabricPotionBrewingBuilder.BUILD.register(builder -> {
+            builder.registerPotionRecipe(net.minecraft.world.item.alchemy.Potions.AWKWARD,
+                Ingredient.of(ModContent.CLOVER.asItem()), ModContent.LUCK_POTION);
+            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_LUCK_POTION);
+            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_LUCK_POTION);
+            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.BAD_LUCK_POTION);
+            builder.registerPotionRecipe(ModContent.LONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.LONG_BAD_LUCK_POTION);
+            builder.registerPotionRecipe(ModContent.STRONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.STRONG_BAD_LUCK_POTION);
+                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.ROTTEN_FLESH), ModContent.HUNGER_POTION);
+                builder.registerPotionRecipe(ModContent.HUNGER_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_HUNGER_POTION);
+                builder.registerPotionRecipe(ModContent.HUNGER_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_HUNGER_POTION);
+                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.WITHER_ROSE), ModContent.DECAY_POTION);
+                builder.registerPotionRecipe(ModContent.DECAY_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_DECAY_POTION);
+                builder.registerPotionRecipe(ModContent.DECAY_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_DECAY_POTION);
+        });
         FuelValueEvents.BUILD.register((builder, context) -> {
             builder.add(ModContent.ANTHRACITE, 1600);
             builder.add(ModContent.ANTHRACITE_BLOCK, 16000);
         });
         FabricDefaultAttributeRegistry.register(ModContent.GRIZZLY_BEAR_ENTITY,
             net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes());
+        FabricDefaultAttributeRegistry.register(ModContent.ENDER_SPIDER_ENTITY,
+            com.suprememc.content.entity.EnderSpider.createAttributes());
         FabricDefaultAttributeRegistry.register(ModContent.FIRE_CREEPER_ENTITY,
+            net.minecraft.world.entity.monster.Creeper.createAttributes());
+        FabricDefaultAttributeRegistry.register(ModContent.SNOW_CREEPER_ENTITY,
             net.minecraft.world.entity.monster.Creeper.createAttributes());
         // Vanilla's sign block entities only accept their hardcoded block list, so opt the palm signs in.
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_WALL_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.PALM_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.PALM_WALL_HANGING_SIGN);
+        BlockEntityTypes.FURNACE.addValidBlock(ModContent.BLACKSTONE_FURNACE);
+        BlockEntityTypes.FURNACE.addValidBlock(ModContent.DEEPSLATE_FURNACE);
         BiomeModifications.addFeature(
             BiomeSelectors.tag(BiomeTags.IS_OCEAN),
             GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -90,6 +115,10 @@ public class SupremeMC implements ModInitializer {
             BiomeSelectors.tag(BiomeTags.IS_NETHER),
             GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "nether_anthracite_ore")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_NETHER),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "burning_diamond_ore")));
         // Palm beaches: warm-climate beaches always grow palms; moderate-climate beaches at a 50% chunk rate
         // and lower density. The placed feature JSONs (packaged from the shared generated data) carry the
         // temperature tiers and sand substrate rules, so behavior matches the NeoForge biome modifiers.
@@ -125,7 +154,9 @@ public class SupremeMC implements ModInitializer {
             GenerationStep.Decoration.VEGETAL_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "grape_vine_hang")));
         registerDrownedSpawns();
+        registerEnderSpiderSpawns();
         registerFireCreeperSpawns();
+        registerSnowCreeperSpawns();
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
@@ -183,6 +214,53 @@ public class SupremeMC implements ModInitializer {
                     new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
                         ModContent.FIRE_CREEPER_ENTITY, 1, 2),
                     25));
+        }
+
+        private static void registerEnderSpiderSpawns() {
+        BiomeModifications.create(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "ender_spider_spawns"))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.ADDITIONS,
+                BiomeSelectors.includeByKey(
+                    Biomes.THE_END,
+                    Biomes.END_HIGHLANDS,
+                    Biomes.END_MIDLANDS,
+                    Biomes.SMALL_END_ISLANDS,
+                    Biomes.END_BARRENS),
+                context -> context.getMobSpawnSettings().addSpawn(
+                    MobCategory.MONSTER,
+                    new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
+                        ModContent.ENDER_SPIDER_ENTITY, 1, 4),
+                    3));
+        }
+
+        private static void registerSnowCreeperSpawns() {
+        BiomeModifications.create(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "snow_creeper_spawns"))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.REPLACEMENTS,
+                BiomeSelectors.includeByKey(
+                    Biomes.SNOWY_PLAINS,
+                    Biomes.ICE_SPIKES,
+                    Biomes.GROVE,
+                    Biomes.SNOWY_SLOPES,
+                    Biomes.FROZEN_PEAKS,
+                    Biomes.JAGGED_PEAKS,
+                    Biomes.SNOWY_BEACH,
+                    Biomes.WINDSWEPT_HILLS,
+                    Biomes.WINDSWEPT_FOREST,
+                    Biomes.WINDSWEPT_GRAVELLY_HILLS,
+                    Biomes.STONY_PEAKS,
+                    Biomes.TAIGA,
+                    Biomes.SNOWY_TAIGA,
+                    Biomes.OLD_GROWTH_PINE_TAIGA,
+                    Biomes.OLD_GROWTH_SPRUCE_TAIGA),
+                context -> {
+                    EntityType<?> creeper = BuiltInRegistries.ENTITY_TYPE.get(
+                        Identifier.fromNamespaceAndPath("minecraft", "creeper")).orElseThrow().value();
+                    context.getMobSpawnSettings().removeSpawnsOfEntityType(creeper);
+                    context.getMobSpawnSettings().addSpawn(
+                        MobCategory.MONSTER,
+                        new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
+                            ModContent.SNOW_CREEPER_ENTITY, 4, 4),
+                        100);
+                });
         }
 
     private static void registerLootInjections() {

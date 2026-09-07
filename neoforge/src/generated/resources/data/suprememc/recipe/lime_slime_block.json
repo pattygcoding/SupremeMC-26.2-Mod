@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#suprememc:slime_blocks",
+    "minecraft:lime_dye"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:lime_slime_block"
+  }
+}

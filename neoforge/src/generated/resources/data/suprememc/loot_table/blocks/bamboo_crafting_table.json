@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:bamboo_crafting_table"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

@@ -14,6 +14,10 @@ class GlowSlimeDataProvider(output: PackOutput) : EcosystemDataProvider(output) 
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
+        writes += save(cache, valuesTag(
+            "minecraft:slime_block",
+            *dyeColors.map { "$namespace:${it}_slime_block" }.toTypedArray()
+        ), dataPath("tags/item/slime_blocks.json"))
         dyeColors.forEach { color ->
             writeCubeBlock(cache, writes, "${color}_glowblock")
             writeSlimeBlock(cache, writes, "${color}_slime_block")
@@ -38,6 +42,14 @@ class GlowSlimeDataProvider(output: PackOutput) : EcosystemDataProvider(output) 
         writes += save(cache, obj { addProperty("parent", "$namespace:block/$id") }, resourcePath("models/item/$id.json"))
         writes += save(cache, itemModelDefinition("$namespace:block/$id"), resourcePath("items/$id.json"))
         writes += save(cache, selfDropLootTable(id), dataPath("loot_table/blocks/$id.json"))
+        val color = id.removeSuffix("_slime_block")
+        writes += save(cache, obj {
+            addProperty("type", "minecraft:crafting_shapeless")
+            addProperty("category", "misc")
+            add("ingredients", array("#$namespace:slime_blocks", "minecraft:${color}_dye"))
+            add("result", itemResult(id))
+        }, dataPath("recipe/$id.json"))
+        writes += save(cache, recipeAdvancement(id, "misc", "minecraft:slime_block"), dataPath("advancement/recipes/misc/$id.json"))
     }
 
     private fun slimeModel(id: String): JsonObject {

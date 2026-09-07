@@ -16,6 +16,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.registries.RegisterEvent
 
@@ -26,6 +27,7 @@ class SupremeMC(eventBus: IEventBus) {
         eventBus.addListener(SupremeMC::registerContent)
         eventBus.addListener(SupremeMC::addSignBlockEntityBlocks)
         eventBus.addListener(SupremeMC::registerAttributes)
+        NeoForge.EVENT_BUS.addListener(SupremeMC::registerBrewingRecipes)
             NeoForge.EVENT_BUS.addListener(SupremeMC::registerFuelValues)
         eventBus.addListener(SupremeMC::gatherData)
     }
@@ -35,16 +37,35 @@ class SupremeMC(eventBus: IEventBus) {
         private fun addSignBlockEntityBlocks(event: BlockEntityTypeAddBlocksEvent) {
             event.modify(BlockEntityTypes.SIGN, ModContent.PALM_SIGN, ModContent.PALM_WALL_SIGN)
             event.modify(BlockEntityTypes.HANGING_SIGN, ModContent.PALM_HANGING_SIGN, ModContent.PALM_WALL_HANGING_SIGN)
+            event.modify(BlockEntityTypes.FURNACE, ModContent.BLACKSTONE_FURNACE, ModContent.DEEPSLATE_FURNACE)
         }
         private fun registerAttributes(event: EntityAttributeCreationEvent) {
             event.put(ModContent.GRIZZLY_BEAR_ENTITY, net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes().build())
+            event.put(ModContent.ENDER_SPIDER_ENTITY, com.suprememc.content.entity.EnderSpider.createAttributes().build())
             event.put(ModContent.FIRE_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
+            event.put(ModContent.SNOW_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
         }
         private fun registerFuelValues(event: FurnaceFuelBurnTimeEvent) {
             when (event.itemStack.item) {
                 ModContent.ANTHRACITE -> event.setBurnTime(1600)
                 ModContent.ANTHRACITE_BLOCK.asItem() -> event.setBurnTime(16000)
             }
+        }
+        private fun registerBrewingRecipes(event: RegisterBrewingRecipesEvent) {
+            val builder = event.builder
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, ModContent.CLOVER.asItem(), ModContent.LUCK_POTION)
+            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_LUCK_POTION)
+            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_LUCK_POTION)
+            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.BAD_LUCK_POTION)
+            builder.addMix(ModContent.LONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.LONG_BAD_LUCK_POTION)
+            builder.addMix(ModContent.STRONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.STRONG_BAD_LUCK_POTION)
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.ROTTEN_FLESH, ModContent.HUNGER_POTION)
+            builder.addMix(ModContent.HUNGER_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_HUNGER_POTION)
+            builder.addMix(ModContent.HUNGER_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_HUNGER_POTION)
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.WITHER_ROSE, ModContent.DECAY_POTION)
+            builder.addMix(ModContent.DECAY_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_DECAY_POTION)
+            builder.addMix(ModContent.DECAY_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_DECAY_POTION)
+            builder.addContainerRecipe(net.minecraft.world.item.Items.SPLASH_POTION, ModContent.EXPERIENCE_DUST, net.minecraft.world.item.Items.EXPERIENCE_BOTTLE)
         }
         private fun registerContent(event: RegisterEvent) {
             if (event.registryKey == Registries.BLOCK || event.registryKey == Registries.ITEM) {
@@ -69,8 +90,10 @@ class SupremeMC(eventBus: IEventBus) {
         private fun gatherData(event: GatherDataEvent.Client) {
             val output = event.generator.packOutput
             event.addProvider(AquamarineDataProvider(output))
+            event.addProvider(BurningDiamondDataProvider(output))
             event.addProvider(AmberDataProvider(output))
             event.addProvider(AnthraciteDataProvider(output))
+            event.addProvider(DustDataProvider(output))
             event.addProvider(PrismarineDataProvider(output))
             event.addProvider(MaterialBlocksDataProvider(output))
             event.addProvider(SupremeMCLogoBlockDataProvider(output))
@@ -84,6 +107,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(CornDataProvider(output))
             event.addProvider(GrapeVineDataProvider(output))
             event.addProvider(TomatoDataProvider(output))
+            event.addProvider(ButtercupCloverDataProvider(output))
             event.addProvider(BeachGrassDataProvider(output))
             event.addProvider(CalamariDataProvider(output))
                 event.addProvider(DrownedDataProvider(output))
@@ -95,9 +119,14 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(WoodCuttingDataProvider(output))
             event.addProvider(GlowSlimeDataProvider(output))
             event.addProvider(GrizzlyBearDataProvider(output))
+            event.addProvider(EnderSpiderDataProvider(output))
             event.addProvider(FireCreeperDataProvider(output))
+            event.addProvider(SnowCreeperDataProvider(output))
             event.addProvider(BellDataProvider(output))
             event.addProvider(CakeDataProvider(output))
+            event.addProvider(BookshelfDataProvider(output))
+            event.addProvider(CraftingTableDataProvider(output))
+            event.addProvider(FurnaceDataProvider(output))
             event.addProvider(SupremeMCLanguageProvider(output))
         }
     }

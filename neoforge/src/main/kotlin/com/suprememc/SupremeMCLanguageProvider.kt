@@ -7,9 +7,34 @@ import java.util.concurrent.CompletableFuture
 class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(output) {
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val items = arrayOf(
+            "burning_diamond_ore",
+            "burning_diamond_block",
+            "burning_diamond_slab",
+            "burning_diamond_stairs",
+            "burning_diamond",
+            "burning_diamond_pickaxe",
+            "burning_diamond_axe",
+            "burning_diamond_shovel",
+            "burning_diamond_hoe",
+            "burning_diamond_sword",
+            "burning_diamond_helmet",
+            "burning_diamond_chestplate",
+            "burning_diamond_leggings",
+            "burning_diamond_boots",
+            "burning_netherite_pickaxe",
+            "burning_netherite_axe",
+            "burning_netherite_shovel",
+            "burning_netherite_hoe",
+            "burning_netherite_sword",
+            "burning_netherite_helmet",
+            "burning_netherite_chestplate",
+            "burning_netherite_leggings",
+            "burning_netherite_boots",
             "aquamarine",
             "amber",
             "anthracite",
+            "experience_dust",
+            "xylium_dust",
             "anthracite_block",
             "nether_anthracite_ore",
             "aquamarine_block",
@@ -81,6 +106,8 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "cotton_boots",
             "beach_grass",
             "tall_beach_grass",
+            "buttercup",
+            "clover",
             "wet_farmland",
             "suprememc_logo_block",
             "calamari",
@@ -90,7 +117,9 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "corn",
             "icicle",
             "grizzly_bear_spawn_egg",
+            "ender_spider_spawn_egg",
             "fire_creeper_spawn_egg",
+            "snow_creeper_spawn_egg",
             "potted_palm_sapling",
             "iron_slab",
             "iron_stairs",
@@ -119,6 +148,10 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "aquamarine_ore",
             "deepslate_aquamarine_ore",
             "aquamarine_block",
+            "burning_diamond_ore",
+            "burning_diamond_block",
+            "burning_diamond_slab",
+            "burning_diamond_stairs",
             "nether_anthracite_ore",
             "anthracite_block",
             "aquamarine_slab",
@@ -183,33 +216,85 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "tomato_bush",
             "beach_grass",
             "tall_beach_grass",
+            "buttercup",
+            "clover",
             "corn_stalk",
             "corn_stalk_plant",
             "grape_vine",
             "grape_vine_plant",
-            "icicle"
+            "icicle",
+            "luck",
+            "long_luck",
+            "strong_luck",
+            "bad_luck",
+            "long_bad_luck",
+            "strong_bad_luck"
         )
         val dyeColors = arrayOf(
             "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
             "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"
         )
         val glowSlimeBlocks = dyeColors.flatMap { listOf("${it}_glowblock", "${it}_slime_block") }
+        val bookshelfWoods = listOf(
+            "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry",
+            "pale_oak", "bamboo", "crimson", "warped", "palm"
+        )
+        val craftingTableWoods = bookshelfWoods
         val enchantments = arrayOf(
             "bounty", 
             "venom", 
             "decay", 
             "wisdom",
-            "smelting"
+            "smelting",
+            "tension"
+            ,"curse_of_mass"
+            ,"curse_of_sloth"
         )
         val json = obj {
             addProperty("itemGroup.$namespace.main", "SupremeMC")
+            addProperty("block.minecraft.bookshelf", "Oak Bookshelf")
+            addProperty("block.minecraft.crafting_table", "Oak Crafting Table")
+            addProperty("block.minecraft.furnace", "Cobblestone Furnace")
             items.forEach { addProperty("item.$namespace.$it", displayName(it)) }
+            bookshelfWoods.forEach { addProperty("item.$namespace.${it}_bookshelf", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Bookshelf") }
+            craftingTableWoods.forEach { addProperty("item.$namespace.${it}_crafting_table", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Crafting Table") }
+            addProperty("item.$namespace.blackstone_furnace", "Blackstone Furnace")
+            addProperty("item.$namespace.deepslate_furnace", "Deepslate Furnace")
+            val customPotions = mapOf(
+                "luck" to ("Potion of Luck" to "Luck"),
+                "long_luck" to ("Long Potion of Luck" to "Long Luck"),
+                "strong_luck" to ("Strong Potion of Luck" to "Strong Luck"),
+                "bad_luck" to ("Potion of Bad Luck" to "Bad Luck"),
+                "long_bad_luck" to ("Long Potion of Bad Luck" to "Long Bad Luck"),
+                "strong_bad_luck" to ("Strong Potion of Bad Luck" to "Strong Bad Luck"),
+                "hunger" to ("Potion of Hunger" to "Hunger"),
+                "long_hunger" to ("Long Potion of Hunger" to "Long Hunger"),
+                "strong_hunger" to ("Strong Potion of Hunger" to "Strong Hunger"),
+                "decay" to ("Potion of Decay" to "Decay"),
+                "long_decay" to ("Long Potion of Decay" to "Long Decay"),
+                "strong_decay" to ("Strong Potion of Decay" to "Strong Decay")
+            )
+            customPotions.forEach { (id, names) ->
+                val (potionName, arrowName) = names
+                addProperty("potion.$namespace.$id", potionName)
+                addProperty("item.minecraft.potion.effect.$id", potionName)
+                addProperty("item.minecraft.splash_potion.effect.$id", "Splash $potionName")
+                addProperty("item.minecraft.lingering_potion.effect.$id", "Lingering $potionName")
+                addProperty("item.minecraft.tipped_arrow.effect.$id", "Arrow of $arrowName")
+            }
             blocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
+            bookshelfWoods.forEach { addProperty("block.$namespace.${it}_bookshelf", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Bookshelf") }
+            craftingTableWoods.forEach { addProperty("block.$namespace.${it}_crafting_table", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Crafting Table") }
+            addProperty("block.$namespace.blackstone_furnace", "Blackstone Furnace")
+            addProperty("block.$namespace.deepslate_furnace", "Deepslate Furnace")
             glowSlimeBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template.upgrade_description", "Upgrade to Abyssalite")
             enchantments.forEach { addProperty("enchantment.$namespace.$it", displayName(it)) }
+            addProperty("enchantment.$namespace.curse_of_mass", "Curse of Mass")
+            addProperty("enchantment.$namespace.curse_of_sloth", "Curse of Sloth")
             addProperty("entity.$namespace.grizzly_bear", "Grizzly Bear")
             addProperty("entity.$namespace.fire_creeper", "Fire Creeper")
+            addProperty("entity.$namespace.snow_creeper", "Snow Creeper")
             addProperty("biome.$namespace.florida_plains", "Florida Plains")
             addProperty("biome.$namespace.cays", "Cays")
             addProperty("biome.$namespace.ice_caves", "Ice Caves")
