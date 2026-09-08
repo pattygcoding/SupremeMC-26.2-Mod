@@ -1,0 +1,52 @@
+{
+  "carvers": [],
+  "downfall": 0.5,
+  "effects": {
+    "water_color": "#3f76e4"
+  },
+  "attributes": {
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "minecraft:warped_spore"
+        },
+        "probability": 0.01428
+      }
+    ],
+    "minecraft:visual/fog_color": "#2b0b3a"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "suprememc:lavender_forest_vegetation_sparse"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "minecraft:enderman",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 10
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "temperature": 0.5
+}

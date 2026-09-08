@@ -30,6 +30,7 @@
     ,"MixinPrimedTnt"
     ,"MixinStructureStart"
     ,"MixinMineshaftStructureType"
+    ,"MixinTheEndBiomeSource"
   ],
   "client": [
     "MixinMinecraft",

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:nether_forest_vegetation",
+  "config": {
+    "spread_width": 8,
+    "spread_height": 4,
+    "state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 87,
+          "data": {
+            "Name": "suprememc:lavender_roots"
+          }
+        },
+        {
+          "weight": 11,
+          "data": {
+            "Name": "suprememc:lavender_fungus"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -6,6 +6,18 @@ import kotlin.test.assertTrue
 
 class LavenderDataTest : GeneratedDataTestSupport() {
     @Test
+    fun theEndDimensionUsesVanillaBiomeSource() {
+        val file = java.nio.file.Path.of("..", "common", "src", "main", "resources", "data/minecraft/dimension/the_end.json")
+        val dimension = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(file)).asJsonObject
+        assertEquals("minecraft:the_end", dimension.get("type").asString)
+        val generator = dimension.getAsJsonObject("generator")
+        assertEquals("minecraft:noise", generator.get("type").asString)
+        assertEquals("minecraft:end", generator.get("settings").asString)
+        val biomeSource = generator.getAsJsonObject("biome_source")
+        assertEquals("minecraft:the_end", biomeSource.get("type").asString)
+    }
+
+    @Test
     fun bonemealedLavenderFungusGrowsAHugeFungusLikeVanillaNetherFungi() {
         val feature = readJson("data/suprememc/worldgen/configured_feature/lavender_fungus_planted.json")
         assertEquals("minecraft:huge_fungus", feature.get("type").asString)

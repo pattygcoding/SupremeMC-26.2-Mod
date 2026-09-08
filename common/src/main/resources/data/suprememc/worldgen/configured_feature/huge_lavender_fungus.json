@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:huge_fungus",
+  "config": {
+    "planted": false,
+    "valid_base_block": {
+      "Name": "suprememc:lavender_endspar"
+    },
+    "stem_state": {
+      "Name": "suprememc:lavender_stem",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "hat_state": {
+      "Name": "suprememc:lavender_wart_block"
+    },
+    "decor_state": {
+      "Name": "minecraft:shroomlight"
+    },
+    "replaceable_blocks": {
+      "type": "minecraft:matching_blocks",
+      "blocks": [
+        "suprememc:lavender_roots",
+        "suprememc:lavender_fungus",
+        "minecraft:chorus_plant",
+        "minecraft:chorus_flower"
+      ]
+    }
+  }
+}
