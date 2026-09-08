@@ -1,6 +1,7 @@
 package com.suprememc.mixin;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModItems;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,8 +36,8 @@ public abstract class MixinItemEntity {
 
     private boolean isAbyssaliteItem() {
         net.minecraft.world.item.Item item = getItem().getItem();
-        return item == ModContent.ATLANTIS_DEBRIS.asItem() || item == ModContent.ABYSSALITE_SCRAP
-            || item == ModContent.ABYSSALITE_INGOT || item == ModContent.ABYSSALITE_BLOCK.asItem()
-                || item == ModContent.ABYSSALITE_TRIDENT;
+        return item == ModContent.ATLANTIS_DEBRIS.asItem() || item == ModItems.ABYSSALITE_SCRAP
+            || item == ModItems.ABYSSALITE_INGOT || item == ModContent.ABYSSALITE_BLOCK.asItem()
+                || item == ModItems.ABYSSALITE_TRIDENT;
     }
 }

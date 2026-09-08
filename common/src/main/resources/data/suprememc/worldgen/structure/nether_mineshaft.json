@@ -1,0 +1,7 @@
+{
+  "type": "suprememc:nether_mineshaft",
+  "biomes": "#minecraft:is_nether",
+  "spawn_overrides": {},
+  "step": "underground_structures",
+  "terrain_adaptation": "encapsulate"
+}

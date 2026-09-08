@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "suprememc:block/lavender_slab"
+    },
+    "type=double": {
+      "model": "suprememc:block/lavender_planks"
+    },
+    "type=top": {
+      "model": "suprememc:block/lavender_slab_top"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 package com.suprememc.mixin;
 
 import com.suprememc.content.items.AbyssaliteArmorItem;
-import com.suprememc.content.ModEnchantments;
+import com.suprememc.content.init.ModEnchantments;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;

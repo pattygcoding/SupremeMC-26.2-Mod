@@ -1,6 +1,8 @@
 package com.suprememc.mixin;
 
 import net.minecraft.references.BlockItemId;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -12,6 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Items.class)
 public abstract class MixinItems {
+    @Inject(method = "registerItem(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/item/Item$Properties;)Lnet/minecraft/world/item/Item;",
+            at = @At("HEAD"))
+    private static void suprememc$makeHoneyBottlesStackable(ResourceKey<Item> id, Item.Properties properties,
+                                                              CallbackInfoReturnable<Item> callback) {
+        if (id.identifier().equals(Identifier.withDefaultNamespace("honey_bottle"))) {
+            properties.stacksTo(64);
+        }
+    }
+
     // In 26.2 cake's BlockItem is built inside Items' private registerBlock helper via a
     // factory method-ref (BlockItem::new), so there is no BlockItem.<init> call site in
     // <clinit> to hook. Cake is registered through the 3-arg registerBlock overload with a

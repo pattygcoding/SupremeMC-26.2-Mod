@@ -1,7 +1,10 @@
 package com.suprememc.mixin;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModItems;
 import com.suprememc.content.items.AbyssaliteArmorItem;
+import com.suprememc.content.items.ExperienceArmorItem;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,11 +22,11 @@ public abstract class MixinPlayer {
         Player player = (Player) (Object) this;
         ItemStack held = player.getMainHandItem();
         if (player.isEyeInFluid(net.minecraft.tags.FluidTags.WATER)
-            && (held.getItem() == ModContent.ABYSSALITE_PICKAXE
-            || held.getItem() == ModContent.ABYSSALITE_AXE
-            || held.getItem() == ModContent.ABYSSALITE_SHOVEL
-            || held.getItem() == ModContent.ABYSSALITE_HOE
-            || held.getItem() == ModContent.ABYSSALITE_SWORD)) {
+            && (held.getItem() == ModItems.ABYSSALITE_PICKAXE
+            || held.getItem() == ModItems.ABYSSALITE_AXE
+            || held.getItem() == ModItems.ABYSSALITE_SHOVEL
+            || held.getItem() == ModItems.ABYSSALITE_HOE
+            || held.getItem() == ModItems.ABYSSALITE_SWORD)) {
             callback.setReturnValue(callback.getReturnValue() * 5.0F);
         }
     }
@@ -34,6 +37,12 @@ public abstract class MixinPlayer {
         if (!AbyssaliteArmorItem.isFullSet(player)) {
             player.removeEffect(MobEffects.CONDUIT_POWER);
             player.removeEffect(MobEffects.DOLPHINS_GRACE);
+        }
+        if (!ExperienceArmorItem.isFullSet(player)) {
+            MobEffectInstance effect = player.getEffect(MobEffects.HERO_OF_THE_VILLAGE);
+            if (effect != null && effect.isAmbient()) {
+                player.removeEffect(MobEffects.HERO_OF_THE_VILLAGE);
+            }
         }
     }
 }

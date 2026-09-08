@@ -7,7 +7,6 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -30,8 +29,8 @@ public class WoodCraftingTableBlock extends CraftingTableBlock {
     @Override
     protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         return new SimpleMenuProvider(
-            (containerId, inventory, player) -> new CraftingMenu(
-                containerId, inventory, ContainerLevelAccess.create(level, pos)),
+            (containerId, inventory, player) -> new WoodCraftingMenu(
+                containerId, inventory, ContainerLevelAccess.create(level, pos), this),
             Component.translatable("container.crafting"));
     }
 }

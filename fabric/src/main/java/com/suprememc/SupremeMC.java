@@ -8,6 +8,9 @@ import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModItems;
+import com.suprememc.content.init.ModEntities;
+import com.suprememc.content.init.ModPotions;
 import com.suprememc.loot.ModLootInjections;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -54,36 +57,41 @@ public class SupremeMC implements ModInitializer {
         CommonClass.init();
         FabricPotionBrewingBuilder.BUILD.register(builder -> {
             builder.registerPotionRecipe(net.minecraft.world.item.alchemy.Potions.AWKWARD,
-                Ingredient.of(ModContent.CLOVER.asItem()), ModContent.LUCK_POTION);
-            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_LUCK_POTION);
-            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_LUCK_POTION);
-            builder.registerPotionRecipe(ModContent.LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.BAD_LUCK_POTION);
-            builder.registerPotionRecipe(ModContent.LONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.LONG_BAD_LUCK_POTION);
-            builder.registerPotionRecipe(ModContent.STRONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModContent.STRONG_BAD_LUCK_POTION);
-                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.ROTTEN_FLESH), ModContent.HUNGER_POTION);
-                builder.registerPotionRecipe(ModContent.HUNGER_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_HUNGER_POTION);
-                builder.registerPotionRecipe(ModContent.HUNGER_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_HUNGER_POTION);
-                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.WITHER_ROSE), ModContent.DECAY_POTION);
-                builder.registerPotionRecipe(ModContent.DECAY_POTION, Ingredient.of(Items.REDSTONE), ModContent.LONG_DECAY_POTION);
-                builder.registerPotionRecipe(ModContent.DECAY_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModContent.STRONG_DECAY_POTION);
+                Ingredient.of(ModContent.CLOVER.asItem()), ModPotions.LUCK_POTION);
+            builder.registerPotionRecipe(ModPotions.LUCK_POTION, Ingredient.of(Items.REDSTONE), ModPotions.LONG_LUCK_POTION);
+            builder.registerPotionRecipe(ModPotions.LUCK_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModPotions.STRONG_LUCK_POTION);
+            builder.registerPotionRecipe(ModPotions.LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModPotions.BAD_LUCK_POTION);
+            builder.registerPotionRecipe(ModPotions.LONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModPotions.LONG_BAD_LUCK_POTION);
+            builder.registerPotionRecipe(ModPotions.STRONG_LUCK_POTION, Ingredient.of(Items.FERMENTED_SPIDER_EYE), ModPotions.STRONG_BAD_LUCK_POTION);
+                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.ROTTEN_FLESH), ModPotions.HUNGER_POTION);
+                builder.registerPotionRecipe(ModPotions.HUNGER_POTION, Ingredient.of(Items.REDSTONE), ModPotions.LONG_HUNGER_POTION);
+                builder.registerPotionRecipe(ModPotions.HUNGER_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModPotions.STRONG_HUNGER_POTION);
+                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.WITHER_ROSE), ModPotions.DECAY_POTION);
+                builder.registerPotionRecipe(ModPotions.DECAY_POTION, Ingredient.of(Items.REDSTONE), ModPotions.LONG_DECAY_POTION);
+                builder.registerPotionRecipe(ModPotions.DECAY_POTION, Ingredient.of(Items.GLOWSTONE_DUST), ModPotions.STRONG_DECAY_POTION);
+                builder.registerItemRecipe(Items.SPLASH_POTION, Ingredient.of(ModItems.EXPERIENCE_DUST), Items.SPLASH_POTION);
         });
         FuelValueEvents.BUILD.register((builder, context) -> {
-            builder.add(ModContent.ANTHRACITE, 1600);
+            builder.add(ModItems.ANTHRACITE, 1600);
             builder.add(ModContent.ANTHRACITE_BLOCK, 16000);
         });
-        FabricDefaultAttributeRegistry.register(ModContent.GRIZZLY_BEAR_ENTITY,
+        FabricDefaultAttributeRegistry.register(ModEntities.GRIZZLY_BEAR_ENTITY,
             net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes());
-        FabricDefaultAttributeRegistry.register(ModContent.ENDER_SPIDER_ENTITY,
+        FabricDefaultAttributeRegistry.register(ModEntities.ENDER_SPIDER_ENTITY,
             com.suprememc.content.entity.EnderSpider.createAttributes());
-        FabricDefaultAttributeRegistry.register(ModContent.FIRE_CREEPER_ENTITY,
+        FabricDefaultAttributeRegistry.register(ModEntities.FIRE_CREEPER_ENTITY,
             net.minecraft.world.entity.monster.Creeper.createAttributes());
-        FabricDefaultAttributeRegistry.register(ModContent.SNOW_CREEPER_ENTITY,
+        FabricDefaultAttributeRegistry.register(ModEntities.SNOW_CREEPER_ENTITY,
             net.minecraft.world.entity.monster.Creeper.createAttributes());
         // Vanilla's sign block entities only accept their hardcoded block list, so opt the palm signs in.
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModContent.LAVENDER_SIGN);
         BlockEntityTypes.SIGN.addValidBlock(ModContent.PALM_WALL_SIGN);
+        BlockEntityTypes.SIGN.addValidBlock(ModContent.LAVENDER_WALL_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.PALM_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.LAVENDER_HANGING_SIGN);
         BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.PALM_WALL_HANGING_SIGN);
+        BlockEntityTypes.HANGING_SIGN.addValidBlock(ModContent.LAVENDER_WALL_HANGING_SIGN);
         BlockEntityTypes.FURNACE.addValidBlock(ModContent.BLACKSTONE_FURNACE);
         BlockEntityTypes.FURNACE.addValidBlock(ModContent.DEEPSLATE_FURNACE);
         BiomeModifications.addFeature(
@@ -212,7 +220,7 @@ public class SupremeMC implements ModInitializer {
                 context -> context.getMobSpawnSettings().addSpawn(
                     MobCategory.MONSTER,
                     new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
-                        ModContent.FIRE_CREEPER_ENTITY, 1, 2),
+                        ModEntities.FIRE_CREEPER_ENTITY, 1, 2),
                     25));
         }
 
@@ -228,7 +236,7 @@ public class SupremeMC implements ModInitializer {
                 context -> context.getMobSpawnSettings().addSpawn(
                     MobCategory.MONSTER,
                     new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
-                        ModContent.ENDER_SPIDER_ENTITY, 1, 4),
+                        ModEntities.ENDER_SPIDER_ENTITY, 1, 4),
                     3));
         }
 
@@ -258,7 +266,7 @@ public class SupremeMC implements ModInitializer {
                     context.getMobSpawnSettings().addSpawn(
                         MobCategory.MONSTER,
                         new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
-                            ModContent.SNOW_CREEPER_ENTITY, 4, 4),
+                            ModEntities.SNOW_CREEPER_ENTITY, 4, 4),
                         100);
                 });
         }
@@ -269,6 +277,9 @@ public class SupremeMC implements ModInitializer {
             injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
         }
         for (ModLootInjections.Injection injection : ModLootInjections.CALAMARI_INJECTIONS) {
+            injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
+        }
+        for (ModLootInjections.Injection injection : ModLootInjections.EXPERIENCE_INJECTIONS) {
             injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
         }
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:stripped_lavender_wood"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

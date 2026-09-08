@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:lavender_boat",
+    "minecraft:chest"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:lavender_chest_boat"
+  }
+}

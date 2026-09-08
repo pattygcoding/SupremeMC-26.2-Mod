@@ -1,6 +1,14 @@
 {
   "values": [
-    "suprememc:atlantis_debris",
-    "suprememc:abyssalite_block"
+    "minecraft:obsidian",
+    "suprememc:obsidian_stairs",
+    "suprememc:obsidian_slab",
+    "minecraft:netherite_block",
+    "suprememc:netherite_stairs",
+    "suprememc:netherite_slab",
+    "suprememc:abyssalite_block",
+    "suprememc:abyssalite_stairs",
+    "suprememc:abyssalite_slab",
+    "suprememc:atlantis_debris"
   ]
 }

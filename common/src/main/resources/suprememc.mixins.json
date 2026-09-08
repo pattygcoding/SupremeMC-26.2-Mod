@@ -26,9 +26,14 @@
     "MixinEnchantingTableBlock",
     "MixinPistonStructureResolver",
     "MixinBowItem"
+    ,"MixinTntBlock"
+    ,"MixinPrimedTnt"
+    ,"MixinStructureStart"
+    ,"MixinMineshaftStructureType"
   ],
   "client": [
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinAbstractClientPlayer"
   ],
   "server": [],
   "injectors": {

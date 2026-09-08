@@ -1,4 +1,4 @@
-package com.suprememc.content;
+package com.suprememc.content.init;
 
 import com.suprememc.Constants;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -6,19 +6,19 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
 
 /** Lookup helpers for the mod's data-driven enchantments that also need runtime behavior. */
 public final class ModEnchantments {
     public static final ResourceKey<Enchantment> CURSE_OF_MASS = ResourceKey.create(
             Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "curse_of_mass"));
 
-        public static final ResourceKey<Enchantment> CURSE_OF_SLOTH = ResourceKey.create(
+    public static final ResourceKey<Enchantment> CURSE_OF_SLOTH = ResourceKey.create(
             Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "curse_of_sloth"));
 
     public static final ResourceKey<Enchantment> TENSION = ResourceKey.create(

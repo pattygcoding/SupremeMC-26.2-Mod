@@ -1,6 +1,7 @@
 package com.suprememc.content.items;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModArmorMaterials;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
 
 public class AmberArmorItem extends Item {
-    public AmberArmorItem(String id, ArmorType type) { super(ModContent.itemProperties(id).humanoidArmor(ModContent.AMBER_ARMOR_MATERIAL, type)); }
+    public AmberArmorItem(String id, ArmorType type) { super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.AMBER, type)); }
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {

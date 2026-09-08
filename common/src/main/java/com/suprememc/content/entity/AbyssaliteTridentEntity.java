@@ -1,6 +1,6 @@
 package com.suprememc.content.entity;
 
-import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModEntities;
 import com.suprememc.mixin.ThrownTridentAccessor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,7 +17,7 @@ public class AbyssaliteTridentEntity extends ThrownTrident {
     }
 
     public AbyssaliteTridentEntity(Level level, double x, double y, double z, ItemStack stack) {
-        super(ModContent.ABYSSALITE_TRIDENT_ENTITY, level);
+        super(ModEntities.ABYSSALITE_TRIDENT_ENTITY, level);
         setPos(x, y, z);
         setPickupItemStack(stack);
         setBaseDamage(9.0D);

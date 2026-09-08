@@ -1,6 +1,6 @@
 package com.suprememc.content.entity;
 
-import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +15,6 @@ public class GrizzlyBear extends PolarBear {
 
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return ModContent.GRIZZLY_BEAR_ENTITY.create(level, EntitySpawnReason.BREEDING);
+        return ModEntities.GRIZZLY_BEAR_ENTITY.create(level, EntitySpawnReason.BREEDING);
     }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "suprememc:block/lavender_stem_top",
+    "side": "suprememc:block/lavender_stem"
+  }
+}

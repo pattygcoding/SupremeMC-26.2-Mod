@@ -315,6 +315,7 @@ class ModContentDataTest {
             "wisdom" to Triple(3, 2, "#minecraft:enchantable/leg_armor"),
             "smelting" to Triple(1, 2, "#minecraft:enchantable/mining"),
             "tension" to Triple(3, 5, "minecraft:bow")
+            ,"super_channeling" to Triple(1, 1, "#suprememc:super_channeling_items")
             ,"curse_of_mass" to Triple(1, 1, "#suprememc:curse_of_mass_items")
             ,"curse_of_sloth" to Triple(1, 1, "#suprememc:curse_of_sloth_items")
         ).forEach { (id, expected) ->
@@ -341,8 +342,19 @@ class ModContentDataTest {
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/xp_armor.json", "minecraft:thorns", "suprememc:wisdom")
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/smelting.json", "minecraft:silk_touch", "suprememc:smelting")
         assertTagContains("data/suprememc/tags/enchantment/exclusive_set/tension.json", "minecraft:punch", "suprememc:tension")
+        assertTagContains("data/suprememc/tags/enchantment/exclusive_set/super_channeling.json", "minecraft:channeling", "minecraft:riptide", "suprememc:super_channeling")
+        assertTagContains("data/suprememc/tags/item/super_channeling_items.json", "#minecraft:enchantable/trident", "suprememc:abyssalite_trident")
+        assertTagContains("data/suprememc/tags/entity_type/super_channeling_tridents.json", "minecraft:trident", "suprememc:abyssalite_trident")
         assertTagContains("data/minecraft/tags/enchantment/curse.json", "suprememc:curse_of_mass", "suprememc:curse_of_sloth")
-        assertTagContains("data/minecraft/tags/enchantment/treasure.json", "suprememc:curse_of_mass", "suprememc:curse_of_sloth")
+        assertTagContains("data/minecraft/tags/enchantment/treasure.json", "suprememc:curse_of_mass", "suprememc:curse_of_sloth", "suprememc:super_channeling")
+
+        val superChanneling = readJson("data/suprememc/enchantment/super_channeling.json")
+            .getAsJsonObject("effects")
+        listOf("minecraft:hit_block", "minecraft:post_attack").forEach { effectType ->
+            val requirements = superChanneling.getAsJsonArray(effectType).single().asJsonObject
+                .getAsJsonObject("requirements")
+            assertFalse(requirements.getAsJsonArray("terms").any { it.asJsonObject.get("condition")?.asString == "minecraft:weather_check" })
+        }
         assertTagContains(
             "data/suprememc/tags/item/curse_of_mass_items.json",
             "#minecraft:enchantable/armor",
@@ -354,6 +366,25 @@ class ModContentDataTest {
             "#minecraft:enchantable/armor",
             "#minecraft:enchantable/weapon",
             "#minecraft:enchantable/mining"
+        )
+        assertTagContains(
+            "data/minecraft/tags/item/swords.json",
+            "suprememc:abyssalite_sword",
+            "suprememc:emerald_sword"
+        )
+        assertTagContains(
+            "data/minecraft/tags/item/pickaxes.json",
+            "suprememc:abyssalite_pickaxe",
+            "suprememc:emerald_pickaxe"
+        )
+        assertTagContains(
+            "data/minecraft/tags/item/head_armor.json",
+            "suprememc:cotton_helmet",
+            "suprememc:abyssalite_helmet"
+        )
+        assertTagContains(
+            "data/minecraft/tags/item/enchantable/trident.json",
+            "suprememc:abyssalite_trident"
         )
     }
 

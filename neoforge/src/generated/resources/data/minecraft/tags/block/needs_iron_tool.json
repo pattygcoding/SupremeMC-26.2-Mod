@@ -1,11 +1,31 @@
 {
   "values": [
+    "minecraft:gold_block",
+    "suprememc:gold_stairs",
+    "suprememc:gold_slab",
+    "minecraft:diamond_block",
+    "suprememc:diamond_stairs",
+    "suprememc:diamond_slab",
+    "minecraft:emerald_block",
+    "suprememc:emerald_stairs",
+    "suprememc:emerald_slab",
+    "suprememc:amber_block",
+    "suprememc:amber_stairs",
+    "suprememc:amber_slab",
+    "suprememc:aquamarine_block",
+    "suprememc:aquamarine_stairs",
+    "suprememc:aquamarine_slab",
+    "suprememc:burning_diamond_block",
+    "suprememc:burning_diamond_stairs",
+    "suprememc:burning_diamond_slab",
+    "suprememc:anthracite_block",
+    "suprememc:nether_anthracite_ore",
+    "suprememc:prismarine_ore",
+    "suprememc:deepslate_prismarine_ore",
     "suprememc:aquamarine_ore",
     "suprememc:deepslate_aquamarine_ore",
-    "suprememc:aquamarine_block",
-    "suprememc:nether_anthracite_ore",
-    "suprememc:anthracite_block",
     "suprememc:burning_diamond_ore",
-    "suprememc:burning_diamond_block"
+    "suprememc:amber_ore",
+    "suprememc:deepslate_amber_ore"
   ]
 }

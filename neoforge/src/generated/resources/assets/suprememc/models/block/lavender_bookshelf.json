@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "suprememc:block/lavender_planks",
+    "side": "suprememc:block/lavender_bookshelf"
+  }
+}

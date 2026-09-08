@@ -2,6 +2,7 @@ package com.suprememc.content.blocks;
 
 import com.suprememc.Constants;
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModFoods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -32,7 +33,7 @@ public final class TomatoBushBlock extends SweetBerryBushBlock {
 
     @Override
     protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        return new ItemStack(ModContent.TOMATO);
+        return new ItemStack(ModFoods.TOMATO);
     }
 
     @Override

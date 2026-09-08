@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:tnt",
+    "minecraft:snow_block"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:snow_tnt"
+  }
+}

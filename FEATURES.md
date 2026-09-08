@@ -14,6 +14,9 @@ SupremeMC introduces a large set of new content across several major systems:
 - custom enchantments and potion behaviors
 - expanded crop, food, and small-world content such as cotton, coconut, palm trees, tomatoes, grapes, and corn
 - compatibility across both Fabric and NeoForge loaders with generated data resources shared between them
+- Lavender endspar behaves like a nylium block on end stone: it reverts to end stone in darkness and bonemeal spreads it across nearby exposed end stone.
+- Bonemealing lavender endspar spreads lavender roots and lavender fungus across nearby endspar, using the same vegetation pattern as warped and crimson nylium. Bonemealing a lavender fungus planted on lavender endspar grows it into a huge fungus with a lavender stem trunk, a lavender wart block cap, and embedded shroomlights, just like huge warped and crimson fungi.
+- Lavender adds a wart block, crafting table, and bookshelf using its lavender wood family.
 
 ## World Generation and Biomes
 
@@ -52,6 +55,10 @@ Features include:
 ### Drowned Spawn Adjustments
 
 Drowned spawn weights are tuned to match Bedrock-style behavior in key aquatic areas, including rivers, Dripstone Caves, Ice Caves, ocean biomes, and Frozen Rivers.
+
+### Nether Mineshafts
+
+Abandoned mineshafts can now generate in any Nether biome, with the same layout, rooms, and loot as an ordinary overworld mineshaft, except its oak planks and oak fences are replaced with warped planks and warped fences.
 
 ## Blocks, Ores, and Building Materials
 
@@ -105,6 +112,7 @@ Food additions include:
 
 The brewing system introduces several custom potion families:
 
+- Experience Dust brews Splash Awkward Potions into Bottles o' Enchanting
 - Clover brews into Luck potions and variants, including Bad Luck conversion and tipped-arrow compatibility
 - Rotten Flesh brews Hunger potions, with long and strong variants supported
 - Wither Roses brew Decay potions that apply Wither effects, with splash, lingering, and tipped-arrow support
@@ -130,6 +138,8 @@ Several of these have explicit gameplay effects:
 - Venom applies Poison I after a direct melee hit, with durations scaling by enchantment level.
 - Decay applies lethal Wither I after a direct melee hit, with stronger durations at higher levels.
 - Tension is a bow-only enchantment that reduces draw time while preserving the effective power of a full vanilla draw. It cannot be combined with Punch.
+- Super Channeling is a treasure-only trident enchantment that calls lightning on valid targets and lightning rods regardless of weather. It works with vanilla and Abyssalite tridents and cannot be combined with Channeling or Riptide.
+- Wisdon multiplies experience levels.
 - Curse of Mass increases Slowness while cursed armor is worn or a cursed item is held, scaling with the number of affected armor pieces.
 - Curse of Sloth applies a matching escalating Weakness effect.
 
@@ -164,6 +174,14 @@ The Fire Creeper behaves like a vanilla Creeper but always causes its blast to i
 #### Snow Creeper
 
 Snow Creepers replace vanilla Creeper spawns in cold land biomes. Their explosions freeze affected blocks into Powder Snow or Ice, and they drop extra snowballs.
+
+#### Snow TNT
+
+Snow TNT explodes like vanilla TNT, replacing affected non-air, non-water blocks with Powder Snow. While primed, it uses the Snow TNT texture and emits snowflake particles.
+
+#### Fire TNT
+
+Fire TNT explodes like vanilla TNT and ignites blocks in the blast area. While primed, it uses the Fire TNT texture and emits flame and smoke particles.
 
 #### Ender Spider
 

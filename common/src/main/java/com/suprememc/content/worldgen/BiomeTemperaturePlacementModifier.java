@@ -3,7 +3,7 @@ package com.suprememc.content.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModPlacementModifiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
@@ -43,6 +43,6 @@ public class BiomeTemperaturePlacementModifier extends PlacementModifier {
 
     @Override
     public PlacementModifierType<?> type() {
-        return ModContent.BIOME_TEMPERATURE_PLACEMENT_MODIFIER;
+        return ModPlacementModifiers.BIOME_TEMPERATURE;
     }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "minecraft:diamond",
+    "L": "minecraft:lapis_block"
+  },
+  "pattern": [
+    "DDD",
+    "DLD",
+    "DD "
+  ],
+  "result": {
+    "count": 2,
+    "id": "suprememc:experience_upgrade_smithing_template"
+  }
+}

@@ -1,6 +1,7 @@
 package com.suprememc.content.items;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModArmorMaterials;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +14,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 
 public class BurningNetheriteArmorItem extends Item {
     public BurningNetheriteArmorItem(String id, ArmorType type) {
-        super(ModContent.itemProperties(id).humanoidArmor(ModContent.BURNING_NETHERITE_ARMOR_MATERIAL, type));
+        super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.BURNING_NETHERITE, type));
     }
 
     @Override

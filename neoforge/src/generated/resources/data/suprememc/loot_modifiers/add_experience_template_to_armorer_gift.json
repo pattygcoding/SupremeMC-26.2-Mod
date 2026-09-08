@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:gameplay/hero_of_the_village/armorer_gift"
+    }
+  ],
+  "table": "suprememc:inject/experience_armorer_gift"
+}

@@ -24,7 +24,7 @@ class PalmDataTest : GeneratedDataTestSupport() {
 
     @Test
     fun generatesPalmWoodsetResources() {
-        listOf("assets/suprememc/blockstates/palm_log.json", "assets/suprememc/models/block/palm_log.json", "assets/suprememc/models/block/palm_planks.json", "assets/suprememc/models/block/stripped_palm_log.json", "assets/suprememc/models/item/palm_planks.json", "assets/suprememc/models/item/palm_boat.json", "assets/suprememc/items/palm_planks.json", "assets/suprememc/items/palm_sign.json", "data/suprememc/loot_table/blocks/palm_leaves.json", "data/minecraft/tags/block/logs.json", "data/minecraft/tags/item/logs.json", "data/minecraft/tags/item/leaves.json", "data/minecraft/tags/item/saplings.json").forEach(::assertResourceExists)
+        listOf("assets/suprememc/blockstates/palm_log.json", "assets/suprememc/models/block/palm_log.json", "assets/suprememc/models/block/palm_planks.json", "assets/suprememc/models/block/stripped_palm_log.json", "assets/suprememc/models/item/palm_planks.json", "assets/suprememc/models/item/palm_boat.json", "assets/suprememc/items/palm_planks.json", "assets/suprememc/items/palm_sign.json", "data/suprememc/tags/block/palm_logs.json", "data/suprememc/tags/item/palm_logs.json", "data/suprememc/loot_table/blocks/palm_leaves.json", "data/minecraft/tags/block/logs.json", "data/minecraft/tags/item/logs.json", "data/minecraft/tags/item/leaves.json", "data/minecraft/tags/item/saplings.json").forEach(::assertResourceExists)
         recipes.map { "data/suprememc/recipe/$it.json" }.forEach(::assertResourceExists)
         advancementPaths.map { "data/suprememc/advancement/recipes/$it.json" }.forEach(::assertResourceExists)
         assertResourceExists("assets/suprememc/models/block/palm_wood.json")
@@ -53,8 +53,13 @@ class PalmDataTest : GeneratedDataTestSupport() {
 
     @Test
     fun palmWoodsetJoinsVanillaWoodFamilyTagsForAxeMineability() {
-        assertTagContains("data/minecraft/tags/block/logs.json", "suprememc:palm_log", "suprememc:stripped_palm_log", "suprememc:palm_wood", "suprememc:stripped_palm_wood")
-        assertTagContains("data/minecraft/tags/item/logs.json", "suprememc:palm_log", "suprememc:stripped_palm_log", "suprememc:palm_wood", "suprememc:stripped_palm_wood")
+        assertTagContains("data/suprememc/tags/block/palm_logs.json", "suprememc:palm_log", "suprememc:stripped_palm_log", "suprememc:palm_wood", "suprememc:stripped_palm_wood")
+        assertTagContains("data/suprememc/tags/item/palm_logs.json", "suprememc:palm_log", "suprememc:stripped_palm_log", "suprememc:palm_wood", "suprememc:stripped_palm_wood")
+        assertTagContains("data/minecraft/tags/block/logs.json", "#suprememc:palm_logs")
+        assertTagContains("data/minecraft/tags/block/logs_that_burn.json", "#suprememc:palm_logs")
+        assertTagContains("data/minecraft/tags/block/overworld_natural_logs.json", "#suprememc:palm_logs")
+        assertTagContains("data/minecraft/tags/item/logs.json", "#suprememc:palm_logs")
+        assertTagContains("data/minecraft/tags/item/logs_that_burn.json", "#suprememc:palm_logs")
         assertTagContains("data/minecraft/tags/block/planks.json", "suprememc:palm_planks")
         assertTagContains("data/minecraft/tags/block/wooden_slabs.json", "suprememc:palm_slab")
         assertTagContains("data/minecraft/tags/block/wooden_stairs.json", "suprememc:palm_stairs")
@@ -65,7 +70,12 @@ class PalmDataTest : GeneratedDataTestSupport() {
         assertTagContains("data/minecraft/tags/block/wooden_pressure_plates.json", "suprememc:palm_pressure_plate")
         assertTagContains("data/minecraft/tags/block/wooden_buttons.json", "suprememc:palm_button")
         assertTagContains("data/minecraft/tags/block/signs.json", "suprememc:palm_sign", "suprememc:palm_wall_sign")
-        assertTagContains("data/minecraft/tags/block/all_hanging_signs.json", "suprememc:palm_hanging_sign", "suprememc:palm_wall_hanging_sign")
+        assertTagContains("data/minecraft/tags/block/ceiling_hanging_signs.json", "suprememc:palm_hanging_sign")
+        assertTagContains("data/minecraft/tags/block/wall_hanging_signs.json", "suprememc:palm_wall_hanging_sign")
+        assertTagContains("data/minecraft/tags/block/all_hanging_signs.json", "#minecraft:ceiling_hanging_signs", "#minecraft:wall_hanging_signs")
+        assertTagContains("data/minecraft/tags/block/mineable/axe.json", "suprememc:palm_bookshelf", "suprememc:palm_crafting_table")
+        assertTagContains("data/minecraft/tags/item/boats.json", "suprememc:palm_boat")
+        assertTagContains("data/minecraft/tags/item/chest_boats.json", "suprememc:palm_chest_boat")
     }
 
     @Test

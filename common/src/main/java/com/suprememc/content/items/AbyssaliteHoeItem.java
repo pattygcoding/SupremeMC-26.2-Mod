@@ -1,6 +1,7 @@
 package com.suprememc.content.items;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModToolMaterials;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoeItem;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class AbyssaliteHoeItem extends HoeItem {
-    public AbyssaliteHoeItem() { super(ModContent.ABYSSALITE_TOOL_MATERIAL, 0.0F, -3.0F, ModContent.itemProperties("abyssalite_hoe")); }
+    public AbyssaliteHoeItem() { super(ModToolMaterials.ABYSSALITE, 0.0F, -3.0F, ModContent.itemProperties("abyssalite_hoe")); }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {

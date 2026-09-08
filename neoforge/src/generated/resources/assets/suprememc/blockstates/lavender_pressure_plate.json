@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "suprememc:block/lavender_pressure_plate"
+    },
+    "powered=true": {
+      "model": "suprememc:block/lavender_pressure_plate_down"
+    }
+  }
+}

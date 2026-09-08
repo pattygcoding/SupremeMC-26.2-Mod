@@ -1,7 +1,6 @@
 package com.suprememc.content.items;
 
 import com.suprememc.Constants;
-import com.suprememc.content.ModContent;
 import com.suprememc.content.entity.AbyssaliteTridentEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;

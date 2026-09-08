@@ -31,6 +31,12 @@ public final class ModLootInjections {
             new Injection("add_calamari_to_squid", "minecraft:entities/squid", SQUID_CALAMARI),
             new Injection("add_calamari_to_glow_squid", "minecraft:entities/glow_squid", GLOW_SQUID_CALAMARI));
 
+            public static final String EXPERIENCE_ARMORER_GIFT = Constants.MOD_ID + ":inject/experience_armorer_gift";
+
+            public static final List<Injection> EXPERIENCE_INJECTIONS = List.of(
+                new Injection("add_experience_template_to_armorer_gift",
+                    "minecraft:gameplay/hero_of_the_village/armorer_gift", EXPERIENCE_ARMORER_GIFT));
+
     private ModLootInjections() {
     }
 }

@@ -1,6 +1,7 @@
 package com.suprememc.mixin;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModItems;
 import com.suprememc.content.entity.AbyssaliteTridentEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,7 @@ public abstract class MixinTridentItem {
             target = "Lnet/minecraft/world/entity/projectile/Projectile;spawnProjectileFromRotation(Lnet/minecraft/world/entity/projectile/Projectile$ProjectileFactory;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;FFF)Lnet/minecraft/world/entity/projectile/Projectile;"))
     private Projectile suprememc$spawnAbyssaliteTrident(Projectile.ProjectileFactory<ThrownTrident> factory,
             ServerLevel level, ItemStack stack, LivingEntity shooter, float xRot, float power, float inaccuracy) {
-        if (stack.is(ModContent.ABYSSALITE_TRIDENT)) {
+        if (stack.is(ModItems.ABYSSALITE_TRIDENT)) {
             return Projectile.spawnProjectileFromRotation(AbyssaliteTridentEntity::new, level, stack, shooter,
                     xRot, power, inaccuracy);
         }

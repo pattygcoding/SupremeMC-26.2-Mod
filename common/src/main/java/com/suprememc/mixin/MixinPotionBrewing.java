@@ -1,6 +1,7 @@
 package com.suprememc.mixin;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModItems;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PotionBrewing.class)
 public abstract class MixinPotionBrewing {
     @Inject(method = "mix", at = @At("HEAD"), cancellable = true)
-    private void suprememc$requireAwkwardSplashPotion(ItemStack input, ItemStack ingredient, CallbackInfoReturnable<ItemStack> cir) {
-        if (input.is(Items.SPLASH_POTION) && ingredient.is(ModContent.EXPERIENCE_DUST)) {
-            PotionContents contents = input.get(DataComponents.POTION_CONTENTS);
+    private void suprememc$requireAwkwardSplashPotion(ItemStack ingredient, ItemStack potionStack, CallbackInfoReturnable<ItemStack> cir) {
+        if (potionStack.is(Items.SPLASH_POTION) && ingredient.is(ModItems.EXPERIENCE_DUST)) {
+            PotionContents contents = potionStack.get(DataComponents.POTION_CONTENTS);
             if (contents != null && contents.is(Potions.AWKWARD)) {
                 cir.setReturnValue(new ItemStack(Items.EXPERIENCE_BOTTLE));
             } else {

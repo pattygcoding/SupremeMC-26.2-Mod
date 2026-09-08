@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:lapis_block",
+    "minecraft:lapis_block",
+    "minecraft:lapis_block",
+    "minecraft:lapis_block",
+    "minecraft:experience_bottle",
+    "minecraft:experience_bottle",
+    "minecraft:experience_bottle",
+    "minecraft:experience_bottle"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:experience_ingot"
+  }
+}

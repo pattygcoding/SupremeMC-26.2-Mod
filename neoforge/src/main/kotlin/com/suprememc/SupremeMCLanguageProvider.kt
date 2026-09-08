@@ -1,5 +1,6 @@
 package com.suprememc
 
+import com.google.gson.JsonObject
 import net.minecraft.data.CachedOutput
 import net.minecraft.data.PackOutput
 import java.util.concurrent.CompletableFuture
@@ -34,6 +35,8 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "amber",
             "anthracite",
             "experience_dust",
+            "experience_ingot",
+            "experience_upgrade_smithing_template",
             "xylium_dust",
             "anthracite_block",
             "nether_anthracite_ore",
@@ -75,6 +78,15 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "emerald_chestplate",
             "emerald_leggings",
             "emerald_boots",
+            "experience_pickaxe",
+            "experience_axe",
+            "experience_shovel",
+            "experience_hoe",
+            "experience_sword",
+            "experience_helmet",
+            "experience_chestplate",
+            "experience_leggings",
+            "experience_boots",
             "abyssalite_block",
             "abyssalite_slab",
             "abyssalite_stairs",
@@ -95,6 +107,20 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "palm_hanging_sign",
             "palm_wall_sign",
             "palm_wall_hanging_sign",
+            "lavender_stem",
+            "lavender_endspar",
+            "lavender_roots",
+            "lavender_fungus",
+            "lavender_wart_block",
+            "stripped_lavender_stem",
+            "lavender_hyphae",
+            "stripped_lavender_hyphae",
+            "lavender_sign",
+            "lavender_hanging_sign",
+            "lavender_wall_sign",
+            "lavender_wall_hanging_sign",
+            "lavender_boat",
+            "lavender_chest_boat",
             "palm_boat",
             "palm_chest_boat",
             "coconut",
@@ -208,6 +234,29 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "palm_wall_sign",
             "palm_hanging_sign",
             "palm_wall_hanging_sign",
+            "lavender_stem",
+            "lavender_endspar",
+            "lavender_roots",
+            "lavender_fungus",
+            "lavender_wart_block",
+            "stripped_lavender_stem",
+            "lavender_hyphae",
+            "stripped_lavender_hyphae",
+            "lavender_wood",
+            "stripped_lavender_wood",
+            "lavender_planks",
+            "lavender_slab",
+            "lavender_stairs",
+            "lavender_fence",
+            "lavender_fence_gate",
+            "lavender_door",
+            "lavender_trapdoor",
+            "lavender_pressure_plate",
+            "lavender_button",
+            "lavender_sign",
+            "lavender_wall_sign",
+            "lavender_hanging_sign",
+            "lavender_wall_hanging_sign",
             "palm_leaves",
             "palm_sapling",
             "potted_palm_sapling",
@@ -237,7 +286,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
         val glowSlimeBlocks = dyeColors.flatMap { listOf("${it}_glowblock", "${it}_slime_block") }
         val bookshelfWoods = listOf(
             "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry",
-            "pale_oak", "bamboo", "crimson", "warped", "palm"
+            "pale_oak", "bamboo", "crimson", "warped", "palm", "lavender"
         )
         val craftingTableWoods = bookshelfWoods
         val enchantments = arrayOf(
@@ -247,6 +296,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "wisdom",
             "smelting",
             "tension"
+            ,"super_channeling"
             ,"curse_of_mass"
             ,"curse_of_sloth"
         )
@@ -288,18 +338,33 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             addProperty("block.$namespace.blackstone_furnace", "Blackstone Furnace")
             addProperty("block.$namespace.deepslate_furnace", "Deepslate Furnace")
             glowSlimeBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
+            addProperty("item.$namespace.experience_upgrade_smithing_template", "Experience Upgrade")
+            addProperty("block.$namespace.milk_cauldron", "Milk Cauldron")
+            addProperty("item.$namespace.abyssalite_upgrade_smithing_template", "Abyssalite Upgrade")
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template.upgrade_description", "Upgrade to Abyssalite")
+            addSmithingTemplateTranslations("experience_upgrade", "Emerald Equipment", "Experience Ingot", "Add emerald armor, weapon, or tool", "Add Experience Ingot")
+            addSmithingTemplateTranslations("abyssalite_upgrade", "Aquamarine Equipment", "Abyssalite Ingot", "Add aquamarine armor, weapon, or tool", "Add Abyssalite Ingot")
             enchantments.forEach { addProperty("enchantment.$namespace.$it", displayName(it)) }
             addProperty("enchantment.$namespace.curse_of_mass", "Curse of Mass")
             addProperty("enchantment.$namespace.curse_of_sloth", "Curse of Sloth")
             addProperty("entity.$namespace.grizzly_bear", "Grizzly Bear")
             addProperty("entity.$namespace.fire_creeper", "Fire Creeper")
             addProperty("entity.$namespace.snow_creeper", "Snow Creeper")
+            addProperty("block.$namespace.snow_tnt", "Snow TNT")
+            addProperty("block.$namespace.fire_tnt", "Fire TNT")
             addProperty("biome.$namespace.florida_plains", "Florida Plains")
             addProperty("biome.$namespace.cays", "Cays")
             addProperty("biome.$namespace.ice_caves", "Ice Caves")
         }
         return save(cache, json, resourcePath("lang/en_us.json"))
+    }
+
+    private fun JsonObject.addSmithingTemplateTranslations(type: String, appliesTo: String, ingredients: String, baseDescription: String, additionsDescription: String) {
+        val prefix = "item.$namespace.smithing_template.$type"
+        addProperty("$prefix.applies_to", appliesTo)
+        addProperty("$prefix.ingredients", ingredients)
+        addProperty("$prefix.base_slot_description", baseDescription)
+        addProperty("$prefix.additions_slot_description", additionsDescription)
     }
 
     override fun getName() = "SupremeMC language"

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_hanging_sign",
+  "textures": {
+    "all": "suprememc:item/lavender_hanging_sign",
+    "particle": "suprememc:block/stripped_lavender_stem"
+  }
+}

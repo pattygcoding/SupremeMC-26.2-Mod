@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture
 class CraftingTableDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private val woods = listOf(
         "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry",
-        "pale_oak", "bamboo", "crimson", "warped", "palm"
+        "pale_oak", "bamboo", "crimson", "warped", "palm", "lavender"
     )
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
@@ -21,7 +21,7 @@ class CraftingTableDataProvider(output: PackOutput) : EcosystemDataProvider(outp
             writes += save(cache, itemModelDefinition("$namespace:block/$table"), resourcePath("items/$table.json"))
             writes += save(cache, selfDropLootTable(table), dataPath("loot_table/blocks/$table.json"))
             val planks = "${wood}_planks"
-            val ingredientId = if (wood == "palm") ingredient(planks) else minecraftIngredient(planks)
+            val ingredientId = if (wood == "palm" || wood == "lavender") ingredient(planks) else minecraftIngredient(planks)
             writes += save(cache, craftingTableRecipe(table, ingredientId), dataPath("recipe/$table.json"))
             writes += save(cache, recipeAdvancement(table, "building", ingredientId), dataPath("advancement/recipes/building/$table.json"))
         }

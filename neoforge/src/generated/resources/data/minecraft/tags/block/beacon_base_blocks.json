@@ -1,6 +1,11 @@
 {
   "values": [
+    "minecraft:gold_block",
+    "minecraft:diamond_block",
+    "minecraft:emerald_block",
+    "suprememc:amber_block",
     "suprememc:aquamarine_block",
-    "suprememc:amber_block"
+    "suprememc:burning_diamond_block",
+    "suprememc:abyssalite_block"
   ]
 }

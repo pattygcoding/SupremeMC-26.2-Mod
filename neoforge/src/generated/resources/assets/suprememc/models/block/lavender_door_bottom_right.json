@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "suprememc:block/lavender_door_bottom",
+    "top": "suprememc:block/lavender_door_top"
+  }
+}

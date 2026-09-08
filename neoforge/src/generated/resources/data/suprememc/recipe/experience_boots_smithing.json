@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "suprememc:experience_ingot",
+  "base": "suprememc:emerald_boots",
+  "result": {
+    "count": 1,
+    "id": "suprememc:experience_boots"
+  },
+  "template": "suprememc:experience_upgrade_smithing_template"
+}

@@ -86,10 +86,14 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     // Registers palm blocks/items into vanilla's wood-family tags (mineable/axe is built from these, not written to directly).
     private fun writeWoodFamilyTags(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
         val logs = arrayOf("$namespace:palm_log", "$namespace:stripped_palm_log", "$namespace:palm_wood", "$namespace:stripped_palm_wood")
-        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/block/logs.json"))
-        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/block/logs_that_burn.json"))
-        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/item/logs.json"))
-        writes += save(cache, valuesTag(*logs), minecraftDataPath("tags/item/logs_that_burn.json"))
+        writes += save(cache, valuesTag(*logs), dataPath("tags/block/palm_logs.json"))
+        writes += save(cache, valuesTag(*logs), dataPath("tags/item/palm_logs.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/block/logs.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/block/logs_that_burn.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/block/overworld_natural_logs.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/block/completes_find_tree_tutorial.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/item/logs.json"))
+        writes += save(cache, valuesTag("#$namespace:palm_logs"), minecraftDataPath("tags/item/logs_that_burn.json"))
         listOf(
             "planks" to "palm_planks",
             "wooden_slabs" to "palm_slab",
@@ -104,9 +108,32 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/block/$tag.json"))
             writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/item/$tag.json"))
         }
+        writes += save(cache, valuesTag("#minecraft:wooden_slabs"), minecraftDataPath("tags/block/slabs.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_slabs"), minecraftDataPath("tags/item/slabs.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_stairs"), minecraftDataPath("tags/block/stairs.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_stairs"), minecraftDataPath("tags/item/stairs.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_fences"), minecraftDataPath("tags/block/fences.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_fences"), minecraftDataPath("tags/item/fences.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_doors"), minecraftDataPath("tags/block/doors.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_doors"), minecraftDataPath("tags/item/doors.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_trapdoors"), minecraftDataPath("tags/block/trapdoors.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_trapdoors"), minecraftDataPath("tags/item/trapdoors.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_buttons"), minecraftDataPath("tags/block/buttons.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_buttons"), minecraftDataPath("tags/item/buttons.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_pressure_plates"), minecraftDataPath("tags/block/pressure_plates.json"))
+        writes += save(cache, valuesTag("#minecraft:wooden_pressure_plates"), minecraftDataPath("tags/item/pressure_plates.json"))
+        writes += save(cache, valuesTag("#minecraft:signs", "#minecraft:all_hanging_signs"), minecraftDataPath("tags/block/all_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_sign"), minecraftDataPath("tags/block/standing_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_wall_sign"), minecraftDataPath("tags/block/wall_signs.json"))
         writes += save(cache, valuesTag("$namespace:palm_sign", "$namespace:palm_wall_sign"), minecraftDataPath("tags/block/signs.json"))
         writes += save(cache, valuesTag("$namespace:palm_sign"), minecraftDataPath("tags/item/signs.json"))
-        writes += save(cache, valuesTag("$namespace:palm_hanging_sign", "$namespace:palm_wall_hanging_sign"), minecraftDataPath("tags/block/all_hanging_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_hanging_sign"), minecraftDataPath("tags/block/ceiling_hanging_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_wall_hanging_sign"), minecraftDataPath("tags/block/wall_hanging_signs.json"))
+        writes += save(cache, valuesTag("#minecraft:ceiling_hanging_signs", "#minecraft:wall_hanging_signs"), minecraftDataPath("tags/block/all_hanging_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_hanging_sign"), minecraftDataPath("tags/item/hanging_signs.json"))
+        writes += save(cache, valuesTag("$namespace:palm_boat"), minecraftDataPath("tags/item/boats.json"))
+        writes += save(cache, valuesTag("$namespace:palm_chest_boat"), minecraftDataPath("tags/item/chest_boats.json"))
+        writes += save(cache, valuesTag("$namespace:palm_bookshelf", "$namespace:palm_crafting_table"), minecraftDataPath("tags/block/mineable/axe.json"))
     }
 
     private fun writeVanillaDoorRecipes(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {

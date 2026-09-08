@@ -9,10 +9,10 @@ import java.util.concurrent.CompletableFuture
 class BookshelfDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private val woods = listOf(
         "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry",
-        "pale_oak", "bamboo", "crimson", "warped", "palm"
+        "pale_oak", "bamboo", "crimson", "warped", "palm", "lavender"
     )
     private val woodsWithCustomSideTexture = setOf(
-        "spruce", "birch", "jungle", "acacia", "dark_oak", "cherry", "crimson", "warped", "palm"
+        "spruce", "birch", "jungle", "acacia", "dark_oak", "cherry", "crimson", "warped", "palm", "lavender"
     )
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
@@ -24,7 +24,7 @@ class BookshelfDataProvider(output: PackOutput) : EcosystemDataProvider(output) 
             writes += save(cache, itemModelDefinition("$namespace:block/$bookshelf"), resourcePath("items/$bookshelf.json"))
             writes += save(cache, selfDropLootTable(bookshelf), dataPath("loot_table/blocks/$bookshelf.json"))
             val planks = "${wood}_planks"
-            val ingredientId = if (wood == "palm") ingredient(planks) else minecraftIngredient(planks)
+            val ingredientId = if (wood == "palm" || wood == "lavender") ingredient(planks) else minecraftIngredient(planks)
             writes += save(cache, bookshelfRecipe(bookshelf, ingredientId), dataPath("recipe/$bookshelf.json"))
             writes += save(cache, recipeAdvancement(bookshelf, "building", ingredientId), dataPath("advancement/recipes/building/$bookshelf.json"))
         }
@@ -43,7 +43,7 @@ class BookshelfDataProvider(output: PackOutput) : EcosystemDataProvider(output) 
     private fun blockModel(wood: String, id: String) = obj {
         addProperty("parent", "minecraft:block/cube_column")
         add("textures", obj {
-            addProperty("end", if (wood == "palm") "$namespace:block/palm_planks" else "minecraft:block/${wood}_planks")
+            addProperty("end", if (wood == "palm" || wood == "lavender") "$namespace:block/${wood}_planks" else "minecraft:block/${wood}_planks")
             addProperty("side", if (wood in woodsWithCustomSideTexture) "$namespace:block/${wood}_bookshelf" else "minecraft:block/bookshelf")
         })
     }

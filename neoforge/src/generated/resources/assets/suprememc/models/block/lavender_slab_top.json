@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "suprememc:block/lavender_planks",
+    "side": "suprememc:block/lavender_planks",
+    "top": "suprememc:block/lavender_planks"
+  }
+}

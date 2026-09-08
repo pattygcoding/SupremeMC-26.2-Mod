@@ -2,7 +2,9 @@ package com.suprememc.mixin;
 
 import com.suprememc.Constants;
 import com.suprememc.content.ModContent;
+import com.suprememc.content.blocks.LavenderEndsparBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -27,6 +29,11 @@ public abstract class MixinBoneMealItem {
     @Inject(method = "growCrop", at = @At("HEAD"), cancellable = true)
     private static void suprememc$growBeachGrass(ItemStack stack, Level level, BlockPos pos,
             CallbackInfoReturnable<Boolean> callback) {
+        if (suprememc$growLavenderVegetation(level, pos)) {
+            callback.setReturnValue(true);
+            return;
+        }
+
         if (!level.getBlockState(pos).is(Blocks.SAND) || !suprememc$isBeachBiome(level, pos)) {
             return;
         }
@@ -35,6 +42,21 @@ public abstract class MixinBoneMealItem {
             suprememc$spreadBeachGrass(serverLevel, pos);
         }
         callback.setReturnValue(true);
+    }
+
+    private static boolean suprememc$growLavenderVegetation(Level level, BlockPos pos) {
+        if (!level.getBlockState(pos).is(Blocks.END_STONE) || !(level instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+
+        for (Direction direction : Direction.values()) {
+            BlockPos neighbor = pos.relative(direction);
+            if (level.getBlockState(neighbor).is(ModContent.LAVENDER_ENDSPAR)) {
+                LavenderEndsparBlock.growVegetation(serverLevel, serverLevel.getRandom(), neighbor);
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void suprememc$spreadBeachGrass(ServerLevel level, BlockPos pos) {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_sign_rot_2",
+  "textures": {
+    "all": "suprememc:item/lavender_sign",
+    "particle": "suprememc:block/lavender_planks"
+  }
+}

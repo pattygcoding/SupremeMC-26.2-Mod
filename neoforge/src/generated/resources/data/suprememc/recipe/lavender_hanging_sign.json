@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "suprememc:stripped_lavender_stem",
+    "C": "minecraft:iron_chain"
+  },
+  "pattern": [
+    "C C",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "suprememc:lavender_hanging_sign"
+  }
+}

@@ -1,6 +1,7 @@
 package com.suprememc.content.items;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModToolMaterials;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ShovelItem;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class AbyssaliteShovelItem extends ShovelItem {
-    public AbyssaliteShovelItem() { super(ModContent.ABYSSALITE_TOOL_MATERIAL, 1.5F, -3.0F, ModContent.itemProperties("abyssalite_shovel")); }
+    public AbyssaliteShovelItem() { super(ModToolMaterials.ABYSSALITE, 1.5F, -3.0F, ModContent.itemProperties("abyssalite_shovel")); }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {

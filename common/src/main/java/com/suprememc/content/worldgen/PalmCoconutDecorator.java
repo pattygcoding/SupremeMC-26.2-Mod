@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModTreeDecorators;
 import com.suprememc.content.blocks.CoconutBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class PalmCoconutDecorator extends TreeDecorator {
     public float getProbability() { return this.probability; }
 
     @Override
-    protected TreeDecoratorType<?> type() { return ModContent.PALM_COCONUT_DECORATOR_TYPE; }
+    protected TreeDecoratorType<?> type() { return ModTreeDecorators.PALM_COCONUT; }
 
     @Override
     public void place(TreeDecorator.Context context) {

@@ -1,6 +1,9 @@
 package com.suprememc
 
 import com.suprememc.content.ModContent
+import com.suprememc.content.init.ModItems
+import com.suprememc.content.init.ModEntities
+import com.suprememc.content.init.ModPotions
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -40,32 +43,32 @@ class SupremeMC(eventBus: IEventBus) {
             event.modify(BlockEntityTypes.FURNACE, ModContent.BLACKSTONE_FURNACE, ModContent.DEEPSLATE_FURNACE)
         }
         private fun registerAttributes(event: EntityAttributeCreationEvent) {
-            event.put(ModContent.GRIZZLY_BEAR_ENTITY, net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes().build())
-            event.put(ModContent.ENDER_SPIDER_ENTITY, com.suprememc.content.entity.EnderSpider.createAttributes().build())
-            event.put(ModContent.FIRE_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
-            event.put(ModContent.SNOW_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
+            event.put(ModEntities.GRIZZLY_BEAR_ENTITY, net.minecraft.world.entity.animal.polarbear.PolarBear.createAttributes().build())
+            event.put(ModEntities.ENDER_SPIDER_ENTITY, com.suprememc.content.entity.EnderSpider.createAttributes().build())
+            event.put(ModEntities.FIRE_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
+            event.put(ModEntities.SNOW_CREEPER_ENTITY, net.minecraft.world.entity.monster.Creeper.createAttributes().build())
         }
         private fun registerFuelValues(event: FurnaceFuelBurnTimeEvent) {
             when (event.itemStack.item) {
-                ModContent.ANTHRACITE -> event.setBurnTime(1600)
+                ModItems.ANTHRACITE -> event.setBurnTime(1600)
                 ModContent.ANTHRACITE_BLOCK.asItem() -> event.setBurnTime(16000)
             }
         }
         private fun registerBrewingRecipes(event: RegisterBrewingRecipesEvent) {
             val builder = event.builder
-            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, ModContent.CLOVER.asItem(), ModContent.LUCK_POTION)
-            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_LUCK_POTION)
-            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_LUCK_POTION)
-            builder.addMix(ModContent.LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.BAD_LUCK_POTION)
-            builder.addMix(ModContent.LONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.LONG_BAD_LUCK_POTION)
-            builder.addMix(ModContent.STRONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModContent.STRONG_BAD_LUCK_POTION)
-            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.ROTTEN_FLESH, ModContent.HUNGER_POTION)
-            builder.addMix(ModContent.HUNGER_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_HUNGER_POTION)
-            builder.addMix(ModContent.HUNGER_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_HUNGER_POTION)
-            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.WITHER_ROSE, ModContent.DECAY_POTION)
-            builder.addMix(ModContent.DECAY_POTION, net.minecraft.world.item.Items.REDSTONE, ModContent.LONG_DECAY_POTION)
-            builder.addMix(ModContent.DECAY_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModContent.STRONG_DECAY_POTION)
-            builder.addContainerRecipe(net.minecraft.world.item.Items.SPLASH_POTION, ModContent.EXPERIENCE_DUST, net.minecraft.world.item.Items.EXPERIENCE_BOTTLE)
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, ModContent.CLOVER.asItem(), ModPotions.LUCK_POTION)
+            builder.addMix(ModPotions.LUCK_POTION, net.minecraft.world.item.Items.REDSTONE, ModPotions.LONG_LUCK_POTION)
+            builder.addMix(ModPotions.LUCK_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModPotions.STRONG_LUCK_POTION)
+            builder.addMix(ModPotions.LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModPotions.BAD_LUCK_POTION)
+            builder.addMix(ModPotions.LONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModPotions.LONG_BAD_LUCK_POTION)
+            builder.addMix(ModPotions.STRONG_LUCK_POTION, net.minecraft.world.item.Items.FERMENTED_SPIDER_EYE, ModPotions.STRONG_BAD_LUCK_POTION)
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.ROTTEN_FLESH, ModPotions.HUNGER_POTION)
+            builder.addMix(ModPotions.HUNGER_POTION, net.minecraft.world.item.Items.REDSTONE, ModPotions.LONG_HUNGER_POTION)
+            builder.addMix(ModPotions.HUNGER_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModPotions.STRONG_HUNGER_POTION)
+            builder.addMix(net.minecraft.world.item.alchemy.Potions.AWKWARD, net.minecraft.world.item.Items.WITHER_ROSE, ModPotions.DECAY_POTION)
+            builder.addMix(ModPotions.DECAY_POTION, net.minecraft.world.item.Items.REDSTONE, ModPotions.LONG_DECAY_POTION)
+            builder.addMix(ModPotions.DECAY_POTION, net.minecraft.world.item.Items.GLOWSTONE_DUST, ModPotions.STRONG_DECAY_POTION)
+            builder.addContainerRecipe(net.minecraft.world.item.Items.SPLASH_POTION, ModItems.EXPERIENCE_DUST, net.minecraft.world.item.Items.SPLASH_POTION)
         }
         private fun registerContent(event: RegisterEvent) {
             if (event.registryKey == Registries.BLOCK || event.registryKey == Registries.ITEM) {
@@ -100,9 +103,11 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(PolishedStoneWallsDataProvider(output))
             event.addProvider(StoneBrickDataProvider(output))
             event.addProvider(EmeraldDataProvider(output))
+            event.addProvider(ExperienceDataProvider(output))
             event.addProvider(AbyssaliteDataProvider(output))
             event.addProvider(IcicleDataProvider(output))
             event.addProvider(PalmDataProvider(output))
+            event.addProvider(LavenderDataProvider(output))
             event.addProvider(CottonDataProvider(output))
             event.addProvider(CornDataProvider(output))
             event.addProvider(GrapeVineDataProvider(output))
@@ -122,11 +127,15 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(EnderSpiderDataProvider(output))
             event.addProvider(FireCreeperDataProvider(output))
             event.addProvider(SnowCreeperDataProvider(output))
+            event.addProvider(SnowTntDataProvider(output))
+            event.addProvider(FireTntDataProvider(output))
             event.addProvider(BellDataProvider(output))
             event.addProvider(CakeDataProvider(output))
+            event.addProvider(MilkDataProvider(output))
             event.addProvider(BookshelfDataProvider(output))
             event.addProvider(CraftingTableDataProvider(output))
             event.addProvider(FurnaceDataProvider(output))
+            event.addProvider(MineralTagsDataProvider(output))
             event.addProvider(SupremeMCLanguageProvider(output))
         }
     }

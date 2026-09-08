@@ -1,6 +1,7 @@
 package com.suprememc.content.blocks;
 
 import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModTreeGrowers;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class PalmSaplingBlock extends SaplingBlock {
     public PalmSaplingBlock() {
-        super(ModContent.PALM_TREE_GROWER, ModContent.blockProperties("palm_sapling")
+        super(ModTreeGrowers.PALM, ModContent.blockProperties("palm_sapling")
             .mapColor(net.minecraft.world.level.material.MapColor.PLANT).sound(net.minecraft.world.level.block.SoundType.GRASS).strength(0.0F).noCollision());
     }
 

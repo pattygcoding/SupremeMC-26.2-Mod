@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:lavender_stem"
+  ],
+  "result": {
+    "count": 4,
+    "id": "suprememc:lavender_planks"
+  }
+}

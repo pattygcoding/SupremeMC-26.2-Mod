@@ -4,7 +4,7 @@ import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.suprememc.content.ModContent;
+import com.suprememc.content.init.ModTrunkPlacerTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -62,7 +62,7 @@ public class PalmTrunkPlacer extends TrunkPlacer {
 
     @Override
     protected TrunkPlacerType<?> type() {
-        return ModContent.PALM_TRUNK_PLACER_TYPE;
+        return ModTrunkPlacerTypes.PALM;
     }
 
     @Override
