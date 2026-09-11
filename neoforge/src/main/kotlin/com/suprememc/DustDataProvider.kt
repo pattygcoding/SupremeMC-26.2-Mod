@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture
 class DustDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
-        listOf("experience_dust", "xylium_dust").forEach { id ->
+        listOf("experience_dust", "xylium_dust", "glendstone_dust").forEach { id ->
             writes += save(cache, itemModel(id), resourcePath("models/item/$id.json"))
             writes += save(cache, itemModelDefinition("$namespace:item/$id"), resourcePath("items/$id.json"))
         }

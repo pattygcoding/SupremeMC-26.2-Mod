@@ -4,7 +4,97 @@
     "type": "minecraft:noise",
     "settings": "minecraft:end",
     "biome_source": {
-      "type": "minecraft:the_end"
+      "type": "suprememc:hybrid_end",
+      "radius_blocks": 1024,
+      "outer_biome_source": {
+        "type": "minecraft:multi_noise",
+        "biomes": [
+          {
+            "biome": "minecraft:small_end_islands",
+            "parameters": {
+              "temperature": [-1.0, 1.0],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [-1.0, -0.21875],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "minecraft:end_barrens",
+            "parameters": {
+              "temperature": [0.0, 0.2],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [-0.21875, -0.0625],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "suprememc:lavender_barrens",
+            "parameters": {
+              "temperature": [0.2, 1.0],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [-0.21875, -0.0625],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "minecraft:end_midlands",
+            "parameters": {
+              "temperature": [0.0, 0.2],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [-0.0625, 0.25],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "suprememc:lavender_midlands",
+            "parameters": {
+              "temperature": [0.2, 1.0],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [-0.0625, 0.25],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "minecraft:end_highlands",
+            "parameters": {
+              "temperature": [0.0, 0.2],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [0.25, 1.0],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          },
+          {
+            "biome": "suprememc:lavender_highlands",
+            "parameters": {
+              "temperature": [0.2, 1.0],
+              "humidity": 0.0,
+              "continentalness": 0.0,
+              "erosion": [0.25, 1.0],
+              "weirdness": 0.0,
+              "depth": 0.0,
+              "offset": 0.0
+            }
+          }
+        ]
+      }
     }
   }
 }

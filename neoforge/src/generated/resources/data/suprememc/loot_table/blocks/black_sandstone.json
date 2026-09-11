@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:black_sandstone"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

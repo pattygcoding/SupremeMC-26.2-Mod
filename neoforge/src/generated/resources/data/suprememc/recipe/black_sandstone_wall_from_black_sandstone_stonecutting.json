@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:black_sandstone",
+  "result": {
+    "count": 1,
+    "id": "suprememc:black_sandstone_wall"
+  }
+}

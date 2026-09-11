@@ -49,6 +49,14 @@ public class SupremeMCClient implements ClientModInitializer {
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         EntityRendererRegistry.register(ModEntities.LAVENDER_CHEST_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
+        EntityRendererRegistry.register(ModEntities.CRIMSON_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
+        EntityRendererRegistry.register(ModEntities.CRIMSON_CHEST_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
+        EntityRendererRegistry.register(ModEntities.WARPED_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
+        EntityRendererRegistry.register(ModEntities.WARPED_CHEST_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
         SpecialModelRenderers.ID_MAPPER.put(AbyssaliteTridentSpecialRenderer.ID,
                 AbyssaliteTridentSpecialRenderer.Unbaked.MAP_CODEC);
         RangeSelectItemModelProperties.ID_MAPPER.put(BowPullProperty.ID, BowPullProperty.MAP_CODEC);

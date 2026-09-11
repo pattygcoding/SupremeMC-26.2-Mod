@@ -42,6 +42,8 @@ public final class ModBlockItems {
 		register("deepslate_amber_ore", ModContent.DEEPSLATE_AMBER_ORE);
 		register("prismarine_ore", ModContent.PRISMARINE_ORE);
 		register("deepslate_prismarine_ore", ModContent.DEEPSLATE_PRISMARINE_ORE);
+		register("xylium_ore", ModContent.XYLIUM_ORE);
+		register("xylium_block", ModContent.XYLIUM_BLOCK);
 		register("amber_block", ModContent.AMBER_BLOCK);
 		register("amber_stairs", ModContent.AMBER_STAIRS);
 		register("amber_slab", ModContent.AMBER_SLAB);
@@ -65,17 +67,34 @@ public final class ModBlockItems {
 		register("polished_diorite_wall", ModContent.POLISHED_DIORITE_WALL);
 		register("polished_andesite_wall", ModContent.POLISHED_ANDESITE_WALL);
 		register("andesite_bricks", ModContent.ANDESITE_BRICKS);
+		register("mossy_andesite_bricks", ModContent.MOSSY_ANDESITE_BRICKS);
+		register("cracked_andesite_bricks", ModContent.CRACKED_ANDESITE_BRICKS);
 		register("andesite_brick_stairs", ModContent.ANDESITE_BRICK_STAIRS);
 		register("andesite_brick_slab", ModContent.ANDESITE_BRICK_SLAB);
 		register("andesite_brick_wall", ModContent.ANDESITE_BRICK_WALL);
+		register("mossy_andesite_brick_stairs", ModContent.MOSSY_ANDESITE_BRICK_STAIRS);
+		register("mossy_andesite_brick_slab", ModContent.MOSSY_ANDESITE_BRICK_SLAB);
+		register("mossy_andesite_brick_wall", ModContent.MOSSY_ANDESITE_BRICK_WALL);
 		register("diorite_bricks", ModContent.DIORITE_BRICKS);
+		register("mossy_diorite_bricks", ModContent.MOSSY_DIORITE_BRICKS);
+		register("cracked_diorite_bricks", ModContent.CRACKED_DIORITE_BRICKS);
 		register("diorite_brick_stairs", ModContent.DIORITE_BRICK_STAIRS);
 		register("diorite_brick_slab", ModContent.DIORITE_BRICK_SLAB);
 		register("diorite_brick_wall", ModContent.DIORITE_BRICK_WALL);
+		register("mossy_diorite_brick_stairs", ModContent.MOSSY_DIORITE_BRICK_STAIRS);
+		register("mossy_diorite_brick_slab", ModContent.MOSSY_DIORITE_BRICK_SLAB);
+		register("mossy_diorite_brick_wall", ModContent.MOSSY_DIORITE_BRICK_WALL);
 		register("granite_bricks", ModContent.GRANITE_BRICKS);
+		register("mossy_granite_bricks", ModContent.MOSSY_GRANITE_BRICKS);
+		register("cracked_granite_bricks", ModContent.CRACKED_GRANITE_BRICKS);
+		register("cracked_end_stone_bricks", ModContent.CRACKED_END_STONE_BRICKS);
+		register("cracked_quartz_bricks", ModContent.CRACKED_QUARTZ_BRICKS);
 		register("granite_brick_stairs", ModContent.GRANITE_BRICK_STAIRS);
 		register("granite_brick_slab", ModContent.GRANITE_BRICK_SLAB);
 		register("granite_brick_wall", ModContent.GRANITE_BRICK_WALL);
+		register("mossy_granite_brick_stairs", ModContent.MOSSY_GRANITE_BRICK_STAIRS);
+		register("mossy_granite_brick_slab", ModContent.MOSSY_GRANITE_BRICK_SLAB);
+		register("mossy_granite_brick_wall", ModContent.MOSSY_GRANITE_BRICK_WALL);
 		register("wet_farmland", ModContent.WET_FARMLAND);
 		register("suprememc_logo_block", ModContent.SUPREME_MC_LOGO_BLOCK);
 		register("spruce_bookshelf", ModContent.SPRUCE_BOOKSHELF);
@@ -152,6 +171,8 @@ public final class ModBlockItems {
 		register("clover", ModContent.CLOVER);
 		register("snow_tnt", ModContent.SNOW_TNT);
 		register("fire_tnt", ModContent.FIRE_TNT);
+		register("glendstone", ModContent.GLENDSTONE);
+		ModContent.COLORED_SANDSTONE_BLOCKS.forEach(ModBlockItems::register);
 
 		COCONUT_SEEDS = register("coconut_seeds", ModContent.COCONUT,
 			ModContent.itemProperties("coconut_seeds").stacksTo(64));

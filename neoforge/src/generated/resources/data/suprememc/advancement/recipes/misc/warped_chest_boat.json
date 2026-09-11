@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "suprememc:warped_chest_boat"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warped_boat": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "suprememc:warped_boat"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_warped_boat",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "suprememc:warped_chest_boat"
+    ]
+  }
+}

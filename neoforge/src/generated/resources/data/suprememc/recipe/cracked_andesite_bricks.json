@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "experience": 0.1,
+  "ingredient": "suprememc:andesite_bricks",
+  "result": {
+    "count": 1,
+    "id": "suprememc:cracked_andesite_bricks"
+  }
+}

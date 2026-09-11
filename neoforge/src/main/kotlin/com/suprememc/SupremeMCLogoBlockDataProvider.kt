@@ -24,7 +24,7 @@ class SupremeMCLogoBlockDataProvider(output: PackOutput) : EcosystemDataProvider
                 addProperty("bottom", textureBottom)
             })
         }, resourcePath("models/block/$id.json"))
-        writes += save(cache, obj { addProperty("parent", "minecraft:block/$id") }, resourcePath("models/item/$id.json"))
+        writes += save(cache, obj { addProperty("parent", "$namespace:block/$id") }, resourcePath("models/item/$id.json"))
         writes += save(cache, itemModelDefinition("$namespace:block/$id"), resourcePath("items/$id.json"))
         writes += save(cache, logoBlockLootTable(id), dataPath("loot_table/blocks/$id.json"))
         writes += save(cache, obj {
@@ -38,7 +38,7 @@ class SupremeMCLogoBlockDataProvider(output: PackOutput) : EcosystemDataProvider
             add("result", itemResult(id))
         }, dataPath("recipe/$id.json"))
         writes += save(cache, grassBlockRecipeAdvancement(id), dataPath("advancement/recipes/building_blocks/$id.json"))
-        writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/block/mineable/shovel.json"))
+        writes += save(cache, valuesTag("$namespace:$id", "$namespace:white_sand", "$namespace:black_sand", "$namespace:pink_sand"), minecraftDataPath("tags/block/mineable/shovel.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
 

@@ -4,8 +4,8 @@ import com.suprememc.content.ModContent;
 import com.suprememc.content.init.ModTreeGrowers;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +19,7 @@ public class PalmSaplingBlock extends SaplingBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockState ground = level.getBlockState(pos.below());
-        return super.canSurvive(state, level, pos) || ground.is(Blocks.SAND) || ground.is(Blocks.RED_SAND);
+        return super.canSurvive(state, level, pos) || ground.getBlock().asItem().builtInRegistryHolder().is(ItemTags.SAND);
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 
 public class BurningNetheriteArmorItem extends Item {
     public BurningNetheriteArmorItem(String id, ArmorType type) {
-        super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.BURNING_NETHERITE, type));
+        super(ModContent.armorProperties(id, ModArmorMaterials.BURNING_NETHERITE, type, "burning_netherite"));
     }
 
     @Override

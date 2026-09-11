@@ -41,7 +41,9 @@ class PolishedStoneWallsDataProvider(output: PackOutput) : EcosystemDataProvider
         ), minecraftDataPath("tags/block/mineable/pickaxe.json"))
         writes += save(cache, valuesTag(
             *walls.map { "$namespace:${it.id}" }.toTypedArray(),
-            "$namespace:andesite_brick_wall", "$namespace:diorite_brick_wall", "$namespace:granite_brick_wall"
+            "$namespace:andesite_brick_wall", "$namespace:diorite_brick_wall", "$namespace:granite_brick_wall",
+            "$namespace:mossy_andesite_brick_wall", "$namespace:mossy_diorite_brick_wall", "$namespace:mossy_granite_brick_wall",
+            "$namespace:white_sandstone_wall", "$namespace:black_sandstone_wall", "$namespace:pink_sandstone_wall"
         ), minecraftDataPath("tags/block/walls.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
     }

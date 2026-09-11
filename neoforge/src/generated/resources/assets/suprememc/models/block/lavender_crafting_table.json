@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "down": "minecraft:block/lavender_planks",
+    "down": "suprememc:block/lavender_planks",
     "east": "suprememc:block/lavender_crafting_table_side",
     "north": "suprememc:block/lavender_crafting_table_front",
     "particle": "suprememc:block/lavender_crafting_table_front",

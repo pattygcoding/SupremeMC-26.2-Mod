@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "suprememc:crimson_boat",
+    "minecraft:chest"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:crimson_chest_boat"
+  }
+}

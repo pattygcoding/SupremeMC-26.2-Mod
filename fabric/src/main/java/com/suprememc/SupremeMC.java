@@ -11,6 +11,7 @@ import com.suprememc.content.ModContent;
 import com.suprememc.content.init.ModItems;
 import com.suprememc.content.init.ModEntities;
 import com.suprememc.content.init.ModPotions;
+import com.suprememc.tabs.CreativeTab;
 import com.suprememc.loot.ModLootInjections;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,6 +45,12 @@ public class SupremeMC implements ModInitializer {
 
     private static final ResourceKey<Biome> CAYS =
         ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cays"));
+    private static final ResourceKey<Biome> LAVENDER_BARRENS =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lavender_barrens"));
+    private static final ResourceKey<Biome> LAVENDER_MIDLANDS =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lavender_midlands"));
+    private static final ResourceKey<Biome> LAVENDER_HIGHLANDS =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lavender_highlands"));
 
     @Override
     public void onInitialize() {
@@ -127,6 +134,20 @@ public class SupremeMC implements ModInitializer {
             BiomeSelectors.tag(BiomeTags.IS_NETHER),
             GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "burning_diamond_ore")));
+        BiomeModifications.addFeature(
+            BiomeSelectors.tag(BiomeTags.IS_END),
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "xylium_ore")));
+        Predicate<BiomeSelectionContext> endBiomes = BiomeSelectors.tag(BiomeTags.IS_END).or(
+            BiomeSelectors.includeByKey(LAVENDER_BARRENS, LAVENDER_MIDLANDS, LAVENDER_HIGHLANDS));
+        BiomeModifications.addFeature(
+            endBiomes,
+            GenerationStep.Decoration.UNDERGROUND_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glendstone")));
+        BiomeModifications.addFeature(
+            endBiomes,
+            GenerationStep.Decoration.UNDERGROUND_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glendstone_extra")));
         // Palm beaches: warm-climate beaches always grow palms; moderate-climate beaches at a 50% chunk rate
         // and lower density. The placed feature JSONs (packaged from the shared generated data) carry the
         // temperature tiers and sand substrate rules, so behavior matches the NeoForge biome modifiers.
@@ -169,7 +190,11 @@ public class SupremeMC implements ModInitializer {
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
                 .icon(() -> new ItemStack(ModContent.SUPREME_MC_LOGO_BLOCK))
-                .displayItems((params, output) -> ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept))
+                .displayItems((params, output) -> {
+                    ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept);
+                    CreativeTab.enchantedBooks(params.holders()).forEach(output::accept);
+                    CreativeTab.potions().forEach(output::accept);
+                })
                 .build();
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
                 ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "main")), tab);

@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import com.suprememc.content.items.MilkBottlePlacement;
 
 public class MilkCauldronBlock extends LayeredCauldronBlock {
     public MilkCauldronBlock(BlockBehaviour.Properties properties) {
@@ -22,6 +23,12 @@ public class MilkCauldronBlock extends LayeredCauldronBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                           Player player, InteractionHand hand, BlockHitResult hit) {
+        if (stack.is(net.minecraft.world.item.Items.GLASS_BOTTLE)) {
+            InteractionResult result = MilkBottlePlacement.fill(player, hand, level, pos);
+            if (result != InteractionResult.PASS) {
+                return result;
+            }
+        }
         if (stack.is(Items.BUCKET) && isFull(state)) {
             if (!level.isClientSide()) {
                 player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(Items.MILK_BUCKET)));

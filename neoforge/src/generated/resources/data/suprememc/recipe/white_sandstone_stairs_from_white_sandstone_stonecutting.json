@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:white_sandstone",
+  "result": {
+    "count": 1,
+    "id": "suprememc:white_sandstone_stairs"
+  }
+}

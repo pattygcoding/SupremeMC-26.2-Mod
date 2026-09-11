@@ -3,7 +3,9 @@
   "minVersion": "0.8",
   "package": "com.suprememc.mixin",
   "compatibilityLevel": "JAVA_25",
-  "mixins": [],
+  "mixins": [
+    "MixinAbstractBoat"
+  ],
   "client": [
     "MixinTitleScreen"
   ],

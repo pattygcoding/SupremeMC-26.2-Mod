@@ -4,6 +4,7 @@ import com.suprememc.content.ModContent
 import com.suprememc.content.init.ModItems
 import com.suprememc.content.init.ModEntities
 import com.suprememc.content.init.ModPotions
+import com.suprememc.tabs.CreativeTab
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -77,7 +78,11 @@ class SupremeMC(eventBus: IEventBus) {
                 val tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                     .title(Component.translatable("itemGroup.${Constants.MOD_ID}.main"))
                     .icon { ItemStack(ModContent.SUPREME_MC_LOGO_BLOCK) }
-                    .displayItems { _, output -> ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept) }
+                    .displayItems { params, output ->
+                        ModContent.CREATIVE_TAB_ITEMS.forEach(output::accept)
+                        CreativeTab.enchantedBooks(params.holders()).forEach(output::accept)
+                        CreativeTab.potions().forEach(output::accept)
+                    }
                     .build()
                 Registry.register(
                     BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -96,6 +101,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(BurningDiamondDataProvider(output))
             event.addProvider(AmberDataProvider(output))
             event.addProvider(AnthraciteDataProvider(output))
+            event.addProvider(XyliumDataProvider(output))
             event.addProvider(DustDataProvider(output))
             event.addProvider(PrismarineDataProvider(output))
             event.addProvider(MaterialBlocksDataProvider(output))
@@ -122,6 +128,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(CaysDataProvider(output))
             event.addProvider(IceCavesDataProvider(output))
             event.addProvider(WoodCuttingDataProvider(output))
+			event.addProvider(NetherBoatDataProvider(output))
             event.addProvider(GlowSlimeDataProvider(output))
             event.addProvider(GrizzlyBearDataProvider(output))
             event.addProvider(EnderSpiderDataProvider(output))
@@ -129,6 +136,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(SnowCreeperDataProvider(output))
             event.addProvider(SnowTntDataProvider(output))
             event.addProvider(FireTntDataProvider(output))
+			event.addProvider(GlendstoneDataProvider(output))
             event.addProvider(BellDataProvider(output))
             event.addProvider(CakeDataProvider(output))
             event.addProvider(MilkDataProvider(output))
@@ -136,6 +144,7 @@ class SupremeMC(eventBus: IEventBus) {
             event.addProvider(CraftingTableDataProvider(output))
             event.addProvider(FurnaceDataProvider(output))
             event.addProvider(MineralTagsDataProvider(output))
+            event.addProvider(ColoredSandstoneDataProvider(output))
             event.addProvider(SupremeMCLanguageProvider(output))
         }
     }

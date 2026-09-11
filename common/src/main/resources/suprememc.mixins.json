@@ -25,12 +25,12 @@
     "MixinOverworldBiomeBuilder",
     "MixinEnchantingTableBlock",
     "MixinPistonStructureResolver",
-    "MixinBowItem"
+    "MixinBowItem",
+    "MixinBottleItem"
     ,"MixinTntBlock"
     ,"MixinPrimedTnt"
     ,"MixinStructureStart"
     ,"MixinMineshaftStructureType"
-    ,"MixinTheEndBiomeSource"
   ],
   "client": [
     "MixinMinecraft",

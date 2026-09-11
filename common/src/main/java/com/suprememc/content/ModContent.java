@@ -1,6 +1,7 @@
 package com.suprememc.content;
 
 import com.suprememc.Constants;
+import com.suprememc.content.init.ModBiomeSources;
 import com.suprememc.content.init.ModBlocks;
 import com.suprememc.content.init.ModBlockSetTypes;
 import com.suprememc.content.init.ModBlockItems;
@@ -25,9 +26,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.ItemLore;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
@@ -52,6 +57,7 @@ public final class ModContent extends ModBlocks {
         ModFoliagePlacerTypes.bootstrap();
         ModTrunkPlacerTypes.bootstrap();
         ModPlacementModifiers.bootstrap();
+        ModBiomeSources.bootstrap();
         ModTreeDecorators.bootstrap();
         ModFeatures.bootstrap();
         ModStructureTypes.bootstrap();
@@ -104,6 +110,13 @@ public final class ModContent extends ModBlocks {
     public static Item.Properties itemProperties(String id) {
         return new Item.Properties().setId(ResourceKey.create(Registries.ITEM,
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, id)));
+    }
+
+    public static Item.Properties armorProperties(String id, ArmorMaterial material, ArmorType type, String setId) {
+        return itemProperties(id)
+            .humanoidArmor(material, type)
+            .component(DataComponents.LORE, new ItemLore(List.of(
+                Component.translatable("item." + Constants.MOD_ID + ".armor." + setId + ".full_set_bonus"))));
     }
 
     public static BlockBehaviour.Properties blockProperties(String id) {

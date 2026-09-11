@@ -96,6 +96,15 @@ common/src/main/resources/assets/minecraft/textures/gui/hanging_signs/palm.png
 `minecraft:textures/gui/signs/<wood type name>.png` with a hardcoded namespace, so they must live under the
 `minecraft` namespace rather than `suprememc`. Both are now painted with the finished palm artwork.
 
+### Crimson and warped boats
+
+```text
+common/src/main/resources/assets/suprememc/textures/item/crimson_boat.png
+common/src/main/resources/assets/suprememc/textures/item/crimson_chest_boat.png
+common/src/main/resources/assets/suprememc/textures/item/warped_boat.png
+common/src/main/resources/assets/suprememc/textures/item/warped_chest_boat.png
+```
+
 Use PNG files with transparent backgrounds where appropriate. A 16x16 pixel base texture is recommended; larger textures must use a multiple of 16 for correct pixel scaling.
 
 ### Cotton

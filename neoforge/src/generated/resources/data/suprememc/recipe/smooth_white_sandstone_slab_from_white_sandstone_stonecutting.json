@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:white_sandstone",
+  "result": {
+    "count": 2,
+    "id": "suprememc:smooth_white_sandstone_slab"
+  }
+}

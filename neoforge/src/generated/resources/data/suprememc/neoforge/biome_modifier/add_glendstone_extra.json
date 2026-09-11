@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "#minecraft:is_end",
+    "suprememc:lavender_barrens",
+    "suprememc:lavender_midlands",
+    "suprememc:lavender_highlands"
+  ],
+  "features": "suprememc:glendstone_extra",
+  "step": "underground_decoration"
+}

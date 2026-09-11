@@ -15,7 +15,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 
 public class BurningDiamondArmorItem extends Item {
     public BurningDiamondArmorItem(String id, ArmorType type) {
-        super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.BURNING_DIAMOND, type));
+        super(ModContent.armorProperties(id, ModArmorMaterials.BURNING_DIAMOND, type, "burning_diamond"));
     }
 
     @Override

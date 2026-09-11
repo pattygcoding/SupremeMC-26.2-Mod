@@ -1,8 +1,7 @@
 {
   "type": "neoforge:add_features",
   "biomes": [
-    "#minecraft:is_beach",
-    "suprememc:cays"
+    "#minecraft:is_beach"
   ],
   "features": "suprememc:beach_grass",
   "step": "vegetal_decoration"

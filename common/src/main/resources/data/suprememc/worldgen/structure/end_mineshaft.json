@@ -1,0 +1,15 @@
+{
+  "type": "suprememc:end_mineshaft",
+  "biomes": [
+    "minecraft:small_end_islands",
+    "minecraft:end_barrens",
+    "suprememc:lavender_barrens",
+    "minecraft:end_midlands",
+    "suprememc:lavender_midlands",
+    "minecraft:end_highlands",
+    "suprememc:lavender_highlands"
+  ],
+  "spawn_overrides": {},
+  "step": "underground_structures",
+  "terrain_adaptation": "encapsulate"
+}

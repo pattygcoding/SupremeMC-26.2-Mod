@@ -88,7 +88,7 @@ class BeachGrassDataProvider(output: PackOutput) : EcosystemDataProvider(output)
             add("predicates", JsonArray().also { predicates ->
                 predicates.add(obj {
                     addProperty("type", "minecraft:matching_blocks")
-                    add("blocks", array("minecraft:sand", "minecraft:red_sand"))
+                    add("blocks", array("minecraft:sand", "minecraft:red_sand", "minecraft:suspicious_sand"))
                     add("offset", JsonArray().also { offset -> offset.add(0); offset.add(-1); offset.add(0) })
                 })
                 predicates.add(obj { addProperty("type", "minecraft:matching_block_tag"); addProperty("tag", "minecraft:air") })
@@ -100,7 +100,6 @@ class BeachGrassDataProvider(output: PackOutput) : EcosystemDataProvider(output)
         addProperty("type", "neoforge:add_features")
         add("biomes", JsonArray().also { biomes ->
             biomes.add("#minecraft:is_beach")
-            biomes.add("$namespace:cays")
         })
         addProperty("features", "$namespace:$feature")
         addProperty("step", "vegetal_decoration")

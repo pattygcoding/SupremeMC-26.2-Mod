@@ -29,6 +29,10 @@ public final class ModEntities {
 	public static EntityType<ChestBoat> PALM_CHEST_BOAT_ENTITY;
 	public static EntityType<Boat> LAVENDER_BOAT_ENTITY;
 	public static EntityType<ChestBoat> LAVENDER_CHEST_BOAT_ENTITY;
+	public static EntityType<Boat> CRIMSON_BOAT_ENTITY;
+	public static EntityType<ChestBoat> CRIMSON_CHEST_BOAT_ENTITY;
+	public static EntityType<Boat> WARPED_BOAT_ENTITY;
+	public static EntityType<ChestBoat> WARPED_CHEST_BOAT_ENTITY;
 	public static EntityType<AbyssaliteTridentEntity> ABYSSALITE_TRIDENT_ENTITY;
 	public static EntityType<GrizzlyBear> GRIZZLY_BEAR_ENTITY;
 	public static EntityType<EnderSpider> ENDER_SPIDER_ENTITY;
@@ -58,6 +62,18 @@ public final class ModEntities {
 		LAVENDER_CHEST_BOAT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("lavender_chest_boat"),
 			EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, () -> ModItems.LAVENDER_CHEST_BOAT), MobCategory.MISC)
 				.sized(1.375F, 0.5625F).clientTrackingRange(10).build(key("lavender_chest_boat")));
+		CRIMSON_BOAT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("crimson_boat"),
+			EntityType.Builder.<Boat>of((type, level) -> new Boat(type, level, () -> ModItems.CRIMSON_BOAT), MobCategory.MISC)
+				.sized(1.375F, 0.5625F).clientTrackingRange(10).build(key("crimson_boat")));
+		CRIMSON_CHEST_BOAT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("crimson_chest_boat"),
+			EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, () -> ModItems.CRIMSON_CHEST_BOAT), MobCategory.MISC)
+				.sized(1.375F, 0.5625F).clientTrackingRange(10).build(key("crimson_chest_boat")));
+		WARPED_BOAT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("warped_boat"),
+			EntityType.Builder.<Boat>of((type, level) -> new Boat(type, level, () -> ModItems.WARPED_BOAT), MobCategory.MISC)
+				.sized(1.375F, 0.5625F).clientTrackingRange(10).build(key("warped_boat")));
+		WARPED_CHEST_BOAT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("warped_chest_boat"),
+			EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, () -> ModItems.WARPED_CHEST_BOAT), MobCategory.MISC)
+				.sized(1.375F, 0.5625F).clientTrackingRange(10).build(key("warped_chest_boat")));
 		GRIZZLY_BEAR_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("grizzly_bear"),
 			EntityType.Builder.<GrizzlyBear>of(GrizzlyBear::new, MobCategory.CREATURE)
 				.sized(1.4F, 1.4F).clientTrackingRange(10).build(key("grizzly_bear")));

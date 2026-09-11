@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
 
 public class AmberArmorItem extends Item {
-    public AmberArmorItem(String id, ArmorType type) { super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.AMBER, type)); }
+    public AmberArmorItem(String id, ArmorType type) { super(ModContent.armorProperties(id, ModArmorMaterials.AMBER, type, "amber")); }
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {

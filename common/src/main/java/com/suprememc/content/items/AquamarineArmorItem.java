@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
 
 public class AquamarineArmorItem extends Item {
-    public AquamarineArmorItem(String id, ArmorType type) { super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.AQUAMARINE, type)); }
+    public AquamarineArmorItem(String id, ArmorType type) { super(ModContent.armorProperties(id, ModArmorMaterials.AQUAMARINE, type, "aquamarine")); }
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {

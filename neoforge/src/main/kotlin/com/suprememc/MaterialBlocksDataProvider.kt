@@ -61,7 +61,7 @@ class MaterialBlocksDataProvider(output: PackOutput) : EcosystemDataProvider(out
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
 
-    private fun itemModel(id: String) = obj { addProperty("parent", "minecraft:block/$id") }
+    private fun itemModel(id: String) = obj { addProperty("parent", "$namespace:block/$id") }
 
     private fun cubeModel(id: String, texture: String) = obj {
         addProperty("parent", "minecraft:block/cube_all")

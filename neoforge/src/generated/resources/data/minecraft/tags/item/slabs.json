@@ -1,5 +1,6 @@
 {
   "values": [
+    "#minecraft:wooden_slabs",
     "suprememc:iron_slab",
     "suprememc:lapis_slab",
     "suprememc:gold_slab",
@@ -14,7 +15,19 @@
     "suprememc:burning_diamond_slab",
     "suprememc:abyssalite_slab",
     "suprememc:andesite_brick_slab",
+    "suprememc:mossy_andesite_brick_slab",
     "suprememc:diorite_brick_slab",
-    "suprememc:granite_brick_slab"
+    "suprememc:mossy_diorite_brick_slab",
+    "suprememc:granite_brick_slab",
+    "suprememc:mossy_granite_brick_slab",
+    "suprememc:white_sandstone_slab",
+    "suprememc:smooth_white_sandstone_slab",
+    "suprememc:cut_white_sandstone_slab",
+    "suprememc:black_sandstone_slab",
+    "suprememc:smooth_black_sandstone_slab",
+    "suprememc:cut_black_sandstone_slab",
+    "suprememc:pink_sandstone_slab",
+    "suprememc:smooth_pink_sandstone_slab",
+    "suprememc:cut_pink_sandstone_slab"
   ]
 }

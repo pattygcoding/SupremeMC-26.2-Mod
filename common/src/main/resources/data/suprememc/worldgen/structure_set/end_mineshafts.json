@@ -1,0 +1,16 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "frequency": 0.004,
+    "frequency_reduction_method": "legacy_type_3",
+    "salt": 7391943,
+    "separation": 0,
+    "spacing": 1
+  },
+  "structures": [
+    {
+      "structure": "suprememc:end_mineshaft",
+      "weight": 1
+    }
+  ]
+}

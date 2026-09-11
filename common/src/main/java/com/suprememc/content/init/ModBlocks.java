@@ -6,6 +6,7 @@ import com.suprememc.content.blocks.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
@@ -17,9 +18,12 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
@@ -31,6 +35,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class ModBlocks {
 	public static Block AQUAMARINE_ORE;
@@ -48,6 +53,8 @@ public class ModBlocks {
 	public static Block DEEPSLATE_AMBER_ORE;
 	public static Block PRISMARINE_ORE;
 	public static Block DEEPSLATE_PRISMARINE_ORE;
+	public static Block XYLIUM_ORE;
+	public static Block XYLIUM_BLOCK;
 	public static Block AMBER_BLOCK;
 	public static Block AMBER_STAIRS;
 	public static Block AMBER_SLAB;
@@ -71,17 +78,34 @@ public class ModBlocks {
 	public static Block POLISHED_DIORITE_WALL;
 	public static Block POLISHED_ANDESITE_WALL;
 	public static Block ANDESITE_BRICKS;
+	public static Block MOSSY_ANDESITE_BRICKS;
+	public static Block CRACKED_ANDESITE_BRICKS;
 	public static Block ANDESITE_BRICK_STAIRS;
 	public static Block ANDESITE_BRICK_SLAB;
 	public static Block ANDESITE_BRICK_WALL;
+	public static Block MOSSY_ANDESITE_BRICK_STAIRS;
+	public static Block MOSSY_ANDESITE_BRICK_SLAB;
+	public static Block MOSSY_ANDESITE_BRICK_WALL;
 	public static Block DIORITE_BRICKS;
+	public static Block MOSSY_DIORITE_BRICKS;
+	public static Block CRACKED_DIORITE_BRICKS;
 	public static Block DIORITE_BRICK_STAIRS;
 	public static Block DIORITE_BRICK_SLAB;
 	public static Block DIORITE_BRICK_WALL;
+	public static Block MOSSY_DIORITE_BRICK_STAIRS;
+	public static Block MOSSY_DIORITE_BRICK_SLAB;
+	public static Block MOSSY_DIORITE_BRICK_WALL;
 	public static Block GRANITE_BRICKS;
+	public static Block MOSSY_GRANITE_BRICKS;
+	public static Block CRACKED_GRANITE_BRICKS;
 	public static Block GRANITE_BRICK_STAIRS;
 	public static Block GRANITE_BRICK_SLAB;
 	public static Block GRANITE_BRICK_WALL;
+	public static Block MOSSY_GRANITE_BRICK_STAIRS;
+	public static Block MOSSY_GRANITE_BRICK_SLAB;
+	public static Block MOSSY_GRANITE_BRICK_WALL;
+	public static Block CRACKED_END_STONE_BRICKS;
+	public static Block CRACKED_QUARTZ_BRICKS;
 	public static Block WET_FARMLAND;
 	public static Block SUPREME_MC_LOGO_BLOCK;
 	public static Block SPRUCE_BOOKSHELF;
@@ -175,6 +199,8 @@ public class ModBlocks {
 	public static Block MILK_CAULDRON;
 	public static Block SNOW_TNT;
 	public static Block FIRE_TNT;
+	public static Block GLENDSTONE;
+	public static final Map<String, Block> COLORED_SANDSTONE_BLOCKS = new LinkedHashMap<>();
 	
 	public static final Map<DyeColor, Block> GLOW_BLOCKS = new EnumMap<>(DyeColor.class);
 	public static final Map<DyeColor, Block> SLIME_BLOCKS = new EnumMap<>(DyeColor.class);
@@ -193,6 +219,8 @@ public class ModBlocks {
 		NETHER_ANTHRACITE_ORE = register("nether_anthracite_ore", new DropExperienceBlock(UniformInt.of(0, 2), props("nether_anthracite_ore").mapColor(MapColor.NETHER).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
 		ANTHRACITE_BLOCK = register("anthracite_block", new Block(props("anthracite_block").mapColor(MapColor.COLOR_BLACK).sound(SoundType.STONE).strength(5.0F, 6.0F)));
 		DEEPSLATE_AQUAMARINE_ORE = register("deepslate_aquamarine_ore", new DropExperienceBlock(UniformInt.of(3, 7), props("deepslate_aquamarine_ore").mapColor(MapColor.DEEPSLATE).strength(4.5F, 3.0F).requiresCorrectToolForDrops()));
+		XYLIUM_ORE = register("xylium_ore", new DropExperienceBlock(UniformInt.of(1, 5), endStoneProps("xylium_ore")));
+		XYLIUM_BLOCK = register("xylium_block", new Block(endStoneProps("xylium_block")));
 		AQUAMARINE_BLOCK = register("aquamarine_block", new Block(props("aquamarine_block").mapColor(MapColor.COLOR_CYAN).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 		BURNING_DIAMOND_BLOCK = register("burning_diamond_block", new Block(props("burning_diamond_block").mapColor(MapColor.DIAMOND).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 		AMBER_BLOCK = register("amber_block", new Block(props("amber_block").mapColor(MapColor.COLOR_ORANGE).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
@@ -237,6 +265,8 @@ public class ModBlocks {
 		CLOVER = register("clover", new CloverBlock(props("clover").mapColor(MapColor.PLANT).noCollision().noOcclusion()));
 		SNOW_TNT = register("snow_tnt", new SnowTntBlock(props("snow_tnt").mapColor(MapColor.SNOW).strength(0.0F)));
 		FIRE_TNT = register("fire_tnt", new FireTntBlock(props("fire_tnt").mapColor(MapColor.FIRE).strength(0.0F)));
+		GLENDSTONE = register("glendstone", new Block(props("glendstone").mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> 15).isRedstoneConductor((state, level, pos) -> false)));
+		registerColoredSandstoneFamilies();
 		registerSimple(
 			"burning_diamond_stairs", 
 			"burning_diamond_slab", 
@@ -271,17 +301,34 @@ public class ModBlocks {
 			"polished_diorite_wall", 
 			"polished_andesite_wall", 
 			"andesite_bricks", 
+			"mossy_andesite_bricks",
+			"cracked_andesite_bricks",
 			"andesite_brick_stairs", 
 			"andesite_brick_slab", 
 			"andesite_brick_wall", 
+			"mossy_andesite_brick_stairs",
+			"mossy_andesite_brick_slab",
+			"mossy_andesite_brick_wall",
 			"diorite_bricks", 
+			"mossy_diorite_bricks",
+			"cracked_diorite_bricks",
 			"diorite_brick_stairs", 
 			"diorite_brick_slab", 
 			"diorite_brick_wall", 
+			"mossy_diorite_brick_stairs",
+			"mossy_diorite_brick_slab",
+			"mossy_diorite_brick_wall",
 			"granite_bricks", 
+			"mossy_granite_bricks",
+			"cracked_granite_bricks",
+			"cracked_end_stone_bricks",
+			"cracked_quartz_bricks",
 			"granite_brick_stairs", 
 			"granite_brick_slab", 
 			"granite_brick_wall", 
+			"mossy_granite_brick_stairs",
+			"mossy_granite_brick_slab",
+			"mossy_granite_brick_wall",
 			"spruce_bookshelf", 
 			"birch_bookshelf", 
 			"jungle_bookshelf", 
@@ -341,9 +388,46 @@ public class ModBlocks {
 		}
 	}
 
+	private static void registerColoredSandstoneFamilies() {
+		for (String color : new String[]{"white", "black", "pink"}) {
+			registerColoredSandstone(color, "sand", new SandBlock(new ColorRGBA(14406560), props(color + "_sand").mapColor(MapColor.SAND).sound(SoundType.SAND).strength(0.5F)));
+			registerColoredSandstone(color, "sandstone", new Block(props(color + "_sandstone").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "sandstone_stairs", new MaterialStairsBlock(
+				COLORED_SANDSTONE_BLOCKS.get(color + "_sandstone").defaultBlockState(),
+				props(color + "_sandstone_stairs").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "sandstone_slab", new SlabBlock(props(color + "_sandstone_slab").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "sandstone_wall", new WallBlock(props(color + "_sandstone_wall").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "smooth_sandstone", new Block(props("smooth_" + color + "_sandstone").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "smooth_sandstone_stairs", new MaterialStairsBlock(
+				COLORED_SANDSTONE_BLOCKS.get("smooth_" + color + "_sandstone").defaultBlockState(),
+				props("smooth_" + color + "_sandstone_stairs").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "smooth_sandstone_slab", new SlabBlock(props("smooth_" + color + "_sandstone_slab").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "cut_sandstone", new Block(props("cut_" + color + "_sandstone").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+			registerColoredSandstone(color, "cut_sandstone_slab", new SlabBlock(props("cut_" + color + "_sandstone_slab").mapColor(MapColor.SAND).sound(SoundType.STONE).strength(0.8F, 0.8F).requiresCorrectToolForDrops()));
+		}
+	}
+
+	private static void registerColoredSandstone(String color, String suffix, Block block) {
+		String id = suffix.startsWith("sand") ? color + "_" + suffix : suffix.replace("sandstone", color + "_sandstone");
+		COLORED_SANDSTONE_BLOCKS.put(id, register(id, block));
+	}
+
 	private static void registerSimple(String... ids) {
 		for (String id : ids) {
-			Block block = register(id, id.endsWith("_slab") ? new SlabBlock(props(id)) : new Block(props(id)));
+			Block block = switch (id) {
+				case "icicle" -> register(id, new PointedDripstoneBlock(net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(), props(id).mapColor(MapColor.ICE).sound(SoundType.POINTED_DRIPSTONE).strength(0.5F).randomTicks()));
+				case "palm_fence" -> register(id, new FenceBlock(props(id).mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F)));
+				case "palm_fence_gate" -> register(id, new FenceGateBlock(ModWoodTypes.PALM, props(id).mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2.0F, 3.0F)));
+				case "palm_door" -> register(id, new PalmDoorBlock());
+				case "palm_trapdoor" -> register(id, new PalmTrapDoorBlock());
+				case "palm_pressure_plate" -> register(id, new PalmPressurePlateBlock());
+				case "palm_button" -> register(id, new PalmButtonBlock());
+				case "palm_leaves" -> register(id, new PalmLeavesBlock(props(id).mapColor(MapColor.PLANT).noCollision().noOcclusion()));
+				case String s when s.endsWith("_slab") -> register(id, new SlabBlock(properties(id)));
+				case String s when s.endsWith("_stairs") -> register(id, new MaterialStairsBlock(baseStateForStairs(id), properties(id)));
+				case String s when s.endsWith("_wall") -> register(id, new WallBlock(properties(id)));
+				default -> register(id, new Block(properties(id)));
+			};
 			switch (id) {
 				case "burning_diamond_stairs" -> BURNING_DIAMOND_STAIRS = block;
 				case "burning_diamond_slab" -> BURNING_DIAMOND_SLAB = block;
@@ -378,17 +462,34 @@ public class ModBlocks {
 				case "polished_diorite_wall" -> POLISHED_DIORITE_WALL = block;
 				case "polished_andesite_wall" -> POLISHED_ANDESITE_WALL = block;
 				case "andesite_bricks" -> ANDESITE_BRICKS = block;
+				case "mossy_andesite_bricks" -> MOSSY_ANDESITE_BRICKS = block;
+				case "cracked_andesite_bricks" -> CRACKED_ANDESITE_BRICKS = block;
 				case "andesite_brick_stairs" -> ANDESITE_BRICK_STAIRS = block;
 				case "andesite_brick_slab" -> ANDESITE_BRICK_SLAB = block;
 				case "andesite_brick_wall" -> ANDESITE_BRICK_WALL = block;
+				case "mossy_andesite_brick_stairs" -> MOSSY_ANDESITE_BRICK_STAIRS = block;
+				case "mossy_andesite_brick_slab" -> MOSSY_ANDESITE_BRICK_SLAB = block;
+				case "mossy_andesite_brick_wall" -> MOSSY_ANDESITE_BRICK_WALL = block;
 				case "diorite_bricks" -> DIORITE_BRICKS = block;
+				case "mossy_diorite_bricks" -> MOSSY_DIORITE_BRICKS = block;
+				case "cracked_diorite_bricks" -> CRACKED_DIORITE_BRICKS = block;
 				case "diorite_brick_stairs" -> DIORITE_BRICK_STAIRS = block;
 				case "diorite_brick_slab" -> DIORITE_BRICK_SLAB = block;
 				case "diorite_brick_wall" -> DIORITE_BRICK_WALL = block;
+				case "mossy_diorite_brick_stairs" -> MOSSY_DIORITE_BRICK_STAIRS = block;
+				case "mossy_diorite_brick_slab" -> MOSSY_DIORITE_BRICK_SLAB = block;
+				case "mossy_diorite_brick_wall" -> MOSSY_DIORITE_BRICK_WALL = block;
 				case "granite_bricks" -> GRANITE_BRICKS = block;
+				case "mossy_granite_bricks" -> MOSSY_GRANITE_BRICKS = block;
+				case "cracked_granite_bricks" -> CRACKED_GRANITE_BRICKS = block;
+				case "cracked_end_stone_bricks" -> CRACKED_END_STONE_BRICKS = block;
+				case "cracked_quartz_bricks" -> CRACKED_QUARTZ_BRICKS = block;
 				case "granite_brick_stairs" -> GRANITE_BRICK_STAIRS = block;
 				case "granite_brick_slab" -> GRANITE_BRICK_SLAB = block;
 				case "granite_brick_wall" -> GRANITE_BRICK_WALL = block;
+				case "mossy_granite_brick_stairs" -> MOSSY_GRANITE_BRICK_STAIRS = block;
+				case "mossy_granite_brick_slab" -> MOSSY_GRANITE_BRICK_SLAB = block;
+				case "mossy_granite_brick_wall" -> MOSSY_GRANITE_BRICK_WALL = block;
 				case "spruce_bookshelf" -> SPRUCE_BOOKSHELF = block;
 				case "birch_bookshelf" -> BIRCH_BOOKSHELF = block;
 				case "jungle_bookshelf" -> JUNGLE_BOOKSHELF = block;
@@ -430,7 +531,42 @@ public class ModBlocks {
 		}
 	}
 
+	private static net.minecraft.world.level.block.state.BlockState baseStateForStairs(String id) {
+		return switch (id) {
+			case "burning_diamond_stairs" -> BURNING_DIAMOND_BLOCK.defaultBlockState();
+			case "aquamarine_stairs" -> AQUAMARINE_BLOCK.defaultBlockState();
+			case "amber_stairs" -> AMBER_BLOCK.defaultBlockState();
+			case "iron_stairs" -> net.minecraft.world.level.block.Blocks.IRON_BLOCK.defaultBlockState();
+			case "lapis_stairs" -> net.minecraft.world.level.block.Blocks.LAPIS_BLOCK.defaultBlockState();
+			case "gold_stairs" -> net.minecraft.world.level.block.Blocks.GOLD_BLOCK.defaultBlockState();
+			case "diamond_stairs" -> net.minecraft.world.level.block.Blocks.DIAMOND_BLOCK.defaultBlockState();
+			case "emerald_stairs" -> net.minecraft.world.level.block.Blocks.EMERALD_BLOCK.defaultBlockState();
+			case "coal_stairs" -> net.minecraft.world.level.block.Blocks.COAL_BLOCK.defaultBlockState();
+			case "obsidian_stairs" -> net.minecraft.world.level.block.Blocks.OBSIDIAN.defaultBlockState();
+			case "netherite_stairs" -> net.minecraft.world.level.block.Blocks.NETHERITE_BLOCK.defaultBlockState();
+			case "abyssalite_stairs" -> ABYSSALITE_BLOCK.defaultBlockState();
+			case "andesite_brick_stairs" -> ANDESITE_BRICKS.defaultBlockState();
+			case "mossy_andesite_brick_stairs" -> MOSSY_ANDESITE_BRICKS.defaultBlockState();
+			case "diorite_brick_stairs" -> DIORITE_BRICKS.defaultBlockState();
+			case "mossy_diorite_brick_stairs" -> MOSSY_DIORITE_BRICKS.defaultBlockState();
+			case "granite_brick_stairs" -> GRANITE_BRICKS.defaultBlockState();
+			case "mossy_granite_brick_stairs" -> MOSSY_GRANITE_BRICKS.defaultBlockState();
+			default -> net.minecraft.world.level.block.Blocks.STONE.defaultBlockState();
+		};
+	}
+
 	private static BlockBehaviour.Properties props(String id) { return ModContent.blockProperties(id); }
+
+	private static BlockBehaviour.Properties properties(String id) {
+		if (id.contains("_brick")) {
+			return props(id).sound(SoundType.STONE).strength(1.5F, 6.0F).requiresCorrectToolForDrops();
+		}
+		return props(id);
+	}
+
+	private static BlockBehaviour.Properties endStoneProps(String id) {
+		return props(id).mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASEDRUM).sound(SoundType.STONE).strength(3.0F, 9.0F).requiresCorrectToolForDrops();
+	}
 
 	private static <T extends Block> T register(String id, T block) {
 		Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(Constants.MOD_ID, id), block);

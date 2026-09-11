@@ -17,6 +17,9 @@ SupremeMC introduces a large set of new content across several major systems:
 - Lavender endspar behaves like a nylium block on end stone: it reverts to end stone in darkness and bonemeal spreads it across nearby exposed end stone.
 - Bonemealing lavender endspar spreads lavender roots and lavender fungus across nearby endspar, using the same vegetation pattern as warped and crimson nylium. Bonemealing a lavender fungus planted on lavender endspar grows it into a huge fungus with a lavender stem trunk, a lavender wart block cap, and embedded shroomlights, just like huge warped and crimson fungi.
 - Lavender adds a wart block, crafting table, and bookshelf using its lavender wood family.
+- Crimson and warped boats and chest boats can be crafted from their corresponding Nether wood planks.
+- Crimson and warped boats and chest boats float on lava the same way ordinary boats float on water, letting you sail across Nether lava lakes.
+- The End's main island and its surrounding void gap (within 1,024 blocks of the origin) generate exactly like vanilla; Lavender biomes and their vanilla counterparts only appear on the outer islands beyond that radius.
 
 ## World Generation and Biomes
 
@@ -60,6 +63,10 @@ Drowned spawn weights are tuned to match Bedrock-style behavior in key aquatic a
 
 Abandoned mineshafts can now generate in any Nether biome, with the same layout, rooms, and loot as an ordinary overworld mineshaft, except its oak planks and oak fences are replaced with warped planks and warped fences.
 
+### End Mineshafts
+
+Abandoned mineshafts can also generate buried inside the end stone of the End's outer islands (never the central main island), with the same layout, rooms, and loot as an ordinary overworld mineshaft, except its oak planks and oak fences are replaced with lavender planks and lavender fences.
+
 ## Blocks, Ores, and Building Materials
 
 ### Aquamarine and Abyssalite
@@ -76,11 +83,23 @@ Amber introduces a marine-adjacent material line with ores, blocks, tools, armor
 
 Burning Diamond is a diamond-tier material line with custom tools and armor. A complete Burning Diamond armor set continuously grants Fire Resistance.
 
+### Glendstone
+
+Glendstone is a glowstone-style building block that emits maximum light, is immune to Ender Dragon damage, and generates naturally in hanging clusters under End terrain.
+
+### Xylium
+
+Xylium ore and Xylium blocks use End Stone's block properties and are immune to Ender Dragon damage. Mining Xylium ore drops 4-5 Xylium Dust before Fortune bonuses, while Silk Touch drops the ore itself.
+
 ### Emerald and Iron-Style Building Blocks
 
 Emerald gear acts as a craftable intermediate tier between Iron and Diamond. Emerald tools and armor use iron-equivalent mining characteristics with higher durability and a custom craft progression. Chainmail armor is also craftable using chain links.
 
 The mod also adds a wide set of decorative and utility blocks derived from common materials, including stairs, slabs, and walls for stone variants and material-based building pieces. Nether Anthracite ore generates in the Nether and behaves like coal ore with Silk Touch and Fortune support.
+
+Andesite, diorite, and granite bricks also have mossy variants. Each mossy family includes the full block, stairs, slabs, and walls; the base block is crafted shapelessly from matching bricks and a vine, while the shaped and stonecutter recipes mirror the regular brick families.
+
+Cracked andesite, diorite, and granite bricks are made by smelting their matching SupremeMC bricks. Cracked end stone bricks and cracked quartz bricks are made by smelting the corresponding vanilla bricks.
 
 ### Palm and Cotton
 
@@ -107,6 +126,7 @@ Food additions include:
 - Calamari and Cooked Calamari, with cooking times similar to other food sources
 - Grapes, Tomatoes, and Corn, each restoring hunger and saturation
 - Coconut, which clears all status effects like milk but is consumed entirely
+- Milk bottles, filled from source milk or milk cauldrons and emptied back into milk cauldrons one level at a time
 
 ### Brewing and potions
 
@@ -195,7 +215,7 @@ Ender Spiders use spider-like hostile behavior with Enderman-style teleportation
 
 ## Loader Support and Data Generation
 
-Aquamarine content is placed in its own SupremeMC creative tab rather than the vanilla Ingredients tab. Models, blockstates, recipes, loot tables, language data, and tags are generated from data providers, and Fabric packages the same generated JSON resources so both loaders stay aligned.
+Content is placed in its own SupremeMC creative tab rather than the vanilla Ingredients tab. Models, blockstates, recipes, loot tables, language data, and tags are generated from data providers, and Fabric packages the same generated JSON resources so both loaders stay aligned.
 
 ## Notes
 

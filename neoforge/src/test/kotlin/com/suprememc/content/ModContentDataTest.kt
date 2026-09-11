@@ -11,6 +11,62 @@ import kotlin.test.assertTrue
 
 class ModContentDataTest {
     @Test
+    fun generatesMossyStoneBrickRecipesAndModels() {
+        listOf("andesite", "diorite", "granite").forEach { stone ->
+            val id = "mossy_${stone}_bricks"
+            assertResourceExists("assets/suprememc/models/block/$id.json")
+            assertResourceExists("assets/suprememc/items/$id.json")
+            assertResourceExists("data/suprememc/loot_table/blocks/$id.json")
+            assertResourceExists("data/suprememc/advancement/recipes/building_blocks/${id}_from_vine.json")
+
+            val recipe = readJson("data/suprememc/recipe/${id}_from_vine.json")
+            assertEquals("minecraft:crafting_shapeless", recipe.get("type").asString)
+            assertEquals(
+                setOf("suprememc:${stone}_bricks", "minecraft:vine"),
+                recipe.getAsJsonArray("ingredients").map { it.asString }.toSet()
+            )
+            assertEquals("suprememc:$id", recipe.getAsJsonObject("result").get("id").asString)
+
+            listOf("brick_stairs", "brick_slab", "brick_wall").forEach { shape ->
+                val shapeId = "mossy_${stone}_$shape"
+                assertResourceExists("assets/suprememc/blockstates/$shapeId.json")
+                assertResourceExists("assets/suprememc/items/$shapeId.json")
+                assertResourceExists("data/suprememc/loot_table/blocks/$shapeId.json")
+                val stonecutting = readJson("data/suprememc/recipe/${shapeId}_from_${id}_stonecutting.json")
+                assertEquals("minecraft:stonecutting", stonecutting.get("type").asString)
+                assertEquals(1, stonecutting.getAsJsonObject("result").get("count").asInt)
+            }
+
+            val slabLoot = readJson("data/suprememc/loot_table/blocks/mossy_${stone}_brick_slab.json")
+            assertTrue(slabLoot.toString().contains("\"count\":2"))
+        }
+    }
+
+    @Test
+    fun generatesCrackedBrickSmeltingRecipesAndModels() {
+        mapOf(
+            "andesite" to "suprememc:andesite_bricks",
+            "diorite" to "suprememc:diorite_bricks",
+            "granite" to "suprememc:granite_bricks",
+            "end_stone" to "minecraft:end_stone_bricks",
+            "quartz" to "minecraft:quartz_bricks"
+        ).forEach { (stone, ingredient) ->
+            val id = "cracked_${stone}_bricks"
+            assertResourceExists("assets/suprememc/blockstates/$id.json")
+            assertResourceExists("assets/suprememc/models/block/$id.json")
+            assertResourceExists("assets/suprememc/items/$id.json")
+            assertResourceExists("data/suprememc/loot_table/blocks/$id.json")
+            assertResourceExists("data/suprememc/advancement/recipes/building_blocks/$id.json")
+
+            val recipe = readJson("data/suprememc/recipe/$id.json")
+            assertEquals("minecraft:smelting", recipe.get("type").asString)
+            assertEquals("blocks", recipe.get("category").asString)
+            assertEquals(ingredient, recipe.get("ingredient").asString)
+            assertEquals("suprememc:$id", recipe.getAsJsonObject("result").get("id").asString)
+        }
+    }
+
+    @Test
     fun generatesCottonArmorResources() {
         listOf("cotton_helmet", "cotton_chestplate", "cotton_leggings", "cotton_boots").forEach { id ->
             listOf(
@@ -325,6 +381,17 @@ class ModContentDataTest {
             assertEquals(expected.third, enchantment.get("supported_items").asString)
             assertEquals("enchantment.suprememc.$id", enchantment.getAsJsonObject("description").get("translate").asString)
         }
+        val language = readJson("assets/suprememc/lang/en_us.json")
+        listOf(
+            "bounty", "venom", "decay", "wisdom", "smelting", "tension",
+            "super_channeling", "curse_of_mass", "curse_of_sloth"
+        ).forEach { id ->
+            assertTrue(language.has("enchantment.suprememc.$id.description"))
+        }
+        listOf("aquamarine", "amber", "burning_diamond", "burning_netherite", "abyssalite", "experience")
+            .forEach { id ->
+                assertTrue(language.has("item.suprememc.armor.$id.full_set_bonus"))
+            }
 
         val venom = readJson("data/suprememc/enchantment/venom.json").getAsJsonObject("effects")
             .getAsJsonArray("minecraft:post_attack").single().asJsonObject

@@ -34,6 +34,7 @@ class LavenderDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private val itemTagBlocks = blocks.filterNot {
         it == "lavender_wall_sign" || it == "lavender_wall_hanging_sign"
     }
+    private val dragonImmuneBlocks = blocks + listOf("lavender_bookshelf", "lavender_crafting_table", "glendstone", "xylium_ore", "xylium_block")
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()
@@ -54,22 +55,26 @@ class LavenderDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
 
         writes += save(cache, slabLootTable("lavender_slab"), dataPath("loot_table/blocks/lavender_slab.json"))
         writes += save(cache, valuesTag("$namespace:lavender_stem", "$namespace:stripped_lavender_stem", "$namespace:lavender_hyphae", "$namespace:stripped_lavender_hyphae", "$namespace:lavender_wood", "$namespace:stripped_lavender_wood"), dataPath("tags/block/lavender_logs.json"))
-        writes += save(cache, valuesTag("#$namespace:lavender_logs"), minecraftDataPath("tags/block/logs.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_planks"), minecraftDataPath("tags/block/planks.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_slab"), minecraftDataPath("tags/block/wooden_slabs.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_stairs"), minecraftDataPath("tags/block/wooden_stairs.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_fence"), minecraftDataPath("tags/block/wooden_fences.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_fence_gate"), minecraftDataPath("tags/block/fence_gates.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_door"), minecraftDataPath("tags/block/wooden_doors.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_trapdoor"), minecraftDataPath("tags/block/wooden_trapdoors.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_pressure_plate"), minecraftDataPath("tags/block/wooden_pressure_plates.json"))
-        writes += save(cache, valuesTag("$namespace:lavender_button"), minecraftDataPath("tags/block/wooden_buttons.json"))
+        writes += save(cache, valuesTag("#$namespace:lavender_logs", "#${namespace}:palm_logs"), minecraftDataPath("tags/block/logs.json"))
+        writes += save(cache, valuesTag("#$namespace:lavender_logs", "#${namespace}:palm_logs"), minecraftDataPath("tags/block/logs_that_burn.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_planks", "$namespace:palm_planks"), minecraftDataPath("tags/block/planks.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_slab", "$namespace:palm_slab"), minecraftDataPath("tags/block/wooden_slabs.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_stairs", "$namespace:palm_stairs"), minecraftDataPath("tags/block/wooden_stairs.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_fence", "$namespace:palm_fence"), minecraftDataPath("tags/block/wooden_fences.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_fence_gate", "$namespace:palm_fence_gate"), minecraftDataPath("tags/block/fence_gates.json"))
+        writes += save(cache, valuesTag("$namespace:palm_door", "$namespace:lavender_door"), minecraftDataPath("tags/block/wooden_doors.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_trapdoor", "$namespace:palm_trapdoor"), minecraftDataPath("tags/block/wooden_trapdoors.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_pressure_plate", "$namespace:palm_pressure_plate"), minecraftDataPath("tags/block/wooden_pressure_plates.json"))
+        writes += save(cache, valuesTag("$namespace:lavender_button", "$namespace:palm_button"), minecraftDataPath("tags/block/wooden_buttons.json"))
+        writes += save(cache, valuesTag("#$namespace:lavender_stems", "#${namespace}:palm_logs"), minecraftDataPath("tags/item/logs.json"))
+        writes += save(cache, valuesTag("#$namespace:lavender_stems", "#${namespace}:palm_logs"), minecraftDataPath("tags/item/logs_that_burn.json"))
         writes += save(cache, valuesTag("$namespace:lavender_boat"), minecraftDataPath("tags/item/boats.json"))
         writes += save(cache, valuesTag("$namespace:lavender_chest_boat"), minecraftDataPath("tags/item/chest_boats.json"))
 
         writes += save(cache, valuesTag(*blocks.map { "$namespace:$it" }.toTypedArray()), dataPath("tags/block/lavender_stems.json"))
         writes += save(cache, valuesTag(*itemTagBlocks.map { "$namespace:$it" }.toTypedArray()), dataPath("tags/item/lavender_stems.json"))
         writes += save(cache, valuesTag("$namespace:lavender_endspar"), minecraftDataPath("tags/block/nylium.json"))
+        writes += save(cache, valuesTag(*dragonImmuneBlocks.map { "$namespace:$it" }.toTypedArray()), minecraftDataPath("tags/block/dragon_immune.json"))
         writes += save(cache, valuesTag("$namespace:lavender_endspar"), dataPath("tags/block/supports_lavender_roots.json"))
         writes += save(cache, valuesTag("$namespace:lavender_endspar"), dataPath("tags/block/supports_lavender_fungus.json"))
         writes += save(cache, lavenderVegetationFeature(), dataPath("worldgen/configured_feature/lavender_endspar_vegetation_bonemeal.json"))
@@ -208,12 +213,12 @@ class LavenderDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         }
         listOf("bottom", "top", "open").forEach { part -> models["lavender_trapdoor_$part"] = model("minecraft:block/template_trapdoor_$part", "texture" to "$namespace:block/lavender_trapdoor") }
         (0..3).forEach { rot ->
-            models["lavender_sign_rot_$rot"] = model("minecraft:block/template_sign_rot_$rot", "all" to "$namespace:item/lavender_sign", "particle" to "$namespace:block/lavender_planks")
-            models["lavender_hanging_sign_rot_$rot"] = model("minecraft:block/template_hanging_sign_rot_$rot", "all" to "$namespace:item/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
-            models["lavender_hanging_sign_attached_rot_$rot"] = model("minecraft:block/template_attached_hanging_sign_rot_$rot", "all" to "$namespace:item/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
+            models["lavender_sign_rot_$rot"] = model("minecraft:block/template_sign_rot_$rot", "all" to "$namespace:block/lavender_sign", "particle" to "$namespace:block/lavender_planks")
+            models["lavender_hanging_sign_rot_$rot"] = model("minecraft:block/template_hanging_sign_rot_$rot", "all" to "$namespace:block/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
+            models["lavender_hanging_sign_attached_rot_$rot"] = model("minecraft:block/template_attached_hanging_sign_rot_$rot", "all" to "$namespace:block/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
         }
-        models["lavender_wall_sign"] = model("minecraft:block/template_wall_sign", "all" to "$namespace:item/lavender_sign", "particle" to "$namespace:block/lavender_planks")
-        models["lavender_wall_hanging_sign"] = model("minecraft:block/template_wall_hanging_sign", "all" to "$namespace:item/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
+        models["lavender_wall_sign"] = model("minecraft:block/template_wall_sign", "all" to "$namespace:block/lavender_sign", "particle" to "$namespace:block/lavender_planks")
+        models["lavender_wall_hanging_sign"] = model("minecraft:block/template_wall_hanging_sign", "all" to "$namespace:block/lavender_hanging_sign", "particle" to "$namespace:block/stripped_lavender_stem")
         return models
     }
 

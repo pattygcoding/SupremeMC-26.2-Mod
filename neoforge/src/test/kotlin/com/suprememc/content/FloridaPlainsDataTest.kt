@@ -48,6 +48,17 @@ class FloridaPlainsDataTest : GeneratedDataTestSupport() {
     }
 
     @Test
+    fun caysHaveNoHostileMobSpawnsOrMonsterRooms() {
+        val biome = readStaticJson("biome/cays.json")
+        val spawners = biome.getAsJsonObject("spawners")
+        assertTrue(spawners.getAsJsonArray("monster").isEmpty)
+
+        val undergroundFeatures = biome.getAsJsonArray("features")[3].asJsonArray.map { it.asString }
+        assertFalse("minecraft:monster_room" in undergroundFeatures)
+        assertFalse("minecraft:monster_room_deep" in undergroundFeatures)
+    }
+
+    @Test
     fun tomatoPatchesPlaceFullyGrownBushes() {
         val configured = readJson("data/suprememc/worldgen/configured_feature/tomato_bushes.json")
         assertEquals("minecraft:simple_block", configured.get("type").asString)

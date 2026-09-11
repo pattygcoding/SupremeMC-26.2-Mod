@@ -5,6 +5,12 @@
     "suprememc:polished_andesite_wall",
     "suprememc:andesite_brick_wall",
     "suprememc:diorite_brick_wall",
-    "suprememc:granite_brick_wall"
+    "suprememc:granite_brick_wall",
+    "suprememc:mossy_andesite_brick_wall",
+    "suprememc:mossy_diorite_brick_wall",
+    "suprememc:mossy_granite_brick_wall",
+    "suprememc:white_sandstone_wall",
+    "suprememc:black_sandstone_wall",
+    "suprememc:pink_sandstone_wall"
   ]
 }

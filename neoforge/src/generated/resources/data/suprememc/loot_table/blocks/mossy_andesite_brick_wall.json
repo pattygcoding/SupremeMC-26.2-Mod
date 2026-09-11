@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "suprememc:mossy_andesite_brick_wall"
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

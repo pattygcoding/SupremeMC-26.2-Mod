@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/template_wall_sign",
   "textures": {
-    "all": "suprememc:item/lavender_sign",
+    "all": "suprememc:block/lavender_sign",
     "particle": "suprememc:block/lavender_planks"
   }
 }

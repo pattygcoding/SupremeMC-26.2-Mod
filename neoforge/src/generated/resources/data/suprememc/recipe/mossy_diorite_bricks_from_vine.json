@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "suprememc:diorite_bricks",
+    "minecraft:vine"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:mossy_diorite_bricks"
+  }
+}

@@ -59,6 +59,14 @@ public final class SupremeMCClient {
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         event.registerEntityRenderer(ModEntities.LAVENDER_CHEST_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
+        event.registerEntityRenderer(ModEntities.CRIMSON_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
+        event.registerEntityRenderer(ModEntities.CRIMSON_CHEST_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
+        event.registerEntityRenderer(ModEntities.WARPED_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
+        event.registerEntityRenderer(ModEntities.WARPED_CHEST_BOAT_ENTITY,
+            context -> new BoatRenderer(context, ModelLayers.OAK_CHEST_BOAT));
     }
 
     @SubscribeEvent

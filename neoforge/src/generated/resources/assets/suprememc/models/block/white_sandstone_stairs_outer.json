@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "suprememc:block/white_sandstone_bottom",
+    "side": "suprememc:block/white_sandstone",
+    "top": "suprememc:block/white_sandstone_top"
+  }
+}

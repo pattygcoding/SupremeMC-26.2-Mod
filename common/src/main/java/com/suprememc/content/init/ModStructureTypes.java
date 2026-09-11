@@ -1,6 +1,7 @@
 package com.suprememc.content.init;
 
 import com.suprememc.Constants;
+import com.suprememc.content.worldgen.EndMineshaftStructure;
 import com.suprememc.content.worldgen.NetherMineshaftStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,6 +13,11 @@ public final class ModStructureTypes {
 		BuiltInRegistries.STRUCTURE_TYPE,
 		Identifier.fromNamespaceAndPath(Constants.MOD_ID, "nether_mineshaft"),
 		() -> NetherMineshaftStructure.CODEC);
+
+	public static final StructureType<EndMineshaftStructure> END_MINESHAFT = Registry.register(
+		BuiltInRegistries.STRUCTURE_TYPE,
+		Identifier.fromNamespaceAndPath(Constants.MOD_ID, "end_mineshaft"),
+		() -> EndMineshaftStructure.CODEC);
 
 	private ModStructureTypes() {
 	}

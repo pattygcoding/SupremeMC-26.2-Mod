@@ -105,7 +105,12 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             "wooden_pressure_plates" to "palm_pressure_plate",
             "wooden_buttons" to "palm_button"
         ).forEach { (tag, id) ->
-            writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/block/$tag.json"))
+            val blockTagValues = if (tag == "wooden_doors") {
+                valuesTag("$namespace:palm_door", "$namespace:lavender_door")
+            } else {
+                valuesTag("$namespace:$id")
+            }
+            writes += save(cache, blockTagValues, minecraftDataPath("tags/block/$tag.json"))
             writes += save(cache, valuesTag("$namespace:$id"), minecraftDataPath("tags/item/$tag.json"))
         }
         writes += save(cache, valuesTag("#minecraft:wooden_slabs"), minecraftDataPath("tags/block/slabs.json"))
@@ -219,7 +224,7 @@ class PalmDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
             add("predicates", JsonArray().also { predicates ->
                 predicates.add(obj {
                     addProperty("type", "minecraft:matching_blocks")
-                    add("blocks", array("minecraft:sand", "minecraft:red_sand"))
+                    add("blocks", array("minecraft:sand", "minecraft:red_sand", "minecraft:suspicious_sand"))
                     add("offset", JsonArray().also { o -> o.add(0); o.add(-1); o.add(0) })
                 })
                 predicates.add(obj {

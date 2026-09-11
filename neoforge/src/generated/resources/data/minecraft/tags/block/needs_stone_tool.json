@@ -5,6 +5,20 @@
     "suprememc:iron_slab",
     "minecraft:lapis_block",
     "suprememc:lapis_stairs",
-    "suprememc:lapis_slab"
+    "suprememc:lapis_slab",
+    "suprememc:andesite_bricks",
+    "suprememc:mossy_andesite_bricks",
+    "suprememc:andesite_brick_wall",
+    "suprememc:mossy_andesite_brick_wall",
+    "suprememc:diorite_bricks",
+    "suprememc:mossy_diorite_bricks",
+    "suprememc:diorite_brick_wall",
+    "suprememc:mossy_diorite_brick_wall",
+    "suprememc:granite_bricks",
+    "suprememc:mossy_granite_bricks",
+    "suprememc:granite_brick_wall",
+    "suprememc:mossy_granite_brick_wall",
+    "suprememc:xylium_ore",
+    "suprememc:xylium_block"
   ]
 }

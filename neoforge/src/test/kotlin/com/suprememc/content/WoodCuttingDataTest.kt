@@ -84,6 +84,30 @@ class WoodCuttingDataTest : GeneratedDataTestSupport() {
     }
 
     @Test
+    fun crimsonAndWarpedBoatsGenerateCraftingRecipesAndTags() {
+        listOf("crimson", "warped").forEach { woodType ->
+            val boatRecipe = readJson("data/suprememc/recipe/${woodType}_boat.json")
+            assertEquals("minecraft:crafting_shaped", boatRecipe.get("type").asString)
+            assertEquals("minecraft:${woodType}_planks", boatRecipe.getAsJsonObject("key").get("#").asString)
+            assertEquals("suprememc:${woodType}_boat", boatRecipe.getAsJsonObject("result").get("id").asString)
+
+            val boatAdvancement = readJson("data/suprememc/advancement/recipes/misc/${woodType}_boat.json")
+            assertEquals("minecraft:${woodType}_planks", boatAdvancement.getAsJsonObject("criteria")
+                .getAsJsonObject("has_${woodType}_planks")
+                .getAsJsonObject("conditions").getAsJsonArray("items")
+                .first().asJsonObject.getAsJsonArray("items").first().asString)
+
+            val chestBoatRecipe = readJson("data/suprememc/recipe/${woodType}_chest_boat.json")
+            assertEquals("minecraft:crafting_shapeless", chestBoatRecipe.get("type").asString)
+            assertEquals("suprememc:${woodType}_chest_boat", chestBoatRecipe.getAsJsonObject("result").get("id").asString)
+            assertEquals(2, chestBoatRecipe.getAsJsonArray("ingredients").size())
+
+            assertTagContains("data/minecraft/tags/item/boats.json", "suprememc:${woodType}_boat")
+            assertTagContains("data/minecraft/tags/item/chest_boats.json", "suprememc:${woodType}_chest_boat")
+        }
+    }
+
+    @Test
     fun bambooGeneratesBlockRaftAndMosaicRecipes() {
         // Bamboo block yields 2 planks
         val blockToPlanks = readJson("data/suprememc/recipe/bamboo_planks_from_bamboo_block_stonecutting.json")

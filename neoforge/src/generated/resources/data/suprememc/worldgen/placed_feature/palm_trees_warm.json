@@ -33,7 +33,8 @@
             "type": "minecraft:matching_blocks",
             "blocks": [
               "minecraft:sand",
-              "minecraft:red_sand"
+              "minecraft:red_sand",
+              "minecraft:suspicious_sand"
             ],
             "offset": [
               0,

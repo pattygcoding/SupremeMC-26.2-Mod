@@ -26,6 +26,8 @@ public final class ModItems {
 	public static Item EXPERIENCE_INGOT;
 	public static Item EXPERIENCE_UPGRADE_SMITHING_TEMPLATE;
 	public static Item XYLIUM_DUST;
+	public static Item GLENDSTONE_DUST;
+	public static Item MILK_BOTTLE;
 	public static Item COTTON_HELMET;
 	public static Item COTTON_CHESTPLATE;
 	public static Item COTTON_LEGGINGS;
@@ -34,6 +36,10 @@ public final class ModItems {
 	public static Item PALM_CHEST_BOAT;
 	public static Item LAVENDER_BOAT;
 	public static Item LAVENDER_CHEST_BOAT;
+	public static Item CRIMSON_BOAT;
+	public static Item CRIMSON_CHEST_BOAT;
+	public static Item WARPED_BOAT;
+	public static Item WARPED_CHEST_BOAT;
 	public static Item GRIZZLY_BEAR_SPAWN_EGG;
 	public static Item ENDER_SPIDER_SPAWN_EGG;
 	public static Item FIRE_CREEPER_SPAWN_EGG;
@@ -121,6 +127,8 @@ public final class ModItems {
 		EXPERIENCE_UPGRADE_SMITHING_TEMPLATE = register("experience_upgrade_smithing_template",
 			ModContent.smithingTemplateItem("experience_upgrade", "experience", "emerald", "experience_ingot"));
 		XYLIUM_DUST = register("xylium_dust", new Item(ModContent.itemProperties("xylium_dust").stacksTo(64)));
+		GLENDSTONE_DUST = register("glendstone_dust", new Item(ModContent.itemProperties("glendstone_dust").stacksTo(64)));
+		MILK_BOTTLE = register("milk_bottle", new MilkBottleItem(ModContent.itemProperties("milk_bottle").stacksTo(16)));
 	}
 
 	public static void bootstrapArmor() {
@@ -139,6 +147,10 @@ public final class ModItems {
 		PALM_CHEST_BOAT = register("palm_chest_boat", new net.minecraft.world.item.BoatItem(ModEntities.PALM_CHEST_BOAT_ENTITY, ModContent.itemProperties("palm_chest_boat")));
 		LAVENDER_BOAT = register("lavender_boat", new net.minecraft.world.item.BoatItem(ModEntities.LAVENDER_BOAT_ENTITY, ModContent.itemProperties("lavender_boat")));
 		LAVENDER_CHEST_BOAT = register("lavender_chest_boat", new net.minecraft.world.item.BoatItem(ModEntities.LAVENDER_CHEST_BOAT_ENTITY, ModContent.itemProperties("lavender_chest_boat")));
+		CRIMSON_BOAT = register("crimson_boat", new net.minecraft.world.item.BoatItem(ModEntities.CRIMSON_BOAT_ENTITY, ModContent.itemProperties("crimson_boat")));
+		CRIMSON_CHEST_BOAT = register("crimson_chest_boat", new net.minecraft.world.item.BoatItem(ModEntities.CRIMSON_CHEST_BOAT_ENTITY, ModContent.itemProperties("crimson_chest_boat")));
+		WARPED_BOAT = register("warped_boat", new net.minecraft.world.item.BoatItem(ModEntities.WARPED_BOAT_ENTITY, ModContent.itemProperties("warped_boat")));
+		WARPED_CHEST_BOAT = register("warped_chest_boat", new net.minecraft.world.item.BoatItem(ModEntities.WARPED_CHEST_BOAT_ENTITY, ModContent.itemProperties("warped_chest_boat")));
 		GRIZZLY_BEAR_SPAWN_EGG = register("grizzly_bear_spawn_egg", new SpawnEggItem(ModContent.itemProperties("grizzly_bear_spawn_egg").spawnEgg(ModEntities.GRIZZLY_BEAR_ENTITY)));
 		ENDER_SPIDER_SPAWN_EGG = register("ender_spider_spawn_egg", new SpawnEggItem(ModContent.itemProperties("ender_spider_spawn_egg").spawnEgg(ModEntities.ENDER_SPIDER_ENTITY)));
 		FIRE_CREEPER_SPAWN_EGG = register("fire_creeper_spawn_egg", new SpawnEggItem(ModContent.itemProperties("fire_creeper_spawn_egg").spawnEgg(ModEntities.FIRE_CREEPER_ENTITY)));

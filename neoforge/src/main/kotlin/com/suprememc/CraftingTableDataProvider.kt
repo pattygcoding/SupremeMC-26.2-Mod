@@ -43,7 +43,7 @@ class CraftingTableDataProvider(output: PackOutput) : EcosystemDataProvider(outp
         val topTexture = "$namespace:block/${wood}_crafting_table_top"
         addProperty("parent", "minecraft:block/cube")
         add("textures", obj {
-            addProperty("down", if (wood == "palm") "$namespace:block/palm_planks" else "minecraft:block/${wood}_planks")
+            addProperty("down", if (wood == "palm" || wood == "lavender") "$namespace:block/${wood}_planks" else "minecraft:block/${wood}_planks")
             addProperty("east", sideTexture)
             addProperty("north", frontTexture)
             addProperty("particle", frontTexture)

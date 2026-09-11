@@ -14,7 +14,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 
 public class ExperienceArmorItem extends Item {
     public ExperienceArmorItem(String id, ArmorType type) {
-        super(ModContent.itemProperties(id).humanoidArmor(ModArmorMaterials.EXPERIENCE, type));
+        super(ModContent.armorProperties(id, ModArmorMaterials.EXPERIENCE, type, "experience"));
     }
 
     @Override

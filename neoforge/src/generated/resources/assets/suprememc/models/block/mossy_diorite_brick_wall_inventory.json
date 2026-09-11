@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "suprememc:block/mossy_diorite_bricks"
+  }
+}
