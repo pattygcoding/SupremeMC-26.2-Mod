@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:redstone_lamp",
+    "minecraft:green_dye"
+  ],
+  "result": {
+    "count": 1,
+    "id": "suprememc:green_redstone_lamp"
+  }
+}

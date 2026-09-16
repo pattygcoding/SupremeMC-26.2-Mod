@@ -8,6 +8,7 @@ import com.suprememc.content.entity.FireTnt;
 import com.suprememc.content.entity.GrizzlyBear;
 import com.suprememc.content.entity.SnowCreeper;
 import com.suprememc.content.entity.SnowTnt;
+import com.suprememc.content.entity.ShelterTnt;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -40,6 +41,7 @@ public final class ModEntities {
 	public static EntityType<SnowCreeper> SNOW_CREEPER_ENTITY;
 	public static EntityType<SnowTnt> SNOW_TNT_ENTITY;
 	public static EntityType<FireTnt> FIRE_TNT_ENTITY;
+	public static EntityType<ShelterTnt> SHELTER_TNT_ENTITY;
 
 	private ModEntities() {
 	}
@@ -92,6 +94,9 @@ public final class ModEntities {
 		FIRE_TNT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("fire_tnt"),
 			EntityType.Builder.<FireTnt>of(FireTnt::new, MobCategory.MISC)
 				.sized(0.98F, 0.98F).clientTrackingRange(10).updateInterval(10).build(key("fire_tnt")));
+		SHELTER_TNT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("shelter_tnt"),
+			EntityType.Builder.<ShelterTnt>of(ShelterTnt::new, MobCategory.MISC)
+				.sized(0.98F, 0.98F).clientTrackingRange(10).updateInterval(10).build(key("shelter_tnt")));
 		ABYSSALITE_TRIDENT_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE, id("abyssalite_trident"),
 			EntityType.Builder.<AbyssaliteTridentEntity>of(AbyssaliteTridentEntity::new, MobCategory.MISC)
 				.sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(10).build(key("abyssalite_trident")));

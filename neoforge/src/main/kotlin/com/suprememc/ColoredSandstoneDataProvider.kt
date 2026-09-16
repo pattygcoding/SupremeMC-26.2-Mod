@@ -36,6 +36,7 @@ class ColoredSandstoneDataProvider(output: PackOutput) : EcosystemDataProvider(o
 
     private fun generateAssets(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>, color: SandstoneColor) {
         val sandstoneTexture = "$namespace:block/${color.sandstone}"
+        val cutTexture = "$namespace:block/${color.id}_cut_sandstone"
         val topTexture = "$namespace:block/${color.sandstone}_top"
         val bottomTexture = "$namespace:block/${color.sandstone}_bottom"
         val sandTexture = "$namespace:block/${color.sand}"
@@ -46,22 +47,42 @@ class ColoredSandstoneDataProvider(output: PackOutput) : EcosystemDataProvider(o
 
         listOf(color.sandstoneStairs, color.smoothStairs).forEach { id ->
             writes += save(cache, stairsBlockState(id), resourcePath("blockstates/$id.json"))
-            stairsModels(id, sandstoneTexture, topTexture, bottomTexture).forEach { (modelId, model) ->
+            val (side, top, bottom) = if (id == color.smoothStairs) {
+                Triple(topTexture, topTexture, topTexture)
+            } else {
+                Triple(sandstoneTexture, topTexture, bottomTexture)
+            }
+            stairsModels(id, side, top, bottom).forEach { (modelId, model) ->
                 writes += save(cache, model, resourcePath("models/block/$modelId.json"))
             }
         }
         listOf(color.sandstoneSlab, color.smoothSlab, color.cutSlab).forEach { id ->
             writes += save(cache, slabBlockState(id), resourcePath("blockstates/$id.json"))
-            writes += save(cache, slabModel(id, false, sandstoneTexture, topTexture, bottomTexture), resourcePath("models/block/$id.json"))
-            writes += save(cache, slabModel("${id}_top", true, sandstoneTexture, topTexture, bottomTexture), resourcePath("models/block/${id}_top.json"))
-            writes += save(cache, cubeModel("${id}_double", sandstoneTexture), resourcePath("models/block/${id}_double.json"))
+            val (side, top, bottom) = when (id) {
+                color.smoothSlab -> Triple(topTexture, topTexture, topTexture)
+                color.cutSlab -> Triple(cutTexture, topTexture, topTexture)
+                else -> Triple(sandstoneTexture, topTexture, bottomTexture)
+            }
+            writes += save(cache, slabModel(id, false, side, top, bottom), resourcePath("models/block/$id.json"))
+            writes += save(cache, slabModel("${id}_top", true, side, top, bottom), resourcePath("models/block/${id}_top.json"))
+            val doubleModel = when (id) {
+                color.smoothSlab -> cubeModel("${id}_double", topTexture)
+                color.cutSlab -> cubeColumnModel("${id}_double", cutTexture, topTexture)
+                else -> sandstoneModel("${id}_double", sandstoneTexture, topTexture, bottomTexture)
+            }
+            writes += save(cache, doubleModel, resourcePath("models/block/${id}_double.json"))
         }
         writes += save(cache, wallBlockState(color.sandstoneWall), resourcePath("blockstates/${color.sandstoneWall}.json"))
         wallModels(color.sandstoneWall, sandstoneTexture).forEach { (modelId, model) ->
             writes += save(cache, model, resourcePath("models/block/$modelId.json"))
         }
         listOf(color.smooth, color.cut).forEach { id ->
-            writes += save(cache, cubeModel(id, sandstoneTexture), resourcePath("models/block/$id.json"))
+            val model = if (id == color.smooth) {
+                cubeModel(id, topTexture)
+            } else {
+                cubeColumnModel(id, cutTexture, topTexture)
+            }
+            writes += save(cache, model, resourcePath("models/block/$id.json"))
             writes += save(cache, simpleBlockState(id), resourcePath("blockstates/$id.json"))
         }
         color.all.forEach { id ->
@@ -104,6 +125,11 @@ class ColoredSandstoneDataProvider(output: PackOutput) : EcosystemDataProvider(o
     private fun sandstoneModel(id: String, side: String, top: String, bottom: String) = obj {
         addProperty("parent", "minecraft:block/cube_bottom_top")
         add("textures", obj { addProperty("side", side); addProperty("top", top); addProperty("bottom", bottom) })
+    }
+
+    private fun cubeColumnModel(id: String, side: String, end: String) = obj {
+        addProperty("parent", "minecraft:block/cube_column")
+        add("textures", obj { addProperty("side", side); addProperty("end", end) })
     }
 
     private fun simpleBlockState(id: String) = obj { add("variants", obj { add("", variant(id)) }) }

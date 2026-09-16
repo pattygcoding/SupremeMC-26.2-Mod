@@ -39,6 +39,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "experience_upgrade_smithing_template",
             "xylium_dust",
             "glendstone_dust",
+			"jeb_wool",
             "milk_bottle",
             "anthracite_block",
             "nether_anthracite_ore",
@@ -174,19 +175,14 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "netherite_stairs",
             "polished_granite_wall",
             "polished_diorite_wall",
-            "polished_andesite_wall"
-            , "andesite_bricks", "andesite_brick_stairs", "andesite_brick_slab", "andesite_brick_wall"
-            , "mossy_andesite_bricks"
-            , "mossy_andesite_brick_stairs", "mossy_andesite_brick_slab", "mossy_andesite_brick_wall"
-            , "cracked_andesite_bricks"
-            , "diorite_bricks", "diorite_brick_stairs", "diorite_brick_slab", "diorite_brick_wall"
-            , "mossy_diorite_bricks"
-            , "mossy_diorite_brick_stairs", "mossy_diorite_brick_slab", "mossy_diorite_brick_wall"
-            , "cracked_diorite_bricks"
-            , "granite_bricks", "granite_brick_stairs", "granite_brick_slab", "granite_brick_wall"
-            , "mossy_granite_bricks"
-            , "mossy_granite_brick_stairs", "mossy_granite_brick_slab", "mossy_granite_brick_wall"
-            , "cracked_granite_bricks", "cracked_end_stone_bricks", "cracked_quartz_bricks"
+            "polished_andesite_wall",
+            "andesite_bricks", "andesite_brick_stairs", "andesite_brick_slab", "andesite_brick_wall",
+            "mossy_andesite_bricks", "mossy_andesite_brick_stairs", "mossy_andesite_brick_slab", "mossy_andesite_brick_wall",
+            "cracked_andesite_bricks",
+            "mossy_diorite_bricks", "mossy_diorite_brick_stairs", "mossy_diorite_brick_slab", "mossy_diorite_brick_wall",
+            "mossy_granite_bricks", "mossy_granite_brick_stairs", "mossy_granite_brick_slab", "mossy_granite_brick_wall",
+            "granite_bricks", "granite_brick_stairs", "granite_brick_slab", "granite_brick_wall",
+            "cracked_granite_bricks", "cracked_end_stone_bricks", "cracked_quartz_bricks"
         )
         val blocks = arrayOf(
             "aquamarine_ore",
@@ -311,6 +307,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"
         )
         val glowSlimeBlocks = dyeColors.flatMap { listOf("${it}_glowblock", "${it}_slime_block") }
+        val redstoneLampBlocks = dyeColors.map { "${it}_redstone_lamp" }
         val bookshelfWoods = listOf(
             "spruce", "birch", "jungle", "acacia", "dark_oak", "mangrove", "cherry",
             "pale_oak", "bamboo", "crimson", "warped", "palm", "lavender"
@@ -340,6 +337,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             addProperty("block.minecraft.crafting_table", "Oak Crafting Table")
             addProperty("block.minecraft.furnace", "Cobblestone Furnace")
             items.forEach { addProperty("item.$namespace.$it", displayName(it)) }
+            redstoneLampBlocks.forEach { addProperty("item.$namespace.$it", displayName(it)) }
             coloredSandstoneBlocks.forEach { addProperty("item.$namespace.$it", displayName(it)) }
             bookshelfWoods.forEach { addProperty("item.$namespace.${it}_bookshelf", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Bookshelf") }
             craftingTableWoods.forEach { addProperty("item.$namespace.${it}_crafting_table", "${it.split('_').joinToString(" ") { part -> part.replaceFirstChar { c -> c.uppercase() } }} Crafting Table") }
@@ -374,9 +372,12 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             addProperty("block.$namespace.blackstone_furnace", "Blackstone Furnace")
             addProperty("block.$namespace.deepslate_furnace", "Deepslate Furnace")
             glowSlimeBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
+            redstoneLampBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
             addProperty("item.$namespace.experience_upgrade_smithing_template", "Experience Upgrade")
             addProperty("block.$namespace.milk", "Milk")
             addProperty("block.$namespace.milk_cauldron", "Milk Cauldron")
+            addProperty("block.$namespace.jeb_wool", "jeb_ Wool")
+            addProperty("item.$namespace.jeb_wool", "jeb_ Wool")
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template", "Abyssalite Upgrade")
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template.upgrade_description", "Upgrade to Abyssalite")
             addSmithingTemplateTranslations("experience_upgrade", "Emerald Equipment", "Experience Ingot", "Add emerald armor, weapon, or tool", "Add Experience Ingot")
@@ -412,6 +413,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             addProperty("entity.$namespace.snow_creeper", "Snow Creeper")
             addProperty("block.$namespace.snow_tnt", "Snow TNT")
             addProperty("block.$namespace.fire_tnt", "Fire TNT")
+            addProperty("block.$namespace.shelter_tnt", "Shelter TNT")
             addProperty("biome.$namespace.florida_plains", "Florida Plains")
             addProperty("biome.$namespace.cays", "Cays")
             addProperty("biome.$namespace.ice_caves", "Ice Caves")

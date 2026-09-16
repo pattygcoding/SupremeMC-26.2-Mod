@@ -2,6 +2,7 @@ package com.suprememc.mixin;
 
 import com.suprememc.content.blocks.SnowTntBlock;
 import com.suprememc.content.blocks.FireTntBlock;
+import com.suprememc.content.blocks.ShelterTntBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -21,6 +22,8 @@ public class MixinTntBlock {
             callback.setReturnValue(SnowTntBlock.prime(level, pos, null));
         } else if (level.getBlockState(pos).getBlock() instanceof FireTntBlock) {
             callback.setReturnValue(FireTntBlock.prime(level, pos, null));
+        } else if (level.getBlockState(pos).getBlock() instanceof ShelterTntBlock) {
+            callback.setReturnValue(ShelterTntBlock.prime(level, pos, null));
         }
     }
 
@@ -32,6 +35,8 @@ public class MixinTntBlock {
             callback.setReturnValue(SnowTntBlock.prime(level, pos, igniter));
         } else if (level.getBlockState(pos).getBlock() instanceof FireTntBlock) {
             callback.setReturnValue(FireTntBlock.prime(level, pos, igniter));
+        } else if (level.getBlockState(pos).getBlock() instanceof ShelterTntBlock) {
+            callback.setReturnValue(ShelterTntBlock.prime(level, pos, igniter));
         }
     }
 }

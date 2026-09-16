@@ -51,6 +51,7 @@ public final class SupremeMCClient {
         event.registerEntityRenderer(ModEntities.SNOW_CREEPER_ENTITY, SnowCreeperRenderer::new);
         event.registerEntityRenderer(ModEntities.SNOW_TNT_ENTITY, TntRenderer::new);
         event.registerEntityRenderer(ModEntities.FIRE_TNT_ENTITY, TntRenderer::new);
+        event.registerEntityRenderer(ModEntities.SHELTER_TNT_ENTITY, TntRenderer::new);
         event.registerEntityRenderer(ModEntities.PALM_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         event.registerEntityRenderer(ModEntities.PALM_CHEST_BOAT_ENTITY,

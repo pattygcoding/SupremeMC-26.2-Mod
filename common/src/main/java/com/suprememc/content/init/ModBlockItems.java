@@ -171,7 +171,9 @@ public final class ModBlockItems {
 		register("clover", ModContent.CLOVER);
 		register("snow_tnt", ModContent.SNOW_TNT);
 		register("fire_tnt", ModContent.FIRE_TNT);
+		register("shelter_tnt", ModContent.SHELTER_TNT);
 		register("glendstone", ModContent.GLENDSTONE);
+		register("jeb_wool", ModContent.JEB_WOOL);
 		ModContent.COLORED_SANDSTONE_BLOCKS.forEach(ModBlockItems::register);
 
 		COCONUT_SEEDS = register("coconut_seeds", ModContent.COCONUT,
@@ -183,6 +185,7 @@ public final class ModBlockItems {
 			String name = color.getSerializedName();
 			register(name + "_glowblock", ModBlocks.GLOW_BLOCKS.get(color));
 			register(name + "_slime_block", ModBlocks.SLIME_BLOCKS.get(color));
+			register(name + "_redstone_lamp", ModBlocks.REDSTONE_LAMP_BLOCKS.get(color));
 		}
 	}
 

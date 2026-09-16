@@ -37,6 +37,11 @@ public final class ModLootInjections {
                 new Injection("add_experience_template_to_armorer_gift",
                     "minecraft:gameplay/hero_of_the_village/armorer_gift", EXPERIENCE_ARMORER_GIFT));
 
+    public static final String JEB_WOOL = Constants.MOD_ID + ":inject/jeb_wool";
+
+    public static final List<Injection> JEB_WOOL_INJECTIONS = List.of(
+        new Injection("add_jeb_wool_to_sheep", "minecraft:entities/sheep", JEB_WOOL));
+
     private ModLootInjections() {
     }
 }

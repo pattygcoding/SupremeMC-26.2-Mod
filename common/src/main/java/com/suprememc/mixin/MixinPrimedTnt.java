@@ -2,6 +2,7 @@ package com.suprememc.mixin;
 
 import com.suprememc.content.entity.SnowTnt;
 import com.suprememc.content.entity.FireTnt;
+import com.suprememc.content.entity.ShelterTnt;
 import net.minecraft.world.entity.item.PrimedTnt;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +18,9 @@ public class MixinPrimedTnt {
             callback.cancel();
         } else if ((Object) this instanceof FireTnt fireTnt) {
             fireTnt.explodeFire();
+            callback.cancel();
+        } else if ((Object) this instanceof ShelterTnt shelterTnt) {
+            shelterTnt.explodeShelter();
             callback.cancel();
         }
     }

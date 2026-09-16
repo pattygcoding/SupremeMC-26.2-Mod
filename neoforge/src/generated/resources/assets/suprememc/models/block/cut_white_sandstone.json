@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "suprememc:block/white_sandstone"
+    "end": "suprememc:block/white_sandstone_top",
+    "side": "suprememc:block/white_cut_sandstone"
   }
 }

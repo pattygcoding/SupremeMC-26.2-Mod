@@ -26,11 +26,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.ItemLike;
@@ -114,9 +112,7 @@ public final class ModContent extends ModBlocks {
 
     public static Item.Properties armorProperties(String id, ArmorMaterial material, ArmorType type, String setId) {
         return itemProperties(id)
-            .humanoidArmor(material, type)
-            .component(DataComponents.LORE, new ItemLore(List.of(
-                Component.translatable("item." + Constants.MOD_ID + ".armor." + setId + ".full_set_bonus"))));
+            .humanoidArmor(material, type);
     }
 
     public static BlockBehaviour.Properties blockProperties(String id) {

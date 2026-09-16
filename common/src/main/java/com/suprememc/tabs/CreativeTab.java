@@ -9,13 +9,11 @@ import com.suprememc.content.init.ModPotions;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.ArrayList;
@@ -47,8 +45,6 @@ public final class CreativeTab {
             for (int level = 1; level <= entry.maxLevel(); level++) {
                 ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
                 book.enchant(enchantments.getOrThrow(key), level);
-                book.set(DataComponents.LORE, new ItemLore(List.of(Component.translatable(
-                    "enchantment.suprememc." + entry.id() + ".description"))));
                 books.add(book);
             }
         }
@@ -99,6 +95,7 @@ public final class CreativeTab {
             // TNT
             ModContent.FIRE_TNT,
             ModContent.SNOW_TNT,
+            ModContent.SHELTER_TNT,
 
             // Non-Wood Building Blocks
             ModContent.ANDESITE_BRICKS,
@@ -178,12 +175,15 @@ public final class CreativeTab {
             ModContent.CRIMSON_BOOKSHELF,
             ModContent.WARPED_BOOKSHELF,
             ModContent.PALM_BOOKSHELF,
-            ModContent.LAVENDER_BOOKSHELF
+            ModContent.LAVENDER_BOOKSHELF,
+            ModContent.JEB_WOOL
         ));
 
+        
         // Colored Full Blocks
         ModContent.CREATIVE_TAB_ITEMS.addAll(ModContent.GLOW_BLOCKS.values());
 		ModContent.CREATIVE_TAB_ITEMS.addAll(ModContent.SLIME_BLOCKS.values());
+		ModContent.CREATIVE_TAB_ITEMS.addAll(ModContent.REDSTONE_LAMP_BLOCKS.values());
 
         // Full Blocks 2
         ModContent.CREATIVE_TAB_ITEMS.addAll(List.of(

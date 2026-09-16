@@ -20,6 +20,8 @@ SupremeMC introduces a large set of new content across several major systems:
 - Crimson and warped boats and chest boats can be crafted from their corresponding Nether wood planks.
 - Crimson and warped boats and chest boats float on lava the same way ordinary boats float on water, letting you sail across Nether lava lakes.
 - The End's main island and its surrounding void gap (within 1,024 blocks of the origin) generate exactly like vanilla; Lavender biomes and their vanilla counterparts only appear on the outer islands beyond that radius.
+- Shelter TNT builds a 7-by-7 survival shelter centered on the blast site without damaging blocks or entities. Its floor is one block below the TNT, with four blocks of height, glass windows, a white bed set to the side, bonus-chest loot chest, crafting table, furnace, door, and one torch. The structural wood matches the biome: oak by default; birch, spruce, jungle, acacia, dark oak, cherry, mangrove, pale oak, or palm in their matching biomes; crimson throughout the Nether except warped forest; and lavender in the End.
+- A sheep named exactly `jeb_` drops animated Jeb Wool, which cycles smoothly through the wool colors like the sheep's fleece.
 
 ## World Generation and Biomes
 

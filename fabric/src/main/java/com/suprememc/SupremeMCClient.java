@@ -41,6 +41,7 @@ public class SupremeMCClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.SNOW_CREEPER_ENTITY, SnowCreeperRenderer::new);
         EntityRendererRegistry.register(ModEntities.SNOW_TNT_ENTITY, TntRenderer::new);
         EntityRendererRegistry.register(ModEntities.FIRE_TNT_ENTITY, TntRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SHELTER_TNT_ENTITY, TntRenderer::new);
         EntityRendererRegistry.register(ModEntities.PALM_BOAT_ENTITY,
             context -> new BoatRenderer(context, ModelLayers.OAK_BOAT));
         EntityRendererRegistry.register(ModEntities.PALM_CHEST_BOAT_ENTITY,

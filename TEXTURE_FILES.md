@@ -1,5 +1,10 @@
 ## Lavender endspar
 
+## Shelter TNT
+
+- `common/src/main/resources/assets/suprememc/textures/block/shelter_tnt_top.png`
+- `common/src/main/resources/assets/suprememc/textures/block/shelter_tnt_side.png`
+
 - `common/src/main/resources/assets/suprememc/textures/block/lavender_endspar.png`
 - `common/src/main/resources/assets/suprememc/textures/block/lavender_endspar_side.png`
 
@@ -131,6 +136,10 @@ Supply these shared item textures for the Calamari pipeline:
 common/src/main/resources/assets/suprememc/textures/item/calamari.png
 common/src/main/resources/assets/suprememc/textures/item/cooked_calamari.png
 ```
+
+## Jeb Wool
+
+`common/src/main/resources/assets/suprememc/textures/block/jeb_wool.png` is a vertically stacked 16-frame wool-color animation. Its adjacent `jeb_wool.png.mcmeta` enables interpolated transitions; keep both files together.
 
 ## Fruit and Vegetable Food
 

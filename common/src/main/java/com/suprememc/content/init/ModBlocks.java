@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -199,11 +200,14 @@ public class ModBlocks {
 	public static Block MILK_CAULDRON;
 	public static Block SNOW_TNT;
 	public static Block FIRE_TNT;
+	public static Block SHELTER_TNT;
 	public static Block GLENDSTONE;
+	public static Block JEB_WOOL;
 	public static final Map<String, Block> COLORED_SANDSTONE_BLOCKS = new LinkedHashMap<>();
 	
 	public static final Map<DyeColor, Block> GLOW_BLOCKS = new EnumMap<>(DyeColor.class);
 	public static final Map<DyeColor, Block> SLIME_BLOCKS = new EnumMap<>(DyeColor.class);
+	public static final Map<DyeColor, Block> REDSTONE_LAMP_BLOCKS = new EnumMap<>(DyeColor.class);
 
 	private static boolean registered;
 
@@ -224,8 +228,8 @@ public class ModBlocks {
 		AQUAMARINE_BLOCK = register("aquamarine_block", new Block(props("aquamarine_block").mapColor(MapColor.COLOR_CYAN).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 		BURNING_DIAMOND_BLOCK = register("burning_diamond_block", new Block(props("burning_diamond_block").mapColor(MapColor.DIAMOND).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 		AMBER_BLOCK = register("amber_block", new Block(props("amber_block").mapColor(MapColor.COLOR_ORANGE).sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
-		ATLANTIS_DEBRIS = register("atlantis_debris", new Block(props("atlantis_debris").strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
-		ABYSSALITE_BLOCK = register("abyssalite_block", new Block(props("abyssalite_block").strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
+		ATLANTIS_DEBRIS = register("atlantis_debris", new Block(props("atlantis_debris").sound(SoundType.ANCIENT_DEBRIS).strength(30.0F, 1200.0F).requiresCorrectToolForDrops()));
+		ABYSSALITE_BLOCK = register("abyssalite_block", new Block(props("abyssalite_block").sound(SoundType.NETHERITE_BLOCK).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
 		WET_FARMLAND = register("wet_farmland", new WetFarmlandBlock(props("wet_farmland").mapColor(MapColor.DIRT).sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
 		SUPREME_MC_LOGO_BLOCK = register("suprememc_logo_block", new Block(props("suprememc_logo_block").mapColor(MapColor.GRASS).sound(SoundType.GRASS).strength(0.6F)));
 		PALM_LOG = register("palm_log", new RotatedPillarBlock(props("palm_log").mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2.0F)));
@@ -265,7 +269,9 @@ public class ModBlocks {
 		CLOVER = register("clover", new CloverBlock(props("clover").mapColor(MapColor.PLANT).noCollision().noOcclusion()));
 		SNOW_TNT = register("snow_tnt", new SnowTntBlock(props("snow_tnt").mapColor(MapColor.SNOW).strength(0.0F)));
 		FIRE_TNT = register("fire_tnt", new FireTntBlock(props("fire_tnt").mapColor(MapColor.FIRE).strength(0.0F)));
+		SHELTER_TNT = register("shelter_tnt", new ShelterTntBlock(props("shelter_tnt").mapColor(MapColor.WOOD).strength(0.0F)));
 		GLENDSTONE = register("glendstone", new Block(props("glendstone").mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> 15).isRedstoneConductor((state, level, pos) -> false)));
+		JEB_WOOL = register("jeb_wool", new Block(props("jeb_wool").mapColor(MapColor.SNOW).sound(SoundType.WOOL).strength(0.8F)));
 		registerColoredSandstoneFamilies();
 		registerSimple(
 			"burning_diamond_stairs", 
@@ -383,8 +389,10 @@ public class ModBlocks {
 			String name = color.getSerializedName();
 			Block glow = register(name + "_glowblock", new Block(props(name + "_glowblock").mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> 15)));
 			Block slime = register(name + "_slime_block", new ColoredSlimeBlock(color, props(name + "_slime_block").mapColor(MapColor.GRASS).sound(SoundType.SLIME_BLOCK).noOcclusion()));
+			Block lamp = register(name + "_redstone_lamp", new RedstoneLampBlock(props(name + "_redstone_lamp").mapColor(color.getMapColor()).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> state.getValue(RedstoneLampBlock.LIT) ? 15 : 0).isRedstoneConductor((state, level, pos) -> false)));
 			GLOW_BLOCKS.put(color, glow);
 			SLIME_BLOCKS.put(color, slime);
+			REDSTONE_LAMP_BLOCKS.put(color, lamp);
 		}
 	}
 

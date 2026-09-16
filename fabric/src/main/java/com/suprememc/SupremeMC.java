@@ -307,6 +307,9 @@ public class SupremeMC implements ModInitializer {
         for (ModLootInjections.Injection injection : ModLootInjections.EXPERIENCE_INJECTIONS) {
             injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
         }
+		for (ModLootInjections.Injection injection : ModLootInjections.JEB_WOOL_INJECTIONS) {
+			injections.put(lootTableKey(injection.targetTable()), lootTableKey(injection.injectedTable()));
+		}
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             ResourceKey<LootTable> injected = injections.get(key);
             if (injected != null && source.isBuiltin()) {
