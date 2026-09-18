@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "suprememc:coldstone",
+  "result": {
+    "count": 1,
+    "id": "suprememc:cold_bricks"
+  }
+}

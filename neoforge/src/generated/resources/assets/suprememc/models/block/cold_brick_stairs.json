@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "suprememc:block/cold_bricks",
+    "side": "suprememc:block/cold_bricks",
+    "top": "suprememc:block/cold_bricks"
+  }
+}

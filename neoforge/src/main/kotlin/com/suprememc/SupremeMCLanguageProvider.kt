@@ -10,6 +10,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
         val items = arrayOf(
             "burning_diamond_ore",
             "burning_diamond_block",
+			"glowing_obsidian",
             "burning_diamond_slab",
             "burning_diamond_stairs",
             "burning_diamond",
@@ -39,8 +40,10 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "experience_upgrade_smithing_template",
             "xylium_dust",
             "glendstone_dust",
+			"glicestone_dust",
 			"jeb_wool",
             "milk_bottle",
+            "liquid_nitrogen_bucket",
             "anthracite_block",
             "nether_anthracite_ore",
             "aquamarine_block",
@@ -146,6 +149,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "wet_farmland",
             "suprememc_logo_block",
 			"glendstone",
+            "glicestone",
             "calamari",
             "cooked_calamari",
             "grapes",
@@ -190,6 +194,7 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "aquamarine_block",
             "burning_diamond_ore",
             "burning_diamond_block",
+			"glowing_obsidian",
             "burning_diamond_slab",
             "burning_diamond_stairs",
             "nether_anthracite_ore",
@@ -231,14 +236,15 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "polished_diorite_wall",
             "polished_andesite_wall",
             "andesite_bricks", "andesite_brick_stairs", "andesite_brick_slab", "andesite_brick_wall",
-            "mossy_andesite_bricks",
+            "mossy_andesite_bricks", "mossy_andesite_brick_stairs", "mossy_andesite_brick_slab", "mossy_andesite_brick_wall",
             "cracked_andesite_bricks",
             "diorite_bricks", "diorite_brick_stairs", "diorite_brick_slab", "diorite_brick_wall",
-            "mossy_diorite_bricks",
+            "mossy_diorite_bricks", "mossy_diorite_brick_stairs", "mossy_diorite_brick_slab", "mossy_diorite_brick_wall",
             "cracked_diorite_bricks",
             "granite_bricks", "granite_brick_stairs", "granite_brick_slab", "granite_brick_wall",
-            "mossy_granite_bricks",
+            "mossy_granite_bricks", "mossy_granite_brick_stairs", "mossy_granite_brick_slab", "mossy_granite_brick_wall",
             "cracked_granite_bricks", "cracked_end_stone_bricks", "cracked_quartz_bricks",
+            "nether_reactor_core",
             "glendstone",
             "palm_log",
             "stripped_palm_log",
@@ -284,7 +290,10 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             "palm_sapling",
             "potted_palm_sapling",
             "coconut",
+            "coconut_seeds",
             "cotton_bush",
+            "cotton",
+            "glicestone",
             "tomato_bush",
             "beach_grass",
             "tall_beach_grass",
@@ -355,7 +364,8 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
                 "strong_hunger" to ("Strong Potion of Hunger" to "Strong Hunger"),
                 "decay" to ("Potion of Decay" to "Decay"),
                 "long_decay" to ("Long Potion of Decay" to "Long Decay"),
-                "strong_decay" to ("Strong Potion of Decay" to "Strong Decay")
+                "strong_decay" to ("Strong Potion of Decay" to "Strong Decay"),
+                "advancement_cocktail" to ("Advancement Cocktail" to "Advancement Cocktail")
             )
             customPotions.forEach { (id, names) ->
                 val (potionName, arrowName) = names
@@ -375,9 +385,12 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             redstoneLampBlocks.forEach { addProperty("block.$namespace.$it", displayName(it)) }
             addProperty("item.$namespace.experience_upgrade_smithing_template", "Experience Upgrade")
             addProperty("block.$namespace.milk", "Milk")
+            addProperty("block.$namespace.liquid_nitrogen", "Liquid Nitrogen")
             addProperty("block.$namespace.milk_cauldron", "Milk Cauldron")
             addProperty("block.$namespace.jeb_wool", "jeb_ Wool")
             addProperty("item.$namespace.jeb_wool", "jeb_ Wool")
+            addProperty("block.$namespace.icether_portal", "Icether Portal")
+            addProperty("block.$namespace.skylands_portal", "Skylands Portal")
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template", "Abyssalite Upgrade")
             addProperty("item.$namespace.abyssalite_upgrade_smithing_template.upgrade_description", "Upgrade to Abyssalite")
             addSmithingTemplateTranslations("experience_upgrade", "Emerald Equipment", "Experience Ingot", "Add emerald armor, weapon, or tool", "Add Experience Ingot")
@@ -414,9 +427,17 @@ class SupremeMCLanguageProvider(output: PackOutput) : EcosystemDataProvider(outp
             addProperty("block.$namespace.snow_tnt", "Snow TNT")
             addProperty("block.$namespace.fire_tnt", "Fire TNT")
             addProperty("block.$namespace.shelter_tnt", "Shelter TNT")
+			addProperty("block.$namespace.coldstone", "Coldstone")
+            addProperty("block.$namespace.cold_bricks", "Cold Bricks")
+            addProperty("block.$namespace.cold_brick_stairs", "Cold Brick Stairs")
+            addProperty("block.$namespace.cold_brick_slab", "Cold Brick Slab")
+            addProperty("block.$namespace.cold_brick_wall", "Cold Brick Wall")
             addProperty("biome.$namespace.florida_plains", "Florida Plains")
             addProperty("biome.$namespace.cays", "Cays")
             addProperty("biome.$namespace.ice_caves", "Ice Caves")
+            addProperty("biome.$namespace.icether_wastes", "Icether Wastes")
+            addProperty("dimension.$namespace.skylands", "Skylands")
+            addProperty("message.$namespace.nether_reactor.incomplete", "Nether Reactor needs %s at %s, %s, %s but found %s")
         }
         return save(cache, json, resourcePath("lang/en_us.json"))
     }

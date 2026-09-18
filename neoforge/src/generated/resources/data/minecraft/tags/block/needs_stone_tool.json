@@ -19,6 +19,11 @@
     "suprememc:granite_brick_wall",
     "suprememc:mossy_granite_brick_wall",
     "suprememc:xylium_ore",
-    "suprememc:xylium_block"
+    "suprememc:xylium_block",
+    "suprememc:coldstone",
+    "suprememc:cold_bricks",
+    "suprememc:cold_brick_stairs",
+    "suprememc:cold_brick_slab",
+    "suprememc:cold_brick_wall"
   ]
 }

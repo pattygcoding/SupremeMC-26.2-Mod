@@ -27,7 +27,9 @@ public final class ModItems {
 	public static Item EXPERIENCE_UPGRADE_SMITHING_TEMPLATE;
 	public static Item XYLIUM_DUST;
 	public static Item GLENDSTONE_DUST;
+	public static Item GLICESTONE_DUST;
 	public static Item MILK_BOTTLE;
+	public static Item LIQUID_NITROGEN_BUCKET;
 	public static Item COTTON_HELMET;
 	public static Item COTTON_CHESTPLATE;
 	public static Item COTTON_LEGGINGS;
@@ -128,7 +130,11 @@ public final class ModItems {
 			ModContent.smithingTemplateItem("experience_upgrade", "experience", "emerald", "experience_ingot"));
 		XYLIUM_DUST = register("xylium_dust", new Item(ModContent.itemProperties("xylium_dust").stacksTo(64)));
 		GLENDSTONE_DUST = register("glendstone_dust", new Item(ModContent.itemProperties("glendstone_dust").stacksTo(64)));
+		GLICESTONE_DUST = register("glicestone_dust", new Item(ModContent.itemProperties("glicestone_dust").stacksTo(64)));
 		MILK_BOTTLE = register("milk_bottle", new MilkBottleItem(ModContent.itemProperties("milk_bottle").stacksTo(16)));
+		LIQUID_NITROGEN_BUCKET = register("liquid_nitrogen_bucket",
+			new net.minecraft.world.item.BucketItem(ModFluids.LIQUID_NITROGEN,
+				ModContent.itemProperties("liquid_nitrogen_bucket").stacksTo(1)));
 	}
 
 	public static void bootstrapArmor() {

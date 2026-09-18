@@ -109,7 +109,52 @@ class StoneBrickDataProvider(output: PackOutput) : EcosystemDataProvider(output)
                 writes += save(cache, recipeAdvancement("${result}_from_${bricks}_stonecutting", if (result == wall) "decorations" else "building", "$namespace:$bricks"), dataPath("advancement/recipes/${if (result == wall) "decorations" else "building_blocks"}/${result}_from_${bricks}_stonecutting.json"))
             }
         }
+        generateColdBricks(cache, writes)
         return CompletableFuture.allOf(*writes.toTypedArray())
+    }
+
+    private fun generateColdBricks(cache: CachedOutput, writes: MutableList<CompletableFuture<*>>) {
+        val bricks = "cold_bricks"
+        val stairs = "cold_brick_stairs"
+        val slab = "cold_brick_slab"
+        val wall = "cold_brick_wall"
+        val texture = "$namespace:block/cold_bricks"
+
+        writes += save(cache, cubeModel(bricks, texture), resourcePath("models/block/$bricks.json"))
+        writes += save(cache, simpleBlockState(bricks), resourcePath("blockstates/$bricks.json"))
+        writes += save(cache, stairsBlockState(stairs), resourcePath("blockstates/$stairs.json"))
+        writes += save(cache, slabBlockState(slab), resourcePath("blockstates/$slab.json"))
+        writes += save(cache, wallBlockState(wall), resourcePath("blockstates/$wall.json"))
+        stairsModels(stairs, texture).forEach { (id, model) -> writes += save(cache, model, resourcePath("models/block/$id.json")) }
+        writes += save(cache, slabModel(slab, false, texture), resourcePath("models/block/$slab.json"))
+        writes += save(cache, slabModel("${slab}_top", true, texture), resourcePath("models/block/${slab}_top.json"))
+        writes += save(cache, cubeModel("${slab}_double", texture), resourcePath("models/block/${slab}_double.json"))
+        wallModels(wall, texture).forEach { (id, model) -> writes += save(cache, model, resourcePath("models/block/$id.json")) }
+
+        listOf(bricks, stairs, slab, wall).forEach { id ->
+            val itemModel = if (id == wall) "$namespace:block/${wall}_inventory" else "$namespace:block/$id"
+            writes += save(cache, itemModelDefinition(itemModel), resourcePath("items/$id.json"))
+            writes += save(cache, if (id == slab) slabLootTable(id) else selfDropLootTable(id), dataPath("loot_table/blocks/$id.json"))
+        }
+
+        writes += save(cache, shapedRecipe(bricks, 4, "$namespace:coldstone", arrayOf("##", "##")), dataPath("recipe/$bricks.json"))
+        writes += save(cache, shapedRecipe(stairs, 4, "$namespace:$bricks", arrayOf("#  ", "## ", "###")), dataPath("recipe/$stairs.json"))
+        writes += save(cache, shapedRecipe(slab, 6, "$namespace:$bricks", arrayOf("###")), dataPath("recipe/$slab.json"))
+        writes += save(cache, shapedRecipe(wall, 6, "$namespace:$bricks", arrayOf("###", "###")), dataPath("recipe/$wall.json"))
+        writes += save(cache, stonecuttingRecipe(bricks, 1, "$namespace:coldstone"), dataPath("recipe/${bricks}_from_coldstone_stonecutting.json"))
+        writes += save(cache, stonecuttingRecipe(stairs, 1, "$namespace:$bricks"), dataPath("recipe/${stairs}_from_${bricks}_stonecutting.json"))
+        writes += save(cache, stonecuttingRecipe(slab, 2, "$namespace:$bricks"), dataPath("recipe/${slab}_from_${bricks}_stonecutting.json"))
+        writes += save(cache, stonecuttingRecipe(wall, 1, "$namespace:$bricks"), dataPath("recipe/${wall}_from_${bricks}_stonecutting.json"))
+
+        listOf(bricks, stairs, slab).forEach { result ->
+            writes += save(cache, recipeAdvancement(result, "building", "$namespace:$bricks"), dataPath("advancement/recipes/building_blocks/$result.json"))
+        }
+        writes += save(cache, recipeAdvancement(wall, "decorations", "$namespace:$bricks"), dataPath("advancement/recipes/decorations/$wall.json"))
+        writes += save(cache, recipeAdvancement("${bricks}_from_coldstone_stonecutting", "building", "$namespace:coldstone"), dataPath("advancement/recipes/building_blocks/${bricks}_from_coldstone_stonecutting.json"))
+        listOf(stairs, slab).forEach { result ->
+            writes += save(cache, recipeAdvancement("${result}_from_${bricks}_stonecutting", "building", "$namespace:$bricks"), dataPath("advancement/recipes/building_blocks/${result}_from_${bricks}_stonecutting.json"))
+        }
+        writes += save(cache, recipeAdvancement("${wall}_from_${bricks}_stonecutting", "decorations", "$namespace:$bricks"), dataPath("advancement/recipes/decorations/${wall}_from_${bricks}_stonecutting.json"))
     }
 
     private fun cubeModel(id: String, texture: String) = obj { addProperty("parent", "minecraft:block/cube_all"); add("textures", obj { addProperty("all", texture) }) }

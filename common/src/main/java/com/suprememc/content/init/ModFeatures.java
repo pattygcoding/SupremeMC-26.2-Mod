@@ -3,6 +3,7 @@ package com.suprememc.content.init;
 import com.suprememc.Constants;
 import com.suprememc.content.worldgen.CornPatchFeature;
 import com.suprememc.content.worldgen.GlendstoneClusterFeature;
+import com.suprememc.content.worldgen.GlicestoneClusterFeature;
 import com.suprememc.content.worldgen.GrapeVineHangFeature;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,6 +26,11 @@ public final class ModFeatures {
 		BuiltInRegistries.FEATURE,
 		Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glendstone_cluster"),
 		new GlendstoneClusterFeature(NoneFeatureConfiguration.CODEC));
+
+	public static final Feature<NoneFeatureConfiguration> GLICESTONE_CLUSTER = Registry.register(
+		BuiltInRegistries.FEATURE,
+		Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glicestone_cluster"),
+		new GlicestoneClusterFeature(NoneFeatureConfiguration.CODEC));
 
 	private ModFeatures() {
 	}

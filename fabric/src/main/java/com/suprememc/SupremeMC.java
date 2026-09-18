@@ -51,6 +51,8 @@ public class SupremeMC implements ModInitializer {
         ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lavender_midlands"));
     private static final ResourceKey<Biome> LAVENDER_HIGHLANDS =
         ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "lavender_highlands"));
+    private static final ResourceKey<Biome> ICETHER_WASTES =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "icether_wastes"));
 
     @Override
     public void onInitialize() {
@@ -148,6 +150,15 @@ public class SupremeMC implements ModInitializer {
             endBiomes,
             GenerationStep.Decoration.UNDERGROUND_DECORATION,
             ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glendstone_extra")));
+        Predicate<BiomeSelectionContext> icetherBiomes = BiomeSelectors.includeByKey(ICETHER_WASTES);
+        BiomeModifications.addFeature(
+            icetherBiomes,
+            GenerationStep.Decoration.UNDERGROUND_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glicestone")));
+        BiomeModifications.addFeature(
+            icetherBiomes,
+            GenerationStep.Decoration.UNDERGROUND_DECORATION,
+            ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glicestone_extra")));
         // Palm beaches: warm-climate beaches always grow palms; moderate-climate beaches at a 50% chunk rate
         // and lower density. The placed feature JSONs (packaged from the shared generated data) carry the
         // temperature tiers and sand substrate rules, so behavior matches the NeoForge biome modifiers.
@@ -186,6 +197,7 @@ public class SupremeMC implements ModInitializer {
         registerEnderSpiderSpawns();
         registerFireCreeperSpawns();
         registerSnowCreeperSpawns();
+        registerIcetherWastesSpawns();
 
         CreativeModeTab tab = CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                 .title(Component.translatable("itemGroup." + Constants.MOD_ID + ".main"))
@@ -288,6 +300,26 @@ public class SupremeMC implements ModInitializer {
                     EntityType<?> creeper = BuiltInRegistries.ENTITY_TYPE.get(
                         Identifier.fromNamespaceAndPath("minecraft", "creeper")).orElseThrow().value();
                     context.getMobSpawnSettings().removeSpawnsOfEntityType(creeper);
+                    context.getMobSpawnSettings().addSpawn(
+                        MobCategory.MONSTER,
+                        new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
+                            ModEntities.SNOW_CREEPER_ENTITY, 4, 4),
+                        100);
+                });
+        }
+
+        private static void registerIcetherWastesSpawns() {
+        BiomeModifications.create(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "icether_wastes_spawns"))
+            .add(net.fabricmc.fabric.api.biome.v1.ModificationPhase.ADDITIONS,
+                BiomeSelectors.includeByKey(ICETHER_WASTES),
+                context -> {
+                    EntityType<?> stray = BuiltInRegistries.ENTITY_TYPE.get(
+                        Identifier.fromNamespaceAndPath("minecraft", "stray")).orElseThrow().value();
+                    context.getMobSpawnSettings().addSpawn(
+                        MobCategory.MONSTER,
+                        new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(
+                            stray, 4, 4),
+                        80);
                     context.getMobSpawnSettings().addSpawn(
                         MobCategory.MONSTER,
                         new net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData(

@@ -16,10 +16,11 @@ class MineralTagsDataProvider(output: PackOutput) : EcosystemDataProvider(output
         "amber_ore", "deepslate_amber_ore", "prismarine_ore", "deepslate_prismarine_ore", "xylium_ore"
     )
     private val additionalBlocks = listOf(
-        "anthracite_block", "atlantis_debris", "abyssalite_block",
+        "anthracite_block", "atlantis_debris", "abyssalite_block", "coldstone", "cold_bricks", "cold_brick_stairs", "cold_brick_slab", "cold_brick_wall",
+        "coldstone",
         "polished_granite_wall", "polished_diorite_wall", "polished_andesite_wall",
         "andesite_bricks", "andesite_brick_wall", "diorite_bricks", "diorite_brick_wall",
-        "granite_bricks", "granite_brick_wall", "xylium_block"
+        "granite_bricks", "granite_brick_wall", "xylium_block", "glowing_obsidian", "nether_reactor_core"
     )
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
@@ -32,11 +33,11 @@ class MineralTagsDataProvider(output: PackOutput) : EcosystemDataProvider(output
         val sandstone = colors.flatMap { color -> listOf("$namespace:${color}_sandstone", "$namespace:smooth_${color}_sandstone", "$namespace:cut_${color}_sandstone", "$namespace:${color}_sandstone_wall") }
         val pickaxe = materialBlocks + stairs + slabs + sandstone + oreBlocks.map { "$namespace:$it" } + additionalBlocks.map { "$namespace:$it" }
         val brickBlocks = stoneBrickFamilies.flatMap { listOf("$namespace:${it}_bricks", "$namespace:mossy_${it}_bricks", "$namespace:${it}_brick_wall", "$namespace:mossy_${it}_brick_wall") }
-        val stoneTier = listOf("iron", "lapis").flatMap { materialParts(it) } + brickBlocks + listOf("$namespace:xylium_ore", "$namespace:xylium_block")
+        val stoneTier = listOf("iron", "lapis").flatMap { materialParts(it) } + brickBlocks + listOf("$namespace:xylium_ore", "$namespace:xylium_block", "$namespace:coldstone", "$namespace:cold_bricks", "$namespace:cold_brick_stairs", "$namespace:cold_brick_slab", "$namespace:cold_brick_wall")
         val ironTier = listOf("gold", "diamond", "emerald", "amber", "aquamarine", "burning_diamond").flatMap { materialParts(it) } + listOf(
             "$namespace:anthracite_block", "$namespace:nether_anthracite_ore", "$namespace:prismarine_ore", "$namespace:deepslate_prismarine_ore"
         ) + oreBlocks.filter { it in listOf("aquamarine_ore", "deepslate_aquamarine_ore", "burning_diamond_ore", "amber_ore", "deepslate_amber_ore") }.map { "$namespace:$it" }
-        val diamondTier = listOf("obsidian", "netherite", "abyssalite").flatMap { materialParts(it) } + listOf("$namespace:atlantis_debris")
+        val diamondTier = listOf("obsidian", "netherite", "abyssalite").flatMap { materialParts(it) } + listOf("$namespace:atlantis_debris", "$namespace:glowing_obsidian")
 
         writes += save(cache, valuesTag(*pickaxe.toTypedArray()), minecraftDataPath("tags/block/mineable/pickaxe.json"))
         writes += save(cache, valuesTag(*stoneTier.toTypedArray()), minecraftDataPath("tags/block/needs_stone_tool.json"))

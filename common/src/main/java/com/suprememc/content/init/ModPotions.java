@@ -22,6 +22,7 @@ public final class ModPotions {
 	public static Holder<Potion> DECAY_POTION;
 	public static Holder<Potion> LONG_DECAY_POTION;
 	public static Holder<Potion> STRONG_DECAY_POTION;
+	public static Holder<Potion> ADVANCEMENT_COCKTAIL;
 
 	private static boolean registered;
 
@@ -43,6 +44,30 @@ public final class ModPotions {
 		DECAY_POTION = registerPotion("decay", 2400, 0, MobEffects.WITHER);
 		LONG_DECAY_POTION = registerPotion("long_decay", 3600, 0, MobEffects.WITHER);
 		STRONG_DECAY_POTION = registerPotion("strong_decay", 1200, 1, MobEffects.WITHER);
+
+		ADVANCEMENT_COCKTAIL = registerAdvancementCocktail();
+	}
+
+	// Every single vanilla mob effect, applied for exactly 1 tick.
+	private static Holder<Potion> registerAdvancementCocktail() {
+		MobEffectInstance[] effects = java.util.stream.Stream.of(
+			MobEffects.SPEED, MobEffects.SLOWNESS, MobEffects.HASTE, MobEffects.MINING_FATIGUE,
+			MobEffects.STRENGTH, MobEffects.INSTANT_HEALTH, MobEffects.INSTANT_DAMAGE, MobEffects.JUMP_BOOST,
+			MobEffects.NAUSEA, MobEffects.REGENERATION, MobEffects.RESISTANCE, MobEffects.FIRE_RESISTANCE,
+			MobEffects.WATER_BREATHING, MobEffects.INVISIBILITY, MobEffects.BLINDNESS, MobEffects.NIGHT_VISION,
+			MobEffects.HUNGER, MobEffects.WEAKNESS, MobEffects.POISON, MobEffects.WITHER,
+			MobEffects.HEALTH_BOOST, MobEffects.ABSORPTION, MobEffects.SATURATION, MobEffects.GLOWING,
+			MobEffects.LEVITATION, MobEffects.LUCK, MobEffects.UNLUCK, MobEffects.SLOW_FALLING,
+			MobEffects.CONDUIT_POWER, MobEffects.DOLPHINS_GRACE, MobEffects.BAD_OMEN, MobEffects.HERO_OF_THE_VILLAGE,
+			MobEffects.DARKNESS, MobEffects.TRIAL_OMEN, MobEffects.RAID_OMEN, MobEffects.WIND_CHARGED,
+			MobEffects.WEAVING, MobEffects.OOZING, MobEffects.INFESTED, MobEffects.BREATH_OF_THE_NAUTILUS
+		).map(effect -> new MobEffectInstance(effect, 1, 0)).toArray(MobEffectInstance[]::new);
+
+		return Registry.registerForHolder(
+			BuiltInRegistries.POTION,
+			Identifier.fromNamespaceAndPath(Constants.MOD_ID, "advancement_cocktail"),
+			new Potion("advancement_cocktail", effects)
+		);
 	}
 
 	private static Holder<Potion> registerPotion(String id, int duration, int amplifier,

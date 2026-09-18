@@ -83,6 +83,12 @@
     "suprememc:anthracite_block",
     "suprememc:atlantis_debris",
     "suprememc:abyssalite_block",
+    "suprememc:coldstone",
+    "suprememc:cold_bricks",
+    "suprememc:cold_brick_stairs",
+    "suprememc:cold_brick_slab",
+    "suprememc:cold_brick_wall",
+    "suprememc:coldstone",
     "suprememc:polished_granite_wall",
     "suprememc:polished_diorite_wall",
     "suprememc:polished_andesite_wall",
@@ -92,6 +98,8 @@
     "suprememc:diorite_brick_wall",
     "suprememc:granite_bricks",
     "suprememc:granite_brick_wall",
-    "suprememc:xylium_block"
+    "suprememc:xylium_block",
+    "suprememc:glowing_obsidian",
+    "suprememc:nether_reactor_core"
   ]
 }

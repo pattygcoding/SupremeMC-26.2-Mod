@@ -88,6 +88,7 @@ public final class ModBlockItems {
 		register("mossy_granite_bricks", ModContent.MOSSY_GRANITE_BRICKS);
 		register("cracked_granite_bricks", ModContent.CRACKED_GRANITE_BRICKS);
 		register("cracked_end_stone_bricks", ModContent.CRACKED_END_STONE_BRICKS);
+		register("nether_reactor_core", ModContent.NETHER_REACTOR_CORE);
 		register("cracked_quartz_bricks", ModContent.CRACKED_QUARTZ_BRICKS);
 		register("granite_brick_stairs", ModContent.GRANITE_BRICK_STAIRS);
 		register("granite_brick_slab", ModContent.GRANITE_BRICK_SLAB);
@@ -172,7 +173,14 @@ public final class ModBlockItems {
 		register("snow_tnt", ModContent.SNOW_TNT);
 		register("fire_tnt", ModContent.FIRE_TNT);
 		register("shelter_tnt", ModContent.SHELTER_TNT);
+		register("coldstone", ModContent.COLDSTONE);
+		register("cold_bricks", ModContent.COLD_BRICKS);
+		register("cold_brick_stairs", ModContent.COLD_BRICK_STAIRS);
+		register("cold_brick_slab", ModContent.COLD_BRICK_SLAB);
+		register("cold_brick_wall", ModContent.COLD_BRICK_WALL);
+		register("glowing_obsidian", ModContent.GLOWING_OBSIDIAN);
 		register("glendstone", ModContent.GLENDSTONE);
+		register("glicestone", ModContent.GLICESTONE);
 		register("jeb_wool", ModContent.JEB_WOOL);
 		ModContent.COLORED_SANDSTONE_BLOCKS.forEach(ModBlockItems::register);
 

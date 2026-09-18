@@ -2,6 +2,7 @@ package com.suprememc.content;
 
 import com.suprememc.Constants;
 import com.suprememc.content.init.ModBiomeSources;
+import com.suprememc.content.init.ModBlockEntities;
 import com.suprememc.content.init.ModBlocks;
 import com.suprememc.content.init.ModBlockSetTypes;
 import com.suprememc.content.init.ModBlockItems;
@@ -62,6 +63,7 @@ public final class ModContent extends ModBlocks {
         ModBlockSetTypes.bootstrap();
         ModWoodTypes.bootstrap();
         ModBlocks.bootstrap();
+        ModBlockEntities.bootstrap();
         ModEntities.bootstrap();
         ModPotions.bootstrap();
 

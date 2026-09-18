@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "reactor_state=active": {
+      "model": "suprememc:block/nether_reactor_core_active"
+    },
+    "reactor_state=unused": {
+      "model": "suprememc:block/nether_reactor_core"
+    },
+    "reactor_state=used": {
+      "model": "suprememc:block/nether_reactor_core_inactive"
+    }
+  }
+}

@@ -40,6 +40,12 @@ public final class SupremeMCClient {
             new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/milk_overlay")),
             net.minecraft.client.color.block.BlockTintSources.constant(0xFFFFFFFF)),
             ModFluids.MILK, ModFluids.FLOWING_MILK);
+        event.register(new FluidModel.Unbaked(
+            new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+            new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+            new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+            net.minecraft.client.color.block.BlockTintSources.constant(0xFFFFFFFF)),
+            ModFluids.LIQUID_NITROGEN, ModFluids.FLOWING_LIQUID_NITROGEN);
     }
 
     @SubscribeEvent

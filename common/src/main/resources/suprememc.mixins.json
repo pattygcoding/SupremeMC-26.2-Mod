@@ -22,6 +22,7 @@
     "MixinZombieSpawn",
     "MixinSpiderSpawn",
     "MixinNoiseBasedChunkGenerator",
+    "MixinLiquidBlock",
     "MixinOverworldBiomeBuilder",
     "MixinEnchantingTableBlock",
     "MixinPistonStructureResolver",
@@ -31,10 +32,13 @@
     ,"MixinPrimedTnt"
     ,"MixinStructureStart"
     ,"MixinMineshaftStructureType"
+    ,"MixinSolidBucketItem"
+    ,"MixinFlintAndSteelItem"
   ],
   "client": [
     "MixinMinecraft",
-    "MixinAbstractClientPlayer"
+    "MixinAbstractClientPlayer",
+    "MixinCamera"
   ],
   "server": [],
   "injectors": {

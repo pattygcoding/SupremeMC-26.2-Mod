@@ -106,6 +106,7 @@ public class ModBlocks {
 	public static Block MOSSY_GRANITE_BRICK_SLAB;
 	public static Block MOSSY_GRANITE_BRICK_WALL;
 	public static Block CRACKED_END_STONE_BRICKS;
+	public static Block NETHER_REACTOR_CORE;
 	public static Block CRACKED_QUARTZ_BRICKS;
 	public static Block WET_FARMLAND;
 	public static Block SUPREME_MC_LOGO_BLOCK;
@@ -197,12 +198,22 @@ public class ModBlocks {
 	public static Block CORN_STALK;
 	public static Block CORN_STALK_PLANT;
 	public static Block MILK_FLUID_BLOCK;
+	public static Block LIQUID_NITROGEN_FLUID_BLOCK;
 	public static Block MILK_CAULDRON;
 	public static Block SNOW_TNT;
 	public static Block FIRE_TNT;
 	public static Block SHELTER_TNT;
+	public static Block COLDSTONE;
+	public static Block COLD_BRICKS;
+	public static Block COLD_BRICK_STAIRS;
+	public static Block COLD_BRICK_SLAB;
+	public static Block COLD_BRICK_WALL;
+	public static Block GLOWING_OBSIDIAN;
 	public static Block GLENDSTONE;
+	public static Block GLICESTONE;
 	public static Block JEB_WOOL;
+	public static Block ICETHER_PORTAL;
+	public static Block SKYLANDS_PORTAL;
 	public static final Map<String, Block> COLORED_SANDSTONE_BLOCKS = new LinkedHashMap<>();
 	
 	public static final Map<DyeColor, Block> GLOW_BLOCKS = new EnumMap<>(DyeColor.class);
@@ -215,7 +226,9 @@ public class ModBlocks {
 		if (registered) return;
 		registered = true;
 		MILK_FLUID_BLOCK = register("milk", new MilkLiquidBlock(ModFluids.MILK,
-			props("milk").mapColor(MapColor.SNOW).noLootTable()));
+			props("milk").mapColor(MapColor.SNOW).noLootTable().replaceable()));
+		LIQUID_NITROGEN_FLUID_BLOCK = register("liquid_nitrogen", new MilkLiquidBlock(ModFluids.LIQUID_NITROGEN,
+			props("liquid_nitrogen").mapColor(MapColor.ICE).noLootTable().replaceable().lightLevel(state -> 12)));
 		MILK_CAULDRON = register("milk_cauldron", new MilkCauldronBlock(
 			props("milk_cauldron").mapColor(MapColor.SNOW).strength(2.0F)));
 		AQUAMARINE_ORE = register("aquamarine_ore", new DropExperienceBlock(UniformInt.of(3, 7), props("aquamarine_ore").mapColor(MapColor.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
@@ -259,8 +272,8 @@ public class ModBlocks {
 		COCONUT = register("coconut", new CoconutBlock(props("coconut").mapColor(MapColor.PLANT).sound(SoundType.WOOD).strength(0.2F, 3.0F).noCollision()));
 		COTTON_BUSH = register("cotton_bush", new CottonBushBlock(props("cotton_bush").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.2F).noCollision()));
 		TOMATO_BUSH = register("tomato_bush", new TomatoBushBlock(props("tomato_bush").mapColor(MapColor.PLANT).sound(SoundType.GRASS).strength(0.2F).noCollision()));
-		BEACH_GRASS = register("beach_grass", new BeachGrassBlock(props("beach_grass").mapColor(MapColor.PLANT).noCollision().noOcclusion()));
-		TALL_BEACH_GRASS = register("tall_beach_grass", new TallBeachGrassBlock(props("tall_beach_grass").mapColor(MapColor.PLANT).noCollision().noOcclusion()));
+		BEACH_GRASS = register("beach_grass", new BeachGrassBlock(props("beach_grass").mapColor(MapColor.PLANT).noCollision().noOcclusion().sound(SoundType.GRASS)));
+		TALL_BEACH_GRASS = register("tall_beach_grass", new TallBeachGrassBlock(props("tall_beach_grass").mapColor(MapColor.PLANT).noCollision().noOcclusion().sound(SoundType.GRASS)));
 		GRAPE_VINE = register("grape_vine", new GrapeVineBlock(props("grape_vine").mapColor(MapColor.PLANT).noCollision().noOcclusion().randomTicks()));
 		GRAPE_VINE_PLANT = register("grape_vine_plant", new GrapeVinePlantBlock(props("grape_vine_plant").mapColor(MapColor.PLANT).noCollision().noOcclusion()));
 		CORN_STALK = register("corn_stalk", new CornStalkBlock(props("corn_stalk").mapColor(MapColor.PLANT).noCollision().noOcclusion().randomTicks()));
@@ -270,8 +283,14 @@ public class ModBlocks {
 		SNOW_TNT = register("snow_tnt", new SnowTntBlock(props("snow_tnt").mapColor(MapColor.SNOW).strength(0.0F)));
 		FIRE_TNT = register("fire_tnt", new FireTntBlock(props("fire_tnt").mapColor(MapColor.FIRE).strength(0.0F)));
 		SHELTER_TNT = register("shelter_tnt", new ShelterTntBlock(props("shelter_tnt").mapColor(MapColor.WOOD).strength(0.0F)));
+		COLDSTONE = register("coldstone", new Block(props("coldstone").mapColor(MapColor.NETHER).sound(SoundType.NETHERRACK).strength(0.4F).requiresCorrectToolForDrops()));
+		GLOWING_OBSIDIAN = register("glowing_obsidian", new Block(BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.OBSIDIAN).setId(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.BLOCK, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glowing_obsidian"))).lightLevel(state -> 12)));
 		GLENDSTONE = register("glendstone", new Block(props("glendstone").mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> 15).isRedstoneConductor((state, level, pos) -> false)));
+		GLICESTONE = register("glicestone", new Block(props("glicestone").mapColor(MapColor.SAND).instrument(NoteBlockInstrument.PLING).strength(0.3F).sound(SoundType.GLASS).lightLevel(state -> 15).isRedstoneConductor((state, level, pos) -> false)));
 		JEB_WOOL = register("jeb_wool", new Block(props("jeb_wool").mapColor(MapColor.SNOW).sound(SoundType.WOOL).strength(0.8F)));
+		ICETHER_PORTAL = register("icether_portal", new IcetherPortalBlock(props("icether_portal").mapColor(MapColor.COLOR_LIGHT_BLUE).noCollision().noLootTable().randomTicks().lightLevel(state -> 11)));
+		SKYLANDS_PORTAL = register("skylands_portal", new SkylandsPortalBlock(props("skylands_portal").mapColor(MapColor.COLOR_PURPLE).noCollision().noLootTable().randomTicks().lightLevel(state -> 11)));
+		NETHER_REACTOR_CORE = register("nether_reactor_core", new NetherReactorCoreBlock(endStoneProps("nether_reactor_core")));
 		registerColoredSandstoneFamilies();
 		registerSimple(
 			"burning_diamond_stairs", 
@@ -329,6 +348,10 @@ public class ModBlocks {
 			"cracked_granite_bricks",
 			"cracked_end_stone_bricks",
 			"cracked_quartz_bricks",
+			"cold_bricks",
+			"cold_brick_stairs",
+			"cold_brick_slab",
+			"cold_brick_wall",
 			"granite_brick_stairs", 
 			"granite_brick_slab", 
 			"granite_brick_wall", 
@@ -495,6 +518,10 @@ public class ModBlocks {
 				case "granite_brick_stairs" -> GRANITE_BRICK_STAIRS = block;
 				case "granite_brick_slab" -> GRANITE_BRICK_SLAB = block;
 				case "granite_brick_wall" -> GRANITE_BRICK_WALL = block;
+				case "cold_bricks" -> COLD_BRICKS = block;
+				case "cold_brick_stairs" -> COLD_BRICK_STAIRS = block;
+				case "cold_brick_slab" -> COLD_BRICK_SLAB = block;
+				case "cold_brick_wall" -> COLD_BRICK_WALL = block;
 				case "mossy_granite_brick_stairs" -> MOSSY_GRANITE_BRICK_STAIRS = block;
 				case "mossy_granite_brick_slab" -> MOSSY_GRANITE_BRICK_SLAB = block;
 				case "mossy_granite_brick_wall" -> MOSSY_GRANITE_BRICK_WALL = block;
@@ -559,6 +586,7 @@ public class ModBlocks {
 			case "mossy_diorite_brick_stairs" -> MOSSY_DIORITE_BRICKS.defaultBlockState();
 			case "granite_brick_stairs" -> GRANITE_BRICKS.defaultBlockState();
 			case "mossy_granite_brick_stairs" -> MOSSY_GRANITE_BRICKS.defaultBlockState();
+			case "cold_brick_stairs" -> COLD_BRICKS.defaultBlockState();
 			default -> net.minecraft.world.level.block.Blocks.STONE.defaultBlockState();
 		};
 	}

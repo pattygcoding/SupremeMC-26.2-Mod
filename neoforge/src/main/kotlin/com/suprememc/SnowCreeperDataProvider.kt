@@ -85,7 +85,8 @@ class SnowCreeperDataProvider(output: PackOutput) : EcosystemDataProvider(output
             save(cache, definition, resourcePath("items/snow_creeper_spawn_egg.json")),
             save(cache, lootTable, dataPath("loot_table/entities/snow_creeper.json")),
             save(cache, removeVanillaCreepers(), dataPath("neoforge/biome_modifier/remove_vanilla_creepers_cold.json")),
-            save(cache, addSnowCreepers(), dataPath("neoforge/biome_modifier/add_snow_creepers_cold.json"))
+            save(cache, addSnowCreepers(), dataPath("neoforge/biome_modifier/add_snow_creepers_cold.json")),
+            save(cache, addIcetherWastesSpawns(), dataPath("neoforge/biome_modifier/add_icether_wastes_spawns.json"))
         )
     }
 
@@ -103,6 +104,25 @@ class SnowCreeperDataProvider(output: PackOutput) : EcosystemDataProvider(output
             addProperty("weight", 100)
             addProperty("minCount", 4)
             addProperty("maxCount", 4)
+        })
+    }
+
+    private fun addIcetherWastesSpawns() = obj {
+        addProperty("type", "neoforge:add_spawns")
+        add("biomes", array("$namespace:icether_wastes"))
+        add("spawners", JsonArray().also { spawners ->
+            spawners.add(obj {
+                addProperty("type", "minecraft:stray")
+                addProperty("weight", 80)
+                addProperty("minCount", 4)
+                addProperty("maxCount", 4)
+            })
+            spawners.add(obj {
+                addProperty("type", "$namespace:snow_creeper")
+                addProperty("weight", 100)
+                addProperty("minCount", 4)
+                addProperty("maxCount", 4)
+            })
         })
     }
 

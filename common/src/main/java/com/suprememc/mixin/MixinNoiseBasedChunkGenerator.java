@@ -1,6 +1,8 @@
 package com.suprememc.mixin;
 
 import com.suprememc.Constants;
+import com.suprememc.content.blocks.IcetherPortalBlock;
+import com.suprememc.content.ModContent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -27,12 +29,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinNoiseBasedChunkGenerator {
     private static final ResourceKey<Biome> CAYS =
         ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "cays"));
+    private static final ResourceKey<Biome> ICETHER_WASTES =
+        ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "icether_wastes"));
     // Matches the shallow topsoil depth vanilla surface rules give mangrove swamp/plains (1 top layer + a
     // few subsoil layers) for the re-skin: sand on top, sandstone underneath.
     private static final int SOIL_DEPTH = 4;
     // How high above sea level the flattened plateau sits, matching mangrove swamp's low, near-sea-level
     // land instead of the tall hills the reused mushroom-fields island noise naturally generates.
     private static final int FLAT_HEIGHT_ABOVE_SEA_LEVEL = 1;
+    // Nether lava lakes only form below this Y in vanilla noise, matching where Icether swaps them for nitrogen.
+    private static final int ICETHER_NITROGEN_LAKE_MAX_Y = 32;
 
     @Inject(method = "doFill", at = @At("RETURN"))
     private void suprememc$reskinCays(
@@ -44,6 +50,10 @@ public abstract class MixinNoiseBasedChunkGenerator {
         int cellCountY,
         CallbackInfoReturnable<ChunkAccess> callback
     ) {
+        if (chunk.getNoiseBiome(0, 8, 0).is(ICETHER_WASTES)) {
+            suprememc$freezeIcether(chunk);
+            return;
+        }
         int seaLevel = ((NoiseBasedChunkGenerator) (Object) this).getSeaLevel();
         int minBuildY = chunk.getHeightAccessorForGeneration().getMinY() + 1;
         Heightmap oceanFloor = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
@@ -83,6 +93,27 @@ public abstract class MixinNoiseBasedChunkGenerator {
                     setBlock(chunk, oceanFloor, worldSurface, localX, y, localZ, y == groundTop
                         ? Blocks.SAND.defaultBlockState()
                         : Blocks.SANDSTONE.defaultBlockState());
+                }
+            }
+        }
+    }
+
+    private static void suprememc$freezeIcether(ChunkAccess chunk) {
+        Heightmap oceanFloor = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
+        Heightmap worldSurface = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
+        int minY = chunk.getHeightAccessorForGeneration().getMinY();
+        int maxY = chunk.getHeightAccessorForGeneration().getMaxY();
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                for (int y = minY; y < maxY; y++) {
+                    LevelChunkSection section = chunk.getSection(chunk.getSectionIndex(y));
+                    BlockState state = section.getBlockState(x, y & 15, z);
+                    if (state.is(Blocks.NETHERRACK)) {
+                        setBlock(chunk, oceanFloor, worldSurface, x, y, z, ModContent.COLDSTONE.defaultBlockState());
+                    } else if (y < ICETHER_NITROGEN_LAKE_MAX_Y && state.is(Blocks.LAVA)) {
+                        setBlock(chunk, oceanFloor, worldSurface, x, y, z,
+                            ModContent.LIQUID_NITROGEN_FLUID_BLOCK.defaultBlockState());
+                    }
                 }
             }
         }

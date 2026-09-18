@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "suprememc:block/icether_portal_ns"
+    },
+    "axis=z": {
+      "model": "suprememc:block/icether_portal_ew"
+    }
+  }
+}

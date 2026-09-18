@@ -10,6 +10,8 @@ class MilkDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, fluidBlockState("milk"), resourcePath("blockstates/milk.json"))
         writes += save(cache, fluidModel(), resourcePath("models/block/milk.json"))
         writes += save(cache, itemModelDefinition("$namespace:block/milk"), resourcePath("items/milk.json"))
+        writes += save(cache, fluidBlockState("liquid_nitrogen"), resourcePath("blockstates/liquid_nitrogen.json"))
+        writes += save(cache, nitrogenFluidModel(), resourcePath("models/block/liquid_nitrogen.json"))
         writes += save(cache, milkCauldronBlockState(), resourcePath("blockstates/milk_cauldron.json"))
         writes += save(cache, obj { addProperty("parent", "minecraft:block/cauldron") }, resourcePath("models/block/milk_cauldron.json"))
         for (level in 1..3) {
@@ -18,7 +20,10 @@ class MilkDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
         writes += save(cache, itemModelDefinition("$namespace:block/milk_cauldron"), resourcePath("items/milk_cauldron.json"))
         writes += save(cache, flatItemModel("$namespace:item/milk_bottle"), resourcePath("models/item/milk_bottle.json"))
         writes += save(cache, itemModelDefinition("$namespace:item/milk_bottle"), resourcePath("items/milk_bottle.json"))
+        writes += save(cache, flatItemModel("$namespace:item/liquid_nitrogen_bucket"), resourcePath("models/item/liquid_nitrogen_bucket.json"))
+        writes += save(cache, itemModelDefinition("$namespace:item/liquid_nitrogen_bucket"), resourcePath("items/liquid_nitrogen_bucket.json"))
         writes += save(cache, valuesTag("$namespace:milk", "$namespace:flowing_milk"), minecraftDataPath("tags/fluid/water.json"))
+        writes += save(cache, valuesTag("$namespace:liquid_nitrogen", "$namespace:flowing_liquid_nitrogen"), minecraftDataPath("tags/fluid/lava.json"))
         return CompletableFuture.allOf(*writes.toTypedArray())
     }
 
@@ -28,6 +33,10 @@ class MilkDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
 
     private fun fluidModel() = obj {
         add("textures", obj { addProperty("particle", "$namespace:block/milk_still") })
+    }
+
+    private fun nitrogenFluidModel() = obj {
+        add("textures", obj { addProperty("particle", "$namespace:block/liquid_nitrogen_still") })
     }
 
     private fun flatItemModel(texture: String) = obj {

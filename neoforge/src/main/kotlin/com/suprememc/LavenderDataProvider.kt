@@ -34,7 +34,7 @@ class LavenderDataProvider(output: PackOutput) : EcosystemDataProvider(output) {
     private val itemTagBlocks = blocks.filterNot {
         it == "lavender_wall_sign" || it == "lavender_wall_hanging_sign"
     }
-    private val dragonImmuneBlocks = blocks + listOf("lavender_bookshelf", "lavender_crafting_table", "glendstone", "xylium_ore", "xylium_block")
+    private val dragonImmuneBlocks = blocks + listOf("lavender_bookshelf", "lavender_crafting_table", "glendstone", "glicestone", "xylium_ore", "xylium_block")
 
     override fun run(cache: CachedOutput): CompletableFuture<*> {
         val writes = mutableListOf<CompletableFuture<*>>()

@@ -34,6 +34,12 @@ public class SupremeMCClient implements ClientModInitializer {
             new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/milk_overlay")),
             BlockTintSources.constant(0xFFFFFFFF));
         FluidRenderingRegistry.register(ModFluids.MILK, ModFluids.FLOWING_MILK, fluidModel);
+        FluidRenderingRegistry.register(ModFluids.LIQUID_NITROGEN, ModFluids.FLOWING_LIQUID_NITROGEN,
+            new FluidModel.Unbaked(
+                new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+                new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+                new Material(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/liquid_nitrogen_still")),
+                BlockTintSources.constant(0xFFFFFFFF)));
         EntityRendererRegistry.register(ModEntities.ABYSSALITE_TRIDENT_ENTITY, AbyssaliteTridentRenderer::new);
         EntityRendererRegistry.register(ModEntities.GRIZZLY_BEAR_ENTITY, GrizzlyBearRenderer::new);
         EntityRendererRegistry.register(ModEntities.ENDER_SPIDER_ENTITY, EnderSpiderRenderer::new);

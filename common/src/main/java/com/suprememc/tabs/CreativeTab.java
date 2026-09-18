@@ -18,6 +18,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class CreativeTab {
 
@@ -74,6 +75,16 @@ public final class CreativeTab {
             stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion));
             potions.add(stack);
         }
+
+        ItemStack advancementCocktail = new ItemStack(Items.POTION);
+        // Night Vision's tint (12779366), since it has no dedicated texture yet.
+        advancementCocktail.set(DataComponents.POTION_CONTENTS,
+            new PotionContents(Optional.of(ModPotions.ADVANCEMENT_COCKTAIL), Optional.of(12779366), List.of(), Optional.empty()));
+        advancementCocktail.set(DataComponents.RARITY, net.minecraft.world.item.Rarity.EPIC);
+        advancementCocktail.set(DataComponents.TOOLTIP_DISPLAY,
+            net.minecraft.world.item.component.TooltipDisplay.DEFAULT.withHidden(DataComponents.POTION_CONTENTS, true));
+        potions.add(advancementCocktail);
+
         return potions;
     }
 
@@ -88,6 +99,7 @@ public final class CreativeTab {
             ModContent.COLORED_SANDSTONE_BLOCKS.get("white_sand"),
             ModContent.COLORED_SANDSTONE_BLOCKS.get("black_sand"),
             ModContent.COLORED_SANDSTONE_BLOCKS.get("pink_sand"),
+            ModContent.COLDSTONE,
             ModContent.WET_FARMLAND,
             ModContent.LAVENDER_ENDSPAR,
             ModContent.LAVENDER_WART_BLOCK,
@@ -118,6 +130,12 @@ public final class CreativeTab {
             ModContent.COLORED_SANDSTONE_BLOCKS.get("cut_pink_sandstone"),
             ModContent.CRACKED_END_STONE_BRICKS,
             ModContent.CRACKED_QUARTZ_BRICKS,
+            ModContent.COLD_BRICKS,
+
+            // Glowstone Derivatives
+            ModContent.GLICESTONE,
+            ModContent.GLENDSTONE,
+            ModContent.GLOWING_OBSIDIAN,
 
             // Ores
             ModContent.AQUAMARINE_ORE, 
@@ -136,6 +154,7 @@ public final class CreativeTab {
             ModContent.ANTHRACITE_BLOCK,
             ModContent.BURNING_DIAMOND_BLOCK,
             ModContent.XYLIUM_BLOCK,
+            ModContent.NETHER_REACTOR_CORE,
 
             // Logs / Stems
             ModContent.PALM_LOG,
@@ -214,6 +233,7 @@ public final class CreativeTab {
             ModContent.MOSSY_ANDESITE_BRICK_STAIRS,
             ModContent.MOSSY_DIORITE_BRICK_STAIRS,
             ModContent.MOSSY_GRANITE_BRICK_STAIRS,
+            ModContent.COLD_BRICK_STAIRS,
             ModContent.PALM_STAIRS,
             ModContent.LAVENDER_STAIRS,
             ModContent.COAL_STAIRS,
@@ -242,6 +262,7 @@ public final class CreativeTab {
             ModContent.MOSSY_ANDESITE_BRICK_SLAB,
             ModContent.MOSSY_DIORITE_BRICK_SLAB,
             ModContent.MOSSY_GRANITE_BRICK_SLAB,
+            ModContent.COLD_BRICK_SLAB,
             ModContent.PALM_SLAB,
             ModContent.LAVENDER_SLAB,
             ModContent.COAL_SLAB,
@@ -276,6 +297,7 @@ public final class CreativeTab {
             ModContent.GRANITE_BRICK_WALL,
             ModContent.DIORITE_BRICK_WALL,
             ModContent.ANDESITE_BRICK_WALL,
+            ModContent.COLD_BRICK_WALL,
             ModContent.COLORED_SANDSTONE_BLOCKS.get("white_sandstone_wall"),
             ModContent.COLORED_SANDSTONE_BLOCKS.get("black_sandstone_wall"),
             ModContent.COLORED_SANDSTONE_BLOCKS.get("pink_sandstone_wall"),
@@ -348,7 +370,8 @@ public final class CreativeTab {
 			ModFoods.COCONUT_ITEM,
 			ModFoods.CALAMARI, 
             ModFoods.COOKED_CALAMARI,
-            ModItems.MILK_BOTTLE
+        ModItems.MILK_BOTTLE,
+        ModItems.LIQUID_NITROGEN_BUCKET
 		));
 
 		ModContent.CREATIVE_TAB_ITEMS.addAll(List.of(
@@ -360,6 +383,7 @@ public final class CreativeTab {
 			ModItems.EXPERIENCE_DUST, 
             ModItems.XYLIUM_DUST, 
             ModItems.GLENDSTONE_DUST,
+			ModItems.GLICESTONE_DUST,
 			ModItems.EXPERIENCE_INGOT, 
 			ModItems.ABYSSALITE_SCRAP, 
             ModItems.ABYSSALITE_INGOT,

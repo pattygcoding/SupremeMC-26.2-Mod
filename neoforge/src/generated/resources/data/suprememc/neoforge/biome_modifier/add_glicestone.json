@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "#minecraft:is_end",
+    "suprememc:lavender_barrens",
+    "suprememc:lavender_midlands",
+    "suprememc:lavender_highlands",
+    "suprememc:icether_wastes"
+  ],
+  "features": "suprememc:glicestone",
+  "step": "underground_decoration"
+}

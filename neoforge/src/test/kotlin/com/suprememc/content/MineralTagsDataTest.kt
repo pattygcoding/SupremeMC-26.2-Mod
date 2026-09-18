@@ -12,7 +12,7 @@ class MineralTagsDataTest : GeneratedDataTestSupport() {
         )
         assertTagContains("data/minecraft/tags/block/needs_stone_tool.json", "suprememc:iron_block", "suprememc:iron_stairs", "suprememc:lapis_slab")
         assertTagContains("data/minecraft/tags/block/needs_iron_tool.json", "suprememc:gold_block", "suprememc:diamond_slab", "suprememc:amber_block", "suprememc:aquamarine_ore")
-        assertTagContains("data/minecraft/tags/block/needs_diamond_tool.json", "suprememc:obsidian_block", "suprememc:netherite_slab", "suprememc:atlantis_debris", "suprememc:abyssalite_block")
+        assertTagContains("data/minecraft/tags/block/needs_diamond_tool.json", "suprememc:obsidian_block", "suprememc:glowing_obsidian", "suprememc:netherite_slab", "suprememc:atlantis_debris", "suprememc:abyssalite_block")
     }
 
     @Test

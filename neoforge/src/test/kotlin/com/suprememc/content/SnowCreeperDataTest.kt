@@ -50,6 +50,21 @@ class SnowCreeperDataTest : GeneratedDataTestSupport() {
     }
 
     @Test
+    fun addsStraysAndSnowCreepersToIcetherWastes() {
+        val modifier = readJson("data/suprememc/neoforge/biome_modifier/add_icether_wastes_spawns.json")
+        assertEquals("neoforge:add_spawns", modifier.get("type").asString)
+        assertEquals(listOf("suprememc:icether_wastes"), modifier.getAsJsonArray("biomes").map { it.asString })
+
+        val spawners = modifier.getAsJsonArray("spawners").map { it.asJsonObject }
+        assertEquals(
+            setOf("minecraft:stray", "suprememc:snow_creeper"),
+            spawners.map { it.get("type").asString }.toSet()
+        )
+        assertEquals(80, spawners.first { it.get("type").asString == "minecraft:stray" }.get("weight").asInt)
+        assertEquals(100, spawners.first { it.get("type").asString == "suprememc:snow_creeper" }.get("weight").asInt)
+    }
+
+    @Test
     fun localizesEntityAndSpawnEgg() {
         val lang = readJson("assets/suprememc/lang/en_us.json")
         assertTrue(lang.has("entity.suprememc.snow_creeper"), "Missing entity lang key")

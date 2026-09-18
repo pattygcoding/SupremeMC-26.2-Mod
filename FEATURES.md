@@ -8,6 +8,8 @@ This page summarizes the current feature set in a wiki-style format.
 
 SupremeMC introduces a large set of new content across several major systems:
 
+- Coldstone is a netherrack-like building block with matching mining speed, tool requirements, blast resistance, and self-drop behavior.
+
 - custom ore and mineral progression, including Aquamarine, Abyssalite, Emerald, Amber, and Anthracite-based building materials
 - new biome generation and terrain variation, including Florida Plains and Cays
 - custom mob variants, including Fire Creepers, Snow Creepers, and Ender Spiders
@@ -22,6 +24,7 @@ SupremeMC introduces a large set of new content across several major systems:
 - The End's main island and its surrounding void gap (within 1,024 blocks of the origin) generate exactly like vanilla; Lavender biomes and their vanilla counterparts only appear on the outer islands beyond that radius.
 - Shelter TNT builds a 7-by-7 survival shelter centered on the blast site without damaging blocks or entities. Its floor is one block below the TNT, with four blocks of height, glass windows, a white bed set to the side, bonus-chest loot chest, crafting table, furnace, door, and one torch. The structural wood matches the biome: oak by default; birch, spruce, jungle, acacia, dark oak, cherry, mangrove, pale oak, or palm in their matching biomes; crimson throughout the Nether except warped forest; and lavender in the End.
 - A sheep named exactly `jeb_` drops animated Jeb Wool, which cycles smoothly through the wool colors like the sheep's fleece.
+- Liquid Nitrogen currently behaves like lava, including its flow behavior, while using the custom still and flowing textures. A Liquid Nitrogen Bucket can pick up and place the fluid like a vanilla lava bucket.
 
 ## World Generation and Biomes
 
@@ -65,6 +68,14 @@ Drowned spawn weights are tuned to match Bedrock-style behavior in key aquatic a
 
 Abandoned mineshafts can now generate in any Nether biome, with the same layout, rooms, and loot as an ordinary overworld mineshaft, except its oak planks and oak fences are replaced with warped planks and warped fences.
 
+### Icether Dimension
+
+The Icether Dimension uses Nether terrain noise and contains only the Icether Wastes biome. Its terrain is generated as a frozen Coldstone wasteland, with low-level lava lakes replaced by Liquid Nitrogen. Build a standard Nether-portal-sized frame from Blue Ice and use a Powder Snow Bucket on its empty interior to activate an Icether Portal. Entering an Icether Portal moves between the Overworld and Icether, searching for solid ground on the other side (like a Nether Portal) and linking back to an existing nearby portal instead of building a new one when possible.
+
+### Skylands Dimension
+
+The Skylands uses standard Overworld biome noise with floating-island terrain. Build a standard Nether-portal-sized frame from Crying Obsidian and light its empty interior with Flint and Steel to activate a Skylands Portal. Entering a Skylands Portal moves between the Overworld and Skylands, searching for solid ground on the other side (like a Nether Portal) and linking back to an existing nearby portal instead of building a new one when possible.
+
 ### End Mineshafts
 
 Abandoned mineshafts can also generate buried inside the end stone of the End's outer islands (never the central main island), with the same layout, rooms, and loot as an ordinary overworld mineshaft, except its oak planks and oak fences are replaced with lavender planks and lavender fences.
@@ -88,6 +99,18 @@ Burning Diamond is a diamond-tier material line with custom tools and armor. A c
 ### Glendstone
 
 Glendstone is a glowstone-style building block that emits maximum light, is immune to Ender Dragon damage, and generates naturally in hanging clusters under End terrain.
+
+### Glicestone
+
+Glicestone is a glowstone-style building block that emits maximum light, is immune to Ender Dragon damage, and generates naturally in hanging clusters under End terrain. It is crafted from four Glicestone Dust, which is also dropped when mining the block without Silk Touch.
+
+### Glowing Obsidian
+
+Glowing Obsidian has the same properties as obsidian and emits light level 12.
+
+### Nether Reactor Core
+
+The Nether Reactor Core is a decorative block with End Stone's hardness, blast resistance, and pickaxe requirement, crafted from 6 Iron Ingots and 3 Diamonds. It has unused, active, and used visual states in preparation for a future MCPE-style reactor activation sequence; only the unused (regular) form is currently obtainable as an item.
 
 ### Xylium
 
@@ -138,6 +161,7 @@ The brewing system introduces several custom potion families:
 - Clover brews into Luck potions and variants, including Bad Luck conversion and tipped-arrow compatibility
 - Rotten Flesh brews Hunger potions, with long and strong variants supported
 - Wither Roses brew Decay potions that apply Wither effects, with splash, lingering, and tipped-arrow support
+- The Advancement Cocktail (creative-only, uses Night Vision's tint) applies every single vanilla mob effect at once for exactly 1 tick
 
 ## Enchantments and Item Mechanics
 
