@@ -9,13 +9,12 @@ This page summarizes the current feature set in a wiki-style format.
 SupremeMC introduces a large set of new content across several major systems:
 
 - Coldstone is a netherrack-like building block with matching mining speed, tool requirements, blast resistance, and self-drop behavior.
-
-- custom ore and mineral progression, including Aquamarine, Abyssalite, Emerald, Amber, and Anthracite-based building materials
-- new biome generation and terrain variation, including Florida Plains and Cays
-- custom mob variants, including Fire Creepers, Snow Creepers, and Ender Spiders
-- custom enchantments and potion behaviors
-- expanded crop, food, and small-world content such as cotton, coconut, palm trees, tomatoes, grapes, and corn
-- compatibility across both Fabric and NeoForge loaders with generated data resources shared between them
+- Custom ore and mineral progression, including Aquamarine, Abyssalite, Emerald, Amber, and Anthracite-based building materials
+- New biome generation and terrain variation, including Florida Plains and Cays
+- Custom mob variants, including Fire Creepers, Snow Creepers, and Ender Spiders
+- Custom enchantments and potion behaviors
+- Expanded crop, food, and small-world content such as cotton, coconut, palm trees, tomatoes, grapes, and corn
+- Compatibility across both Fabric and NeoForge loaders with generated data resources shared between them
 - Lavender endspar behaves like a nylium block on end stone: it reverts to end stone in darkness and bonemeal spreads it across nearby exposed end stone.
 - Bonemealing lavender endspar spreads lavender roots and lavender fungus across nearby endspar, using the same vegetation pattern as warped and crimson nylium. Bonemealing a lavender fungus planted on lavender endspar grows it into a huge fungus with a lavender stem trunk, a lavender wart block cap, and embedded shroomlights, just like huge warped and crimson fungi.
 - Lavender adds a wart block, crafting table, and bookshelf using its lavender wood family.
@@ -247,3 +246,10 @@ Content is placed in its own SupremeMC creative tab rather than the vanilla Ingr
 
 This page is a summary of the implemented content in the current build. The goal is to present the system in a readable, wiki-like format rather than as a raw checklist or changelog.
 
+## Repository Links
+
+- [Minecraft 26.2](https://github.com/pattygcoding/SupremeMC-26.2-Mod)
+- [Minecraft 1.21.10](https://github.com/pattygcoding/SupremeMC-1.21.10)
+- [Minecraft 1.20.2](https://github.com/pattygcoding/SupremeMC)
+- [Minecraft 1.19.3](https://github.com/pattygcoding/SupremeMC-1.19.3)
+- [Minecraft 1.16.5](https://github.com/pattygcoding/SMC)

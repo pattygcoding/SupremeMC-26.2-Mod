@@ -31,5 +31,5 @@ This is the preferred source for Java API reference while working in this repo.
 - Add registered items and blocks to the loader-compatible creative inventory hook; do not leave new registered content hidden from players.
 - Generate JSON resources from Java `DataProvider` code. Do not hand-author generated models, blockstates, recipes, loot tables, tags, or language JSON under generated-resource output folders.
 - After changing registered content or its provider, run `./gradlew :neoforge:runData --console=plain` and inspect the generated output before reporting the feature complete.
-- For every implemented player-facing feature, update `FEATURES.md` with its current behavior and progression details.
-- When an implementation adds, removes, or changes a required texture, update `TEXTURE_FILES.md` with the exact shared resource path and filename.
+- For every implemented player-facing feature, update `docs/FEATURES.md` with its current behavior and progression details.
+- When an implementation adds, removes, or changes a required texture, update `docs/TEXTURE_FILES.md` with the exact shared resource path and filename.
